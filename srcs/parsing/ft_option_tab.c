@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 17:25:50 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/08/30 14:22:53 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:15:03 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_option_join_tab(t_a *a)
 		return ;
 	while (a->tab_input[i])
 	{
-		if (a->tab_input[i][0] == '-')
+		if (a->tab_input[i][1] == '-')
 			a->tab_input[i - 1] = ft_strjoin(a->tab_input[i - 1],
 					a->tab_input[i]);
 		i++;

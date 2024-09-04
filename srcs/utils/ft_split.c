@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:21:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 14:07:30 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:12:55 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	**ft_malloc_word(char **tab, char *s, char c)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == 32 )//|| s[i] == '\0')
+		if (s[i] == 32 )
 		{
 			tab[k] = ft_malloc_copy_char(c);
 			k++;
@@ -86,8 +86,8 @@ static char	**ft_malloc_word(char **tab, char *s, char c)
 			i = i + j;
 			k++;
 		}
-		//i++;
 	}
+	tab[k] = NULL;
 	return (tab);
 }
 
