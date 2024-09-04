@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:21:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 13:25:21 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:07:30 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ static char	**ft_malloc_word(char **tab, char *s, char c)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == c || s[i] == '\0')
+		if (s[i] == 32 )//|| s[i] == '\0')
 		{
-			tab[k] = malloc(sizeof(char) * 6);
-			tab[k] = "SPACE";
+			tab[k] = ft_malloc_copy_char(c);
 			k++;
+			i++;
 		}
+		if (s[i] == '\0')
+			i++;
 		else
 		{
 			j = 0;
@@ -84,6 +86,7 @@ static char	**ft_malloc_word(char **tab, char *s, char c)
 			i = i + j;
 			k++;
 		}
+		//i++;
 	}
 	return (tab);
 }
@@ -96,10 +99,10 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	word_count = ft_word_count((char *)s, c);
-	tab = malloc(sizeof(char *) * (word_count + 1));
+	tab = malloc(sizeof(char *) * (10000 + 1));
 	if (!tab)
 		return (NULL);
-	tab[word_count] = NULL;
+	//tab[word_count] = NULL;
 	ft_malloc_word(tab, (char *)s, c);
 	return (tab);
 }
