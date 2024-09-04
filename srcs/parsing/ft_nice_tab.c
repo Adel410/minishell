@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:41:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 10:04:15 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:01:41 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ void	ft_meta_tab(t_a *a)
 	a->tab_meta_input = ft_calloc(sizeof (char *), 10000);
 	ft_meta_new_tab(a);
 }
+
 //fonction relai qui parse les strings
 void	ft_string_tab(t_a *a)
 {
 	a->tab_string_input = ft_calloc(sizeof (char *), 10000);
 	ft_string_new_tab(a);
 }
+
 //fonction relai qui nous creer notre tab***
 void	ft_nice_tab(t_a *a)
 {

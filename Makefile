@@ -6,7 +6,7 @@
 #    By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/09/04 13:16:45 by nicjousl         ###   ########.fr        #
+#    Updated: 2024/09/04 16:14:29 by nicjousl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FILES	=	srcs/main.c \
 			srcs/parsing/ft_nice_tab.c \
 			srcs/parsing/ft_meta_tab.c \
 			srcs/parsing/ft_string_tab.c \
+			srcs/parsing/ft_string_tab_utils.c \
 			srcs/utils/ft_free.c \
 			srcs/utils/ft_strdup.c \
 			srcs/utils/ft_strjoin.c \

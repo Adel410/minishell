@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 13:17:46 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:14:07 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,12 @@ int		ft_option_tab_size(t_a *a);
 void	ft_string_new_tab(t_a *a);
 void	ft_string_new_tab2(t_a *a);
 void	ft_string_new_tab3(t_a *a);
+
+	//##STRING TAB UTILS##
+int		ft_string_char(char c);
+int		ft_string_detect(char *str);
+void	ft_string_end_tmp(t_a *a);
+void	ft_string_tmp(t_a *a);
 
 //## UTILS ##
 	//## COLORS ##
