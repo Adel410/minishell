@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 17:25:50 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 14:15:03 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:37:43 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	ft_option_new_tab(t_a *a)
 		if (a->tab_input[i] == NULL)
 			break ;
 		a->tab_option_input[j] = ft_strdup(a->tab_input[i]);
-		printf("%d = value of j\n", i);
 		i++;
 		j++;
 	}

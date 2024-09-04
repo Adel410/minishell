@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 09:42:54 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 12:02:54 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:44:05 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int     ft_string_detect(char *str)
     }
     return (0);
 }
+
 //fonction qui gere les double quotes
 void    ft_string_doble_quotes(t_a *a)
 {
-    if (a->str_tmp2 == NULL)
-        a->k = 0;
+    a->k = 0;
     a->str_tmp2 = ft_calloc(sizeof (char), 10000);
     a->str_tmp2[a->k] = a->tab_meta_input[a->i][0];
     a->k++;
@@ -69,11 +69,6 @@ void    ft_string_doble_quotes(t_a *a)
             }
             a->h++;
         }
-        if (a->tab_meta_input[a->i + 1][0] != 34)
-            a->str_tmp2[a->k] = ' ';
-        else
-            a->str_tmp2[a->k] = 34;
-        a->k++;
         a->i++;
     }
     a->str_tmp2[a->k] = '\0';
@@ -85,8 +80,7 @@ void    ft_string_doble_quotes(t_a *a)
 
 void    ft_string_simple_quotes(t_a *a)
 {
-    if (a->str_tmp2 == NULL)
-        a->k = 0;
+    a->k = 0;
     a->str_tmp2 = ft_calloc(sizeof (char), 10000);
     a->str_tmp2[a->k] = a->tab_meta_input[a->i][0];
     a->k++;
@@ -112,25 +106,19 @@ void    ft_string_simple_quotes(t_a *a)
             }
             a->h++;
         }
-        if (a->tab_meta_input[a->i + 1][0] != 39)
-            a->str_tmp2[a->k] = ' ';
-        else
-            a->str_tmp2[a->k] = 39;
-        a->k++;
         a->i++;
     }
     a->str_tmp2[a->k] = '\0';
     a->tab_string_input[a->j] = ft_strdup(a->str_tmp2);
     free(a->str_tmp2);
     a->j++;
-
 }
 void    ft_string_new_tab(t_a *a)
 {
     a->i = 0;
     a->j = 0;
     a->k = 0;
-    //a->h = 0;
+    a->h = 0;
 
     while (a->tab_meta_input[a->i])
     {
@@ -140,7 +128,10 @@ void    ft_string_new_tab(t_a *a)
             a->j++;
         }
         if (ft_string_detect(a->tab_meta_input[a->i]) == 1)
+        {
+            printf(FLASH "\nENTRY\n" RESET);
             ft_string_doble_quotes(a);
+        }
         if (ft_string_detect(a->tab_meta_input[a->i]) == 2)
             ft_string_simple_quotes(a);
         a->i++;
