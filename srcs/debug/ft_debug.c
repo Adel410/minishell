@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:11:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 10:04:09 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:18:21 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    ft_debug(t_a *a)
     printf(GREEN"%s == input\n"RESET,a->input);
     printf(GREEN"%d == nombre de metachar\n"RESET, a->token_count);
     int i = 0;
-    //int j;
+    int j;
     printf("\n\n\n");
     printf(YELLOW"###INPUT TAB###\n\n"RESET);
     while (a->tab_input[i])
@@ -50,18 +50,18 @@ void    ft_debug(t_a *a)
         printf(CYAN"commande num = %d \n %s\n"RESET,i ,a->tab_string_input[i]);
         i++;
     }
-    // i = 0;
-    // printf("\n\n\n");
-    // printf(MAGENTA"###CMD TAB###\n\n"RESET);
-    // while (a->tab_cmd[i])
-    // {
-    //     j = 0;
-    //     while (a->tab_cmd[i][j])
-    //     {
-    //         printf(MAGENTA"commande num = %d \n lexer %d \n %s\n"RESET,i, j,a->tab_cmd[i][j]);
-    //         j++;
-    //     }
-    //     i++;
-    // }
+    i = 0;
+    printf("\n\n\n");
+    printf(MAGENTA"###CMD TAB###\n\n"RESET);
+    while (a->tab_cmd[i])
+    {
+        j = 0;
+        while (a->tab_cmd[i][j])
+        {
+            printf(MAGENTA"commande num = %d \n lexer %d \n %s\n"RESET,i, j,a->tab_cmd[i][j]);
+            j++;
+        }
+        i++;
+    }
     
 }
