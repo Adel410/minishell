@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/04 12:29:20 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:44:22 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,60 @@ void	ft_pwd(char *str, char **env)
 }
 
 // ENV
-void	ft_env(char **env)
+void	ft_env(t_env **built)
 {
-	int	i;
+	t_env	*ptr;
 
-	i = 0;
-	while (env[i])
+	ptr = *built;
+	while (ptr->next)
 	{
-		printf("%s\n", env[i]);
-		i++;
+		printf("%s\n", ptr->env_str);
+		ptr = ptr->next;
 	}
-	return ;
+}
+
+void	ft_unset(t_env **built, char *str)
+{
+	t_env	*ptr;
+	t_env	*current;
+	char	*test;
+	int		i;
+
+	i = 5;
+	while (str[i] == ' ')
+		i++;
+	current = *built;
+	ptr = current->next;
+	test = ft_master_strndup(str, i, ft_strlen(str) - 6);
+	// if (ft_strncmp(current->env_str, test, ft_strlen(test)) == 0)
+	// {
+	// 		ptr = current;
+	// 		current->next = current->next->next;
+	// 		printf("%s\n", ptr->env_str);
+	// 		free(ptr->env_str);
+	// 		free(ptr);
+	// 		return ;
+	// }
+	// printf("%s\n", test);
+	// ptr = current->next;
+	while (current != NULL)
+	{
+		ptr = current->next;
+		if (ft_strncmp(ptr->env_str, test, ft_strlen(test)) == 0)
+		{
+			printf("%s\n", current->next->env_str);
+			current->next = current->next->next;
+			ptr = current->next;
+			free(ptr->env_str);
+			free(ptr->next);
+			break ;
+		}
+		else
+		{
+			current = current->next;
+		}
+	}
+	printf("ici\n");
 }
 
 // ECHO
@@ -95,14 +138,16 @@ void	ft_cd(char *str)
 }
 
 // Chercher si str est un built-in executer sinon on return
-void	ft_which_builtin(t_a *a, char *str, char **env)
+void	ft_which_builtin(t_env **built, t_a *a, char *str, char **env)
 {
 	if (ft_strncmp(str, "pwd", 3) == 0 && *(str + 3) == '\0')
 		ft_pwd(str, env);
 	else if (ft_strncmp(str, "env", 3) == 0 && *(str + 3) == '\0')
-		ft_env(env);
-	else if (ft_strncmp(str, "echo", 4) == 0) 
+		ft_env(built);
+	else if (ft_strncmp(str, "echo", 4) == 0)
 		ft_echo(str);
+	else if (ft_strncmp(str, "unset", 5) == 0)
+		ft_unset(built, str);
 	else if (ft_strncmp(str, "cd", 2) == 0)
 		ft_cd(str);
 	else if (ft_strncmp(str, "..", 2) == 0 && *(str + 2) == '\0')

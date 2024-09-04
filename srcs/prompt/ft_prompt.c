@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_prompt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:04:23 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 13:19:41 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:58:16 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // fonction principale
 
-void	ft_prompt(char **env, t_a *a)
+void	ft_prompt(char **env, t_a *a, t_env	**built)
 {
 	// ft_setup_signals_handler -> gestions des signaux pour ctrl-C
 	// et ctrl-backslash pendant le prompt
@@ -35,11 +35,8 @@ void	ft_prompt(char **env, t_a *a)
 		// V
 		if (a->input && *a->input)
 		{
-			// add_history ajoute l'input a l'historique dynamique
 			add_history(a->input);
-			// on envoie l'input dans ft_which_builtin pour checker si
-			// c'est un built-in a executer
-			ft_which_builtin(a, a->input, env);
+			ft_which_builtin(built, a, a->input, env);
 		}
 		// Ce if c'est le cas du CTRL-D, qui quitte l'execution si
 		// il recoit cette combinaison de touche, si le retour de readline est 
