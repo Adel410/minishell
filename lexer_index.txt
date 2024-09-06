@@ -1,0 +1,10 @@
+LEXER
+
+1 = SPACE;
+2 = STRING DOUBLE QUOTE
+3 = STRING ONE QUOTE
+4 = PIPE
+5 = '>' REDIRECTION DE CE COTE
+6 = '<' REDIRECTION DE CE COTE
+7 = executable
+8 = pas executable
