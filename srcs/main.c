@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:54:49 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 15:42:28 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:06:17 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ t_env	*ft_add_env(t_env *head, char **env)
 
 int	main(int ac, char **av, char **env)
 {
-	t_a	a;
-
-	t_env **built;
+	t_a		a;
+	t_env	**built;
 	(void)av;
-	(void)env;
+
 	built = (t_env **)malloc(sizeof(t_env **));
 	if (!built)
 	{
@@ -43,7 +42,6 @@ int	main(int ac, char **av, char **env)
 		exit(1);
 	}
 	*built = ft_add_env(*built, env);
-	// ft_read_list(built);
 	if (ac == 1)
 		ft_prompt(env, &a, built);
 	else

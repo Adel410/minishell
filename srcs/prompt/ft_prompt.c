@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_prompt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:04:23 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 15:51:34 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:06:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	ft_prompt(char **env, t_a *a, t_env	**built)
 		}
 		ft_nice_tab(a);
 		ft_lexer(a, built);
+		ft_execute(a, env);
 		ft_free(a);
 	}
 }

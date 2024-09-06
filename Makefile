@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+         #
+#    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/09/06 16:35:15 by nicjousl         ###   ########.fr        #
+#    Updated: 2024/09/06 19:48:15 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,9 @@ FILES	=	srcs/main.c \
 			srcs/utils/ft_colors.c \
 			srcs/utils/ft_init.c \
 			srcs/utils/ft_linked.c \
+			srcs/exec/ft_executor.c \
+			srcs/exec/ft_redirection.c \
+
 
 INCLUDES	= 	includes/minishell.h \
 				includes/builtin.h \

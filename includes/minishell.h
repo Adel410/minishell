@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 16:36:06 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:46:51 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../includes/builtin.h"
+# include "./builtin.h"
+# include "./exec.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -79,6 +81,25 @@ typedef struct s_a
 	int		start;
 	int		size;
 }			t_a;
+
+typedef struct s_exe
+{
+	int		infile;
+	int		outfile;
+	int		cmd_count;
+	char	***cmds;
+	char	**paths;
+	char	***redir;
+	int		redir_count;
+	char	**redir_types;
+	char	**redir_files;
+}			t_exe;
+
+//## EXECUTION ##
+void		ft_isolate_commands(t_a *a, t_exe *exec);
+void		ft_isolate_redirections(t_a *a, t_exe *exec);
+void		ft_execute(t_a *a, char **env);
+void		ft_free_redirections(char **redir);
 
 //## DEBUG ##
 void		ft_debug(t_a *a);

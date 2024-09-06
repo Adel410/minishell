@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 17:19:51 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:24:56 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_detect_lexer2(t_a *a)
 		ft_detect_lexer3(a);
 	
 }
+
 void	ft_detect_lexer3(t_a *a)
 {
 	int		j;
