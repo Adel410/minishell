@@ -1,3 +1,0 @@
-
-
-# Segfault si la string n est pas termine
