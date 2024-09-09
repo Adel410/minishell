@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:49:33 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/08/30 13:55:52 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:46:43 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(char *s)
 	char	*dest;
 
 	i = ft_strlen(s);
-	dest = calloc(sizeof(char), i + 1);
+	dest = ft_calloc(sizeof(char), i + 1);
 	if (!dest)
 		return (NULL);
 	i = 0;

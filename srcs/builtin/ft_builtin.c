@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/06 16:44:23 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:41:26 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 void	ft_pwd(char *str, char **env)
 {
 	pid_t	pid;
-	char	*argv[] = {"/usr/bin/pwd", NULL};
+	char	*argv[2];
 
 	(void)str;
+	argv[0] = "/usr/bin/pwd";
+	argv[1] = NULL;
 	pid = fork();
 	if (pid == -1)
 		return ;
@@ -75,8 +77,7 @@ void	ft_unset(t_env **built, char *str)
 			{
 				to_remove = current->next;
 				current->next = to_remove->next;
-				free(to_remove->env_str);
-				free(to_remove);
+				(free(to_remove->env_str), free(to_remove));
 				break ;
 			}
 			current = current->next;
@@ -89,8 +90,8 @@ void	ft_export(t_env **built, char *str)
 {
 	t_env	*to_add;
 	char	*new;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	to_add = *built;
 	i = 6;

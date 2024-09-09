@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 18:34:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/06 19:12:43 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:47:49 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,15 @@
 
 # include "./minishell.h"
 
+typedef struct s_exe
+{
+	int				infile;
+	int				outfile;
+	char			***cmds;
+	char			**paths;
+	struct s_exe	*next;
+}					t_exe;
 
-// typedef struct s_exe
-// {
-// 	int		infile;
-// 	int		outfile;
-// 	int		cmd_count;
-// 	char	***cmds;
-// 	char	**paths;
-// }			t_exe;
-
-// //## EXECUTION ##
-// void		ft_isolate_commands(t_a *a, t_exe *exec);
-// void		ft_execute(t_a *a, char **env);
+void				ft_setup_redirection(t_exe *exec, int cmd_index,
+						int *pipefd, int count_cmds);
 #endif

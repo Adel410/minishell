@@ -6,78 +6,40 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:28:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/06 19:57:33 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:48:04 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_free_redirections(char **redir)
-{
-	int	j;
-
-	j = 0;
-	if (redir == NULL)
-		return ;
-	while (redir[j] != NULL)
-	{
-		free(redir[j]);
-		j++;
-	}
-	free(redir);
-}
-
-int	ft_count_redirections(t_a *a)
-{
-	int	count;
-	int	i;
-
-	count = 0;
-	i = 0;
-	while (a->tab_cmd[i] != NULL)
-	{
-		if (ft_strncmp(a->tab_cmd[i][1], "5", 1) == 0
-			|| ft_strncmp(a->tab_cmd[i][1], "6", 1) == 0)
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-void	ft_isolate_redirections(t_a *a, t_exe *exec)
+void	ft_setup_redirection(t_exe *exec, int cmd_index, int *pipefd,
+		int count_cmds)
 {
 	int	i;
-	int	j;
 
-	exec->redir_count = ft_count_redirections(a);
-	exec->redir_types = malloc((exec->redir_count + 1) * sizeof(char *));
-	exec->redir_files = malloc((exec->redir_count + 1) * sizeof(char *));
-	if (exec->redir_types == NULL || exec->redir_files == NULL)
-	{
-		free(exec->redir_types);
-		free(exec->redir_files);
-		return ;
-	}
-	j = 0;
 	i = -1;
-	while (a->tab_cmd[++i] != NULL)
+	if (cmd_index == 0)
 	{
-		if (ft_strncmp(a->tab_cmd[i][1], "5", 1) == 0 || ft_strncmp(a->tab_cmd[i][1],
-				"6", 1) == 0)
-		{
-			exec->redir_types[j] = ft_strdup(a->tab_cmd[i][1]);
-			exec->redir_files[j] = ft_strdup(a->tab_cmd[i+1][0]);
-			if (exec->redir_types[j] == NULL || exec->redir_files[j] == NULL)
-			{
-				ft_free_redirections(exec->redir_files);
-				ft_free_redirections(exec->redir_types);
-				exec->redir_types = NULL;
-				exec->redir_files = NULL;
-				return ;
-			}
-			j++;
-		}
+		dup2(exec->infile, STDIN_FILENO);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(exec->outfile);
 	}
-	exec->redir_types[j] = NULL;
-	exec->redir_files[j] = NULL;
+	else if (cmd_index == count_cmds - 1)
+	{
+		dup2(pipefd[(cmd_index - 1) * 2], STDIN_FILENO);
+		dup2(exec->outfile, STDOUT_FILENO);
+		close(exec->infile);
+	}
+	else
+	{
+		dup2(pipefd[(cmd_index - 1) * 2], STDIN_FILENO);
+		dup2(pipefd[cmd_index * 2 + 1], STDOUT_FILENO);
+		close(exec->infile);
+		close(exec->outfile);
+	}
+	while (++i < (count_cmds - 1) * 2)
+	{
+		if (i != (cmd_index - 1) * 2 && i != cmd_index * 2 + 1)
+			close(pipefd[i]);
+	}
 }

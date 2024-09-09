@@ -6,13 +6,13 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:34:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/06 17:44:12 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/09 11:41:11 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// void	ft_heredoc(t_pipex *pipex, char **av)
+// void	ft_heredoc(t_exec *pipex, char **av)
 // {
 // 	char	*line;
 // 	int		fd;
