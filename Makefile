@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/09/10 14:21:18 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/09/10 16:25:45 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,6 @@ FILES	=	srcs/main.c \
 
 
 INCLUDES	= 	includes/minishell.h \
-				includes/builtin.h \
 
 ### MACROS ###
 

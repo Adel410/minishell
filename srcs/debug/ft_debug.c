@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:11:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/10 14:07:31 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:02:20 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    ft_debug(t_a *a)
 {
-    printf("\n\n\n");
+    printf("\n");
     // printf(GREEN"%s == input\n"RESET,a->input);
     // printf(GREEN"%d == nombre de metachar\n"RESET, a->token_count);
     // int i = 0;
@@ -62,7 +62,6 @@ void    ft_debug(t_a *a)
     int i;
     i = 0;
     //int k = 0;
-    printf("\n\n\n");
     printf("###CMD TAB###\n\n");
     while (a->tab_cmd[i])
     {

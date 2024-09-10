@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:17:01 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 15:54:48 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:45:29 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_init_for_meta_tab(t_a *a)
 void	ft_init_for_option_tab(t_a *a)
 {
 	a->j = 0;
-	a->b = 0;
+	a->u = 0;
 	a->t = 0;
 	a->v = 1;
 	a->k = 0;

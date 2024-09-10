@@ -6,14 +6,13 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/10 14:22:16 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:50:35 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "./builtin.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -40,6 +39,18 @@
 # define INVERT "\033[7m"
 # define BAR "\033[9m"
 # define TOKEN "<>|"
+
+typedef struct s_b
+{
+	int				nb_cmds;
+	int				pid;
+	int				i;
+	int				l;
+	int				m;
+	int				n;
+	int				o;
+	int				p;
+}					t_b;
 
 typedef struct s_a
 {
@@ -75,13 +86,19 @@ typedef struct s_a
 	int				k;
 	int				h;
 	int				t;
-	int				b;
+	int				u;
 	int				v;
 
 	int				start;
 	int				size;
-	struct s_exe	*first;
+	struct s_b		*b;
 }					t_a;
+
+typedef struct s_env
+{
+	char			*env_str;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct s_exe
 {
@@ -107,6 +124,12 @@ void				ft_free_exec(t_exe *exec);
 void				ft_fork_and_pipe(t_a *a, t_exe *exec, char **env);
 void				ft_execve(t_a *a, t_exe *exec, char **env);
 int					ft_count_cmds(t_a *a);
+
+//## BUILTIN ##
+void				ft_lstadd_back(t_env **lst, t_env *new);
+t_env				*ft_lstnew(char *str);
+void				ft_free_stack(t_env **head);
+void				ft_read_list(t_env **head);
 
 //## DEBUG ##
 void				ft_debug(t_a *a);

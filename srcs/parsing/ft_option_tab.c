@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_option_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 17:25:50 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 14:37:43 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:45:44 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_option_cut_tab(t_a *a)
 				a->tab_input[a->i][a->v + 2] = '-';
 			}
 			a->j++;
-			a->b++;
+			a->u++;
 		}
 		a->t++;
 		a->i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/10 11:08:31 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:58:47 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	ft_detect_lexer3(t_a *a)
 	while (a->cmd_path[j])
 	{
 		a->str_test = ft_strjoin2(a->cmd_path[j], a->tab_cmd[a->i][0]);
-		printf(GREEN"%s\n"RESET, a->str_test);
-		printf(BLUE"%c == char\n"RESET, a->tab_cmd[a->i][0][0]);
+		// printf(GREEN"%s\n"RESET, a->str_test);
+		// printf(BLUE"%c == char\n"RESET, a->tab_cmd[a->i][0][0]);
 		if (access(a->str_test, X_OK) == 0)
 		{
 			a->tab_cmd[a->i][1] = ft_calloc(sizeof(char), 2);
@@ -150,7 +150,7 @@ void	ft_find_env_path(t_a *a, t_env **built)
 	ptr = *built;
 	while (ptr->next)
 	{
-		if (strncmp(ptr->env_str, "PATH", 4) == 0)
+		if (ft_strncmp(ptr->env_str, "PATH", 4) == 0)
 			a->str_path = ft_strdup(ptr->env_str);
 		ptr = ptr->next;
 	}

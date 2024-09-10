@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/10 14:26:41 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:01:52 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_isolate_cmds(t_a *a, t_exe *exec)
 		{
 			current->cmds = ft_calloc(3, sizeof(char *));
 			if (!current->cmds)
-				exit(EXIT_FAILURE);
+				return ;
 			current->cmds[0] = ft_strdup(a->tab_cmd[i][0]);
 			while (a->tab_cmd[i + 1] && a->tab_cmd[i + 1][1][0] != '7'
 				&& a->tab_cmd[i + 1][1][0] != '4')
@@ -51,7 +51,7 @@ void	ft_isolate_cmds(t_a *a, t_exe *exec)
 			{
 				current->next = ft_calloc(1, sizeof(t_exe));
 				if (!current->next)
-					exit(EXIT_FAILURE);
+					return ;
 			}
 			current = current->next;
 		}
@@ -82,7 +82,7 @@ void	ft_execve(t_a *a, t_exe *exec, char **env)
 				j++;
 			}
 			printf("Command not found: %s\n", current->cmds[0]);
-			exit(EXIT_FAILURE);
+			return ;
 		}
 		current = current->next;
 	}
@@ -104,30 +104,27 @@ void	ft_fork_and_pipe(t_a *a, t_exe *exec, char **env)
 {
 	t_exe	*current;
 	int		*pipefd;
-	int		i;
-	int		cmds_count;
-	int		pid;
+	(void)env;
 
 	current = exec;
-	cmds_count = ft_count_cmds(a);
-	pipefd = ft_calloc((cmds_count - 1) * 2, sizeof(int));
+	pipefd = ft_calloc((a->b->nb_cmds - 1) * 2, sizeof(int));
 	if (!pipefd)
-		exit(EXIT_FAILURE);
-	ft_pipe(pipefd, cmds_count);
-	i = -1;
-	while (++i < cmds_count && current)
+		return ;
+	ft_pipe(pipefd, a->b->nb_cmds);
+	a->b->i = -1;
+	while (++a->b->i < a->b->nb_cmds && current)
 	{
-		pid = fork();
-		if (pid == -1)
-			exit(EXIT_FAILURE);
-		else if (pid == 0)
+		a->b->pid = fork();
+		if (a->b->pid == -1)
+			return (ft_close_pipes(pipefd, a->b->nb_cmds));
+		else if (a->b->pid == 0)
 		{
-			ft_setup_redirection(current, i, pipefd, cmds_count);
+			ft_setup_redirection(current, a->b->i, pipefd, a->b->nb_cmds);
 			ft_execve(a, current, env);
 		}
 		current = current->next;
 	}
-	ft_close_pipes(pipefd, cmds_count);
+	ft_close_pipes(pipefd, a->b->nb_cmds);
 	while (wait(NULL) > 0)
 		;
 	free(pipefd);
@@ -140,6 +137,7 @@ void	ft_execute(t_a *a, char **env)
 	exec = ft_calloc(1, sizeof(t_exe));
 	if (exec == NULL)
 		return ;
+	a->b->nb_cmds = ft_count_cmds(a);
 	ft_init_exec(exec);
 	ft_isolate_cmds(a, exec);
 	ft_fork_and_pipe(a, exec, env);
