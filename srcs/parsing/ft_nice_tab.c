@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:41:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 16:01:41 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:01:34 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,5 @@ void	ft_nice_tab(t_a *a)
 	ft_option_tab(a);
 	ft_meta_tab(a);
 	ft_string_tab(a);
+	ft_space_tab(a);
 }

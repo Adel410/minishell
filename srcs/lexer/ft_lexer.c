@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 18:24:56 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:08:31 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_tmp_to_lex(t_a *a)
 {
 	int	size;
 
-	size = ft_strlen(a->tab_string_input[a->i]);
+	size = ft_strlen(a->tab_space_input[a->i]);
 	a->tab_cmd[a->j] = ft_calloc(sizeof(char *), size + 1);
 	a->tab_cmd[a->j][a->k] = ft_strdup(a->str_tmp);
 	a->j++;
@@ -26,9 +26,9 @@ void	ft_tmp_to_lex(t_a *a)
 void	ft_parse_to_lex(t_a *a)
 {
 	ft_init_for_lexer(a);
-	while (a->tab_string_input[a->i])
+	while (a->tab_space_input[a->i])
 	{
-		a->str_tmp = ft_strdup(a->tab_string_input[a->i]);
+		a->str_tmp = ft_strdup(a->tab_space_input[a->i]);
 		ft_tmp_to_lex(a);
 		a->i++;
 	}
@@ -159,7 +159,7 @@ void	ft_lexer(t_a *a, t_env **built)
 {
 	int	i;
 
-	i = ft_strstrlen(a->tab_string_input);
+	i = ft_strstrlen(a->tab_space_input);
 	a->tab_cmd = ft_calloc (sizeof (char **), i + 1);
 	ft_find_env_path(a,built);
 	a->cmd_path = ft_split2(a->str_path, ":");

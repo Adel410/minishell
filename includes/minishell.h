@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/09 11:35:31 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:22:16 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "./builtin.h"
-# include "./exec.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -45,6 +44,7 @@
 typedef struct s_a
 {
 	char			*input;
+	char			**tab_space_input;
 	char			**tab_input;
 	char			**tab_option_input;
 	char			**tab_meta_input;
@@ -80,10 +80,33 @@ typedef struct s_a
 
 	int				start;
 	int				size;
+	struct s_exe	*first;
 }					t_a;
+
+typedef struct s_exe
+{
+	char			**cmds;
+	char			*input_file;
+	char			*output_file;
+	int				append_output;
+	struct s_exe	*next;
+}					t_exe;
+
+void				ft_space_tab(t_a *a);
+
+//## REDIRECTION ##
+void				ft_setup_redirection(t_exe *exec, int cmd_index,
+						int *pipefd, int count_cmds);
+void				ft_close_pipes(int *pipefd, int cmds_count);
 
 //## EXECUTION ##
 void				ft_execute(t_a *a, char **env);
+void				ft_init_exec(t_exe *exec);
+void				ft_free_cmds(t_exe *exec);
+void				ft_free_exec(t_exe *exec);
+void				ft_fork_and_pipe(t_a *a, t_exe *exec, char **env);
+void				ft_execve(t_a *a, t_exe *exec, char **env);
+int					ft_count_cmds(t_a *a);
 
 //## DEBUG ##
 void				ft_debug(t_a *a);

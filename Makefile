@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/09/06 19:48:15 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/09/10 14:21:18 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FILES	=	srcs/main.c \
 			srcs/parsing/ft_nice_tab.c \
 			srcs/parsing/ft_meta_tab.c \
 			srcs/parsing/ft_string_tab.c \
+			srcs/parsing/ft_space_tab.c \
 			srcs/parsing/ft_string_tab_utils.c \
 			srcs/utils/ft_free.c \
 			srcs/utils/ft_strdup.c \
@@ -42,6 +43,7 @@ FILES	=	srcs/main.c \
 			srcs/utils/ft_linked.c \
 			srcs/exec/ft_executor.c \
 			srcs/exec/ft_redirection.c \
+			srcs/exec/ft_utils_exec.c \
 
 
 INCLUDES	= 	includes/minishell.h \

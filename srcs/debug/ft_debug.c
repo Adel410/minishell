@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:11:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/09 11:00:13 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:07:31 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ void    ft_debug(t_a *a)
     // while (a->tab_string_input[i])
     // {
     //     printf(CYAN"commande num = %d \n %s\n"RESET,i ,a->tab_string_input[i]);
+    //     i++;
+    // }
+
+    // i = 0;
+    // printf("\n\n\n");
+    // printf(GREEN"###SPACE TAB###\n\n"RESET);
+    // while (a->tab_space_input[i])
+    // {
+    //     printf(GREEN"commande num = %d \n %s\n"RESET,i ,a->tab_space_input[i]);
     //     i++;
     // }
     int i;

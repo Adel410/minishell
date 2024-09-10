@@ -6,40 +6,51 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:28:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/09 16:48:04 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:18:29 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_setup_redirection(t_exe *exec, int cmd_index, int *pipefd,
-		int count_cmds)
+void	ft_setup_redirection(t_exe *cmd, int cmd_index, int *pipefd,
+		int cmds_count)
 {
-	int	i;
-
-	i = -1;
-	if (cmd_index == 0)
+	int	fd_infile;
+	int	flags;
+	int	fd_outfile;
+	
+	if (cmd->input_file)
 	{
-		dup2(exec->infile, STDIN_FILENO);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(exec->outfile);
+		fd_infile = open(cmd->input_file, O_RDONLY);
+		if (fd_infile == -1)
+			exit(EXIT_FAILURE);
+		if (dup2(fd_infile, STDIN_FILENO) == -1)
+			exit(EXIT_FAILURE);
+		close(fd_infile);
 	}
-	else if (cmd_index == count_cmds - 1)
+	else if (cmd_index > 0)
 	{
-		dup2(pipefd[(cmd_index - 1) * 2], STDIN_FILENO);
-		dup2(exec->outfile, STDOUT_FILENO);
-		close(exec->infile);
+		if (dup2(pipefd[(cmd_index - 1) * 2], STDIN_FILENO) == -1)
+			exit(EXIT_FAILURE);
 	}
-	else
+	if (cmd->output_file)
 	{
-		dup2(pipefd[(cmd_index - 1) * 2], STDIN_FILENO);
-		dup2(pipefd[cmd_index * 2 + 1], STDOUT_FILENO);
-		close(exec->infile);
-		close(exec->outfile);
+		flags = O_WRONLY | O_CREAT;
+		if (cmd->append_output)
+			flags |= O_APPEND;
+		else
+			flags |= O_TRUNC;
+		fd_outfile = open(cmd->output_file, flags, 0644);
+		if (fd_outfile == -1)
+			exit(EXIT_FAILURE);
+		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
+			exit(EXIT_FAILURE);
+		close(fd_outfile);
 	}
-	while (++i < (count_cmds - 1) * 2)
+	else if (cmd_index < cmds_count - 1)
 	{
-		if (i != (cmd_index - 1) * 2 && i != cmd_index * 2 + 1)
-			close(pipefd[i]);
+		if (dup2(pipefd[cmd_index * 2 + 1], STDOUT_FILENO) == -1)
+			exit(EXIT_FAILURE);
 	}
+	ft_close_pipes(pipefd, cmds_count);
 }
