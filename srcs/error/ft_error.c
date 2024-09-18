@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 10:38:04 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/08/30 17:55:49 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:28:14 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,12 @@ void	ft_error(int i, t_a *a)
 	{
 		printf("quotes problems !\n");
 		ft_free(a);
+	}
+	if (i == 3)
+	{
+		printf(BIG RED"TA PAS L IMPRESSION D ABUSER ?\n");
+		printf("%d charactere !?\n", a->len_input);
+		printf("RAMENE TON MINISHELL JE VAIS FAIRE PAREIL\n"RESET);
+		a->error = 1;
 	}
 }

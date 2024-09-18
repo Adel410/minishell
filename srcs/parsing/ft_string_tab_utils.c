@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:11:37 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/04 16:12:28 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:20:49 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_string_tmp(t_a *a)
 {
 	a->k = 0;
 	a->str_tmp2 = ft_calloc(sizeof(char), 10000);
-	a->str_tmp2[a->k] = a->tab_meta_input[a->i][0];
+	a->str_tmp2[a->k] = a->tab_meta_new_input[a->i][0];
 	a->k++;
 	a->i++;
 }

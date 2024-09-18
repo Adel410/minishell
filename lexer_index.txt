@@ -6,5 +6,8 @@ LEXER
 4 = PIPE
 5 = '>' REDIRECTION DE CE COTE
 6 = '<' REDIRECTION DE CE COTE
+# = >> APPEND
+$ = << HEREDOC
 7 = executable
 8 = pas executable
+9 = BUILTIN

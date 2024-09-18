@@ -6,7 +6,7 @@
 /*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:41 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/02 15:50:25 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:12:00 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,20 @@ void	ft_meta_tab_size(t_a *a)
 	int	j;
 
 	i = 0;
-	while (a->tab_option_input[i])
+	a->meta_size = 0;
+	while (a->tab_input[i])
 	{
 		j = 0;
-		while (a->tab_option_input[i][j])
+		while (a->tab_input[i][j])
 		{
-			if (ft_meta_char(a->tab_option_input[i][j]) == 1)
+			if (ft_meta_char(a->tab_input[i][j]) == 1)
 				a->meta_size++;
 			j++;
 		}
 		i++;
 	}
 }
+
 
 //fonction qui check si la str contient un meta char
 int	ft_meta_detect(char *str)

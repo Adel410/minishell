@@ -1,2 +1,17 @@
 
-# Segfault si la string tab est pas termine
+
+
+cas a gerer;
+
+-segfault au niveau de l exec si l input est rempli d espace
+-segfault si la string tab est pas termine
+-a->cmd_path qui est mal free
+
+
+LIGNE DE COMMANDE QUI NE MARCHE PAS:
+
+->printf ls
+    le ls s execute 
+->"ls"
+    "ls": command not found
+

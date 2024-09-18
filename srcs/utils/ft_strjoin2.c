@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:34:37 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 17:14:34 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:08:55 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_strlen_stat(const char *str)
+int	ft_strlen_stat(const char *str)
 {
 	int	i;
 

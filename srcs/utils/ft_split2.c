@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int		char_is_separator(char c, char *charset)
+int	char_is_separator(char c, char *charset)
 {
 	int	i;
 
@@ -16,7 +16,7 @@ int		char_is_separator(char c, char *charset)
 	return (0);
 }
 
-int		count_words(char *str, char *charset)
+int	count_words(char *str, char *charset)
 {
 	int	i;
 	int	words;
@@ -48,9 +48,9 @@ void	write_word(char *dest, char *from, char *charset)
 
 void	write_split(char **split, char *str, char *charset)
 {
-	int		i;
-	int		j;
-	int		word;
+	int	i;
+	int	j;
+	int	word;
 
 	word = 0;
 	i = 0;
@@ -63,7 +63,7 @@ void	write_split(char **split, char *str, char *charset)
 			j = 0;
 			while (char_is_separator(str[i + j], charset) == 0)
 				j++;
-			split[word] = (char*)malloc(sizeof(char) * (j + 1));
+			split[word] = (char *)malloc(sizeof(char) * (j + 1));
 			write_word(split[word], str + i, charset);
 			i += j;
 			word++;
@@ -74,11 +74,11 @@ void	write_split(char **split, char *str, char *charset)
 // vrai split
 char	**ft_split2(char *str, char *charset)
 {
-	char	**split;
-	int		words;
+	char **split;
+	int words;
 
 	words = count_words(str, charset);
-	split = (char**)malloc(sizeof(char*) * (words + 1));
+	split = (char **)malloc(sizeof(char *) * (words + 10));
 	split[words] = 0;
 	write_split(split, str, charset);
 	return (split);

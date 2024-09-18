@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:20:57 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/10 14:35:08 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:54:35 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ void	ft_init_exec(t_exe *exec)
 {
 	exec->cmds = NULL;
 	exec->next = NULL;
+	exec->input_file = NULL;
+	exec->output_file = NULL;
+	exec->append_output = 0;
+	exec->here_doc = 0;
+	exec->builtin = 0;
+	exec->limiter = NULL;
+	exec->cmd_path = NULL;
 }
 
 void	ft_free_cmds(t_exe *exec)
@@ -43,15 +50,19 @@ void	ft_free_cmds(t_exe *exec)
 		free(exec->output_file);
 		exec->output_file = NULL;
 	}
+	i = 0;
 }
 
-void	ft_free_exec(t_exe *exec)
+void	ft_free_exec(t_exe *exec, t_a *a)
 {
 	t_exe	*current;
 	t_exe	*next;
+	int		i;
 
+	(void)a;
+	i = 0;
 	current = exec;
-	while (current)
+	while (current->next)
 	{
 		next = current->next;
 		ft_free_cmds(current);
@@ -72,18 +83,18 @@ void	ft_close_pipes(int *pipefd, int cmds_count)
 	}
 }
 
-int	ft_count_cmds(t_a *a)
+int	ft_count_cmds(t_lex *lex)
 {
-	int	j;
-	int	count;
+	t_lex	*current;
+	int		count;
 
-	j = 0;
 	count = 0;
-	while (a->tab_cmd[j])
+	current = lex;
+	while (current)
 	{
-		if (a->tab_cmd[j][1][0] == '7')
+		if (current->type == '7' || current->type == '9')
 			count++;
-		j++;
+		current = current->next;
 	}
 	return (count);
 }

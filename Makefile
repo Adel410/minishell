@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/09/10 16:25:45 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/09/18 16:14:55 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,28 +22,39 @@ FILES	=	srcs/main.c \
 			srcs/signal/ft_signal.c \
 			srcs/error/ft_error.c \
 			srcs/builtin/ft_builtin.c \
-			srcs/debug/ft_debug.c \
+			srcs/builtin/ft_echo.c \
+			srcs/debug/ft_debug_parser.c \
+			srcs/debug/ft_debug_lst.c \
 			srcs/lexer/ft_lexer.c \
+			srcs/lexer/ft_recast_to_lst.c \
+			srcs/lexer/ft_detect_lexer.c \
+			srcs/lexer/ft_detect_lexer2.c \
 			srcs/parsing/ft_meta_tab_utils.c \
-			srcs/parsing/ft_option_tab.c \
 			srcs/parsing/ft_nice_tab.c \
 			srcs/parsing/ft_meta_tab.c \
 			srcs/parsing/ft_string_tab.c \
 			srcs/parsing/ft_space_tab.c \
 			srcs/parsing/ft_string_tab_utils.c \
 			srcs/utils/ft_free.c \
+			srcs/utils/ft_free_parser.c \
 			srcs/utils/ft_strdup.c \
 			srcs/utils/ft_strjoin.c \
 			srcs/utils/ft_strjoin2.c \
 			srcs/utils/ft_tools.c \
+			srcs/utils/ft_tools2.c \
+			srcs/utils/ft_gnl.c \
 			srcs/utils/ft_split.c \
 			srcs/utils/ft_split2.c \
 			srcs/utils/ft_colors.c \
 			srcs/utils/ft_init.c \
 			srcs/utils/ft_linked.c \
-			srcs/exec/ft_executor.c \
+			srcs/exec/ft_execution.c \
+			srcs/exec/ft_recast.c \
 			srcs/exec/ft_redirection.c \
+			srcs/exec/ft_here_doc.c \
 			srcs/exec/ft_utils_exec.c \
+			srcs/exec/ft_utils_exec2.c \
+			srcs/exec/ft_utils_exec3.c \
 
 
 INCLUDES	= 	includes/minishell.h \
@@ -66,10 +77,10 @@ $(NAME)	: $(OBJ) $(INCLUDES)
 		$(CC) $(OBJ) $(LDFLAGS) -o  $(NAME) 
 
 clean:
-		rm $(OBJ)
+		rm -f $(OBJ)
 
 fclean:
-		rm $(NAME) $(OBJ)
+		rm -f $(NAME) $(OBJ)
 
 re: fclean all
 

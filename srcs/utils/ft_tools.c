@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tools.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:04:18 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/08/30 15:11:07 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:52:09 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+void	ft_putstr(char *str)
+{
+	write(1, str, ft_strlen(str));
+}
+int	ft_strstrstrlen(char ***str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 int	ft_strstrlen(char **str)
 {

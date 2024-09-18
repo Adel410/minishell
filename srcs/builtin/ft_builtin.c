@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/09 16:41:26 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:38:13 by nicjousl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // PWD
-void	ft_pwd(char *str, char **env)
+void	ft_pwd(char **env)
 {
 	pid_t	pid;
 	char	*argv[2];
 
-	(void)str;
 	argv[0] = "/usr/bin/pwd";
 	argv[1] = NULL;
 	pid = fork();
@@ -111,76 +110,30 @@ void	ft_export(t_env **built, char *str)
 	return ;
 }
 
-// ECHO
-void	ft_echo(char *str)
-{
-	int	i;
-
-	i = 4;
-	if (ft_strncmp(str, "echo -n", 7) == 0)
-	{
-		i = 8;
-		while (str[i])
-		{
-			printf("%c", str[i]);
-			i++;
-		}
-		return ;
-	}
-	while (str[i])
-	{
-		printf("%c", str[i]);
-		i++;
-	}
-	printf("\n");
-	return ;
-}
-
 // CD
-void	ft_cd(char *str)
+void	ft_cd(t_exe *current)
 {
-	int		i;
-	int		j;
 	char	*path;
 
-	i = 2;
-	j = 0;
-	while (str[i] == ' ' && str[i])
-		i++;
-	j = i;
-	while (str[j])
-		j++;
-	path = ft_calloc(sizeof(char), j + 1);
-	j = 0;
-	while (str[i] != ' ' && str[i])
-	{
-		path[j] = str[i];
-		i++;
-		j++;
-	}
+	if (current->cmds[1] == NULL)
+		path = ft_strdup("/home");
+	else
+		path = ft_strdup(current->cmds[1]);
 	if (chdir(path) == -1)
-		printf("cd: no such file or directory: %s", path);
+		printf("cd: no such file or directory: %s\n", path);
 }
 
-// Chercher si str est un built-in executer sinon on return
-void	ft_which_builtin(t_env **built, t_a *a, char *str, char **env)
+void	ft_which_builtin(t_exe *current, t_env **built, char **env)
 {
-	if (ft_strncmp(str, "pwd", 3) == 0 && *(str + 3) == '\0')
-		ft_pwd(str, env);
-	else if (ft_strncmp(str, "env", 3) == 0 && *(str + 3) == '\0')
-		ft_env(built);
-	else if (ft_strncmp(str, "unset", 5) == 0)
-		ft_unset(built, str);
-	else if (ft_strncmp(str, "export", 6) == 0)
-		ft_export(built, str);
-	else if (ft_strncmp(str, "echo", 4) == 0)
-		ft_echo(str);
-	else if (ft_strncmp(str, "cd", 2) == 0)
-		ft_cd(str);
-	else if (ft_strncmp(str, "..", 2) == 0 && *(str + 2) == '\0')
-		chdir("..");
-	else if (ft_strncmp(str, "exit", 4) == 0 && *(str + 4) == '\0')
-		ft_cleanup(a);
-	else
-		return ;
+	(void) built;
+	printf("builtin\n");
+	if (ft_strcmp(current->cmds[0], "cd") == 0)
+		ft_cd(current);
+	else if (ft_strcmp(current->cmds[0], "pwd") == 0)
+		ft_pwd(env);
+	else if (ft_strcmp(current->cmds[0], "echo") == 0)
+		ft_echo(current);
+	else if (ft_strcmp(current->cmds[0], "exit") == 0)
+		exit(0);
+	return ;
 }

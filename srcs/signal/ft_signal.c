@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:20:32 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/08/30 17:17:05 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:38:38 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	ft_handle_sigint(int sig)
 	}
 }
 
+void	ft_ctrl_d_exit_shell(void)
+{
+	if (feof(stdin))
+		exit(0);
+}
+
 // CTRL-backslash n'a aucun comportement maintenant, on reprompt juste
 void	ft_handle_sigquit(int sig)
 {
@@ -36,10 +42,11 @@ void	ft_handle_sigquit(int sig)
 	}
 }
 
-// initialise les conditions avec signal() pour CTRL-C (SIGINT) et 
+// initialise les conditions avec signal() pour CTRL-C (SIGINT) et
 // CTRL-backslash(SIGQUIT)
 void	ft_setup_signals_handler(void)
 {
 	signal(SIGINT, ft_handle_sigint);
 	signal(SIGQUIT, ft_handle_sigquit);
+	ft_ctrl_d_exit_shell();
 }
