@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/18 16:38:53 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:38:55 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_recast_string(t_lex *lex, t_exe *new)
 {
-	if (new->here_doc == 1)
-		new->limiter = ft_strdup(lex->str);
+	if (new->string && (lex->type == '2' || lex->type == '3'))
+		new->string = ft_strjoin(new->string, lex->str);
 	else
 		new->string = ft_strdup(lex->str);
 }
@@ -23,57 +23,44 @@ void	ft_recast_string(t_lex *lex, t_exe *new)
 void	ft_recast_meta(t_lex *lex, t_exe *new)
 {
 	if (lex->type == '#')
-	{
 		new->append_output = 1;
-		if (lex->next && (lex->next->type == '2' || lex->next->type == '3'
-				|| lex->next->type == '8'))
-			new->output_file = ft_strdup(lex->next->str);
-		else
-			ft_putstr("minishell: syntax error\n");
-	}
-	else if (lex->type == '5')
+	else if (lex->type == '*')
 	{
-		if (lex->next && (lex->next->type == '2' || lex->next->type == '3'
-				|| lex->next->type == '8'))
-			new->output_file = ft_strdup(lex->next->str);
-		else
-			ft_putstr("minishell: syntax error\n");
+		new->here_doc = 1;
+		new->input_file = ft_strdup("here_doc");
 	}
-	else if (lex->type == '6')
-	{
-		if (lex->next && (lex->next->type == '2' || lex->next->type == '3'
-				|| lex->next->type == '8'))
-			new->input_file = ft_strdup(lex->next->str);
-		else
-			ft_putstr("minishell: syntax error\n");
-	}
+	else if (lex->type == '@')
+		new->output_file = ft_strdup(lex->str);
+	else if (lex->type == '%')
+		new->input_file = ft_strdup(lex->str);
 }
 
 int	ft_check_for_options(t_lex *next, t_exe *new)
 {
-	if (next && next->type == '8' && next->str[0] == '-')
-	{
-		new->cmds[1] = ft_strdup(next->str);
-		return (0);
-	}
-	else
-	{
-		new->cmds[1] = NULL;
-		return (1);
-	}
+	int	i;
+
+	i = 1;
+	while (new->cmds[i] != NULL)
+		i++;
+	new->cmds[i] = ft_strdup(next->str);
+	return (0);
 }
 
 void	ft_recast_fts(t_lex *lex, t_exe *new)
 {
-	new->cmds = ft_calloc(10, sizeof(char *));
 	if (new->cmds == NULL)
-		return ;
-	new->cmds[0] = ft_strdup(lex->str);
-	if (lex->type == '9')
-		new->builtin = 1;
+	{
+		new->cmds = ft_calloc(10, sizeof(char *));
+		if (new->cmds == NULL)
+			return ;
+		new->cmds[0] = ft_strdup(lex->str);
+		if (ft_is_builtin(lex->str) == 1)
+			new->builtin = 1;
+		else
+			new->builtin = 0;
+	}
 	else
-		new->builtin = 0;
-	ft_check_for_options(lex->next, new);
+		ft_check_for_options(lex, new);
 }
 
 void	ft_recast(t_lex *lex, t_exe *exec)
@@ -83,14 +70,15 @@ void	ft_recast(t_lex *lex, t_exe *exec)
 	new = exec;
 	while (lex)
 	{
-		if (lex->type == '7' || lex->type == '9')
-			ft_recast_fts(lex, new);
-		else if (lex->type == '2' || lex->type == '3' || lex->type == '8')
-			ft_recast_string(lex, new);
-		else if (lex->type == '$')
-			new->here_doc = 1;
-		else if (lex->type == '5' || lex->type == '6' || lex->type == '#')
+		if (lex->type == '5' || lex->type == '6' || lex->type == '#'
+			|| lex->type == '*' || lex->type == '@' || lex->type == '%')
 			ft_recast_meta(lex, new);
+		else if (lex->type == ':')
+			new->limiter = ft_strdup(lex->str);
+		else if (lex->type == '2' || lex->type == '3')
+			ft_recast_string(lex, new);
+		else if (lex->type == '8')
+			ft_recast_fts(lex, new);
 		if (lex->type == '4')
 		{
 			lex = lex->next;

@@ -1,53 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_colors.c                                        :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/01 17:56:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/26 19:54:49 by ahadj-ar         ###   ########.fr       */
+/*   Created: 2024/09/24 15:24:58 by ahadj-ar          #+#    #+#             */
+/*   Updated: 2024/09/24 15:25:13 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_putstr2(char *str)
+// CD
+void	ft_cd(t_exe *current)
 {
-	int	i;
+	char	*path;
 
-	i = 0;
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
-}
-
-void	ft_color(char *str, int n, ...)
-{
-	va_list	args;
-	int		i;
-	char	**arg;
-
-	arg = malloc(n * sizeof(char *));
-	if (!arg)
-		return ;
-	i = 0;
-	va_start(args, n);
-	while (i < n)
-	{
-		arg[i] = va_arg(args, char *);
-		i++;
-	}
-	i = 0;
-	while (i < n)
-	{
-		ft_putstr2(arg[i]);
-		i++;
-	}
-	ft_putstr2(str);
-	write(1, RESET, 5);
-	va_end(args);
-	free(arg);
+	if (current->cmds[1] == NULL)
+		path = ft_strdup("/home");
+	else
+		path = ft_strdup(current->cmds[1]);
+	if (chdir(path) == -1)
+		printf("cd: no such file or directory: %s\n", path);
 }

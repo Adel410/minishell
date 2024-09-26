@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:34:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/18 16:26:55 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:36:27 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int	ft_here_doc(t_exe *exec)
 	line = NULL;
 	if (current->limiter)
 		limiter = ft_strdup(current->limiter);
-	else if (current->string)
-		limiter = ft_strdup(current->string);
 	else
 		return (1);
 	ft_here_doc_prompt(line, limiter, fd);

@@ -6,12 +6,11 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:04:18 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/13 18:52:09 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:55:15 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 void	ft_putstr(char *str)
 {
@@ -96,4 +95,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-

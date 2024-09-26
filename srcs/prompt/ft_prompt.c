@@ -6,35 +6,44 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:04:23 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/17 18:17:14 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:47:17 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// fonction principale
-
-void	ft_prompt(char **env, t_a *a, t_env	**built)
+void	ft_ctrl_d(t_env *built, t_parse *parse)
 {
-	(void)env;
+	(void)built;
+	(void)parse;
+	built->exit_code = 143;
+	exit(143);
+}
+
+void	ft_prompt(char **env, t_env *built, t_parse *parse)
+{
+	char	*input;
+
 	ft_setup_signals_handler();
 	ft_init_history();
-	a->error = 0;
 	while (1)
 	{
-		if (a->error == 0)
-			a->input = readline(GREEN BIG "➜ " CYAN BIG " Minishell 🔧 " RESET);
+		input = NULL;
+		if (built->exit_code == 0)
+			input = readline(GREEN BIG "➜ " CYAN BIG " Minishell 🔧🐪 " RESET);
 		else
-			a->input = readline(RED BIG "➜ " CYAN BIG " Minishell 🔧 " RESET);
-		ft_init_prompt(a);
-		if (a->input && *a->input)
-			add_history(a->input);
-		a->len_input = ft_strlen(a->input);
-		if (a->len_input == 0)
+			input = readline(RED BIG "➜ " CYAN BIG " Minishell 🔧🐪 " RESET);
+		if (!input)
+			ft_ctrl_d(built, parse);
+		if (input && *input)
+			add_history(input);
+		if (ft_strlen(input) == 0)
 			continue ;
-		if (ft_strlen(a->input) > 0)
-			a->tab_input = ft_split(a->input, ' ');
-		ft_nice_tab(a);
-		ft_lexer(a, built, env);
+		if (ft_strlen(input) > 0)
+			parse->arg = ft_strdup(input);
+		free(input);
+		// ft_free_env(built);
+		//printf("%d", exit_code);
+		ft_parsing(parse, built, env);
 	}
 }

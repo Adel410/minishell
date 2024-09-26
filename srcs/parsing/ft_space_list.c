@@ -1,53 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_colors.c                                        :+:      :+:    :+:   */
+/*   ft_space_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/01 17:56:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/26 19:54:49 by ahadj-ar         ###   ########.fr       */
+/*   Created: 2024/09/23 12:15:24 by ahadj-ar          #+#    #+#             */
+/*   Updated: 2024/09/23 12:15:51 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_putstr2(char *str)
+void	ft_space_arg(t_parse *parse)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
-}
-
-void	ft_color(char *str, int n, ...)
-{
-	va_list	args;
+	t_parse	*tmp;
 	int		i;
-	char	**arg;
+	char	**tab;
 
-	arg = malloc(n * sizeof(char *));
-	if (!arg)
-		return ;
+	tmp = parse;
+	tab = ft_split(tmp->arg, ' ');
 	i = 0;
-	va_start(args, n);
-	while (i < n)
+	free(tmp->arg);
+	while (tab[i])
 	{
-		arg[i] = va_arg(args, char *);
+		tmp->arg = ft_strdup(tab[i]);
+		tmp->next = ft_calloc(sizeof(t_parse), 1);
+		tmp = tmp->next;
 		i++;
 	}
-	i = 0;
-	while (i < n)
-	{
-		ft_putstr2(arg[i]);
-		i++;
-	}
-	ft_putstr2(str);
-	write(1, RESET, 5);
-	va_end(args);
-	free(arg);
+	ft_free_tab(tab);
 }

@@ -68,14 +68,14 @@ void	write_split(char **split, char *str, char *charset)
 			i += j;
 			word++;
 		}
+		split[word] = NULL;
 	}
 }
 
-// vrai split
 char	**ft_split2(char *str, char *charset)
 {
-	char **split;
-	int words;
+	char	**split;
+	int		words;
 
 	words = count_words(str, charset);
 	split = (char **)malloc(sizeof(char *) * (words + 10));

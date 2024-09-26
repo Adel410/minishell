@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:20:57 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/18 15:54:35 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:34:59 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_free_cmds(t_exe *exec)
 			free(exec->cmds[i]);
 			i++;
 		}
+		free(exec->cmds[i]);
 		free(exec->cmds);
 		exec->cmds = NULL;
 	}
@@ -50,25 +51,29 @@ void	ft_free_cmds(t_exe *exec)
 		free(exec->output_file);
 		exec->output_file = NULL;
 	}
-	i = 0;
 }
 
-void	ft_free_exec(t_exe *exec, t_a *a)
+void	ft_free_exec(t_exe *exec)
 {
 	t_exe	*current;
 	t_exe	*next;
 	int		i;
 
-	(void)a;
 	i = 0;
 	current = exec;
 	while (current->next)
 	{
 		next = current->next;
 		ft_free_cmds(current);
+		if (current->limiter)
+		{
+			free(current->limiter);
+			current->limiter = NULL;
+		}
 		free(current);
 		current = next;
 	}
+	free(current);
 }
 
 void	ft_close_pipes(int *pipefd, int cmds_count)
@@ -76,23 +81,23 @@ void	ft_close_pipes(int *pipefd, int cmds_count)
 	int	i;
 
 	i = 0;
-	while (i < (cmds_count - 1) * 2)
+	while (i < (cmds_count * 2))
 	{
 		close(pipefd[i]);
 		i++;
 	}
 }
 
-int	ft_count_cmds(t_lex *lex)
+int	ft_count_cmds(t_exe *exec)
 {
-	t_lex	*current;
+	t_exe	*current;
 	int		count;
 
 	count = 0;
-	current = lex;
+	current = exec;
 	while (current)
 	{
-		if (current->type == '7' || current->type == '9')
+		if (current->cmds && current->cmds[0])
 			count++;
 		current = current->next;
 	}

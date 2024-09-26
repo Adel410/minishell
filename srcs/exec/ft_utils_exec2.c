@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:00:49 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/18 16:29:39 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:36:19 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,20 @@ void	ft_create_new(t_exe *new)
 	new->next->next = NULL;
 }
 
-void	ft_get_path(t_b *b, char **env)
+void	ft_add_slash_to_paths(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i])
+	{
+		paths[i] = ft_strjoin2(paths[i], "/");
+		i++;
+	}
+	paths[i] = NULL;
+}
+
+char	*ft_get_path(char *path, char **env)
 {
 	int	i;
 
@@ -29,29 +42,37 @@ void	ft_get_path(t_b *b, char **env)
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
-			b->path = ft_strdup(env[i] + 5);
-			return ;
+			path = ft_strdup(env[i] + 5);
+			break ;
 		}
 		i++;
 	}
+	return (path);
 }
 
 void	ft_cmd_path(t_b *b, char **env)
 {
-	ft_get_path(b, env);
-	b->cmd_path = ft_split2(b->path, ":");
+	b->path = ft_get_path(b->path, env);
+	b->cmd_path = ft_split4(b->path, ':');
+	free(b->path);
 	ft_add_slash_to_paths(b->cmd_path);
 }
 
 void	ft_print_exec(t_exe *exec)
 {
+	int	i;
+
+	i = 1;
 	while (exec)
 	{
 		if (exec->cmds)
 		{
 			printf("cmds: %s\n", exec->cmds[0]);
-			if (exec->cmds[1])
-				printf("options: %s\n", exec->cmds[1]);
+			while (exec->cmds[i])
+			{
+				printf("option num %d: %s\n", i, exec->cmds[i]);
+				i++;
+			}
 		}
 		printf("builtin: %d\n", exec->builtin);
 		printf("input_file: %s\n", exec->input_file);
@@ -63,16 +84,4 @@ void	ft_print_exec(t_exe *exec)
 		printf("NEW NODE ------>\n");
 		exec = exec->next;
 	}
-}
-
-void	ft_check_type(t_lex *lex)
-{
-	t_lex	*current;
-
-	current = lex;
-	if (current->type == '4')
-		ft_putstr("minishell: syntax error near unexpected token '|'\n");
-	else if (current->type == '5' || current->type == '6'
-		|| current->type == '#' || current->type == '$')
-		ft_putstr("minishell: syntax error near unexpected token `newline'\n");
 }

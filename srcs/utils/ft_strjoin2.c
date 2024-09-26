@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:34:37 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/18 16:08:55 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:55:13 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	ft_strlen_stat(const char *str)
 	return (i);
 }
 
-//vrai strjoin
+// vrai strjoin
 char	*ft_strjoin2(char const *s1, char const *s2)
 {
-	size_t		index;
-	size_t		j;
-	char		*ptr;
+	size_t index;
+	size_t j;
+	char *ptr;
 
 	j = 0;
 	index = ft_strlen_stat(s1) + ft_strlen_stat(s2) + 1;

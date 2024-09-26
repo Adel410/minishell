@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicjousl <nicjousl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:49:10 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/06 17:14:22 by nicjousl         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:55:11 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ char	*ft_join(char *str, char const *s1, char const *s2)
 	return (str);
 }
 
-//fake strjoin
+// fake strjoin
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 	int		size;
 
 	size = ft_size(s1, s2);
-	str = ft_calloc (sizeof (char *), size + 2);
+	str = ft_calloc(sizeof(char *), size + 2);
 	if (!str)
 		return (NULL);
 	str = ft_join(str, s1, s2);

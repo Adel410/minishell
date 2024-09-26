@@ -1,53 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_colors.c                                        :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/01 17:56:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/26 19:54:49 by ahadj-ar         ###   ########.fr       */
+/*   Created: 2024/09/19 11:46:09 by ahadj-ar          #+#    #+#             */
+/*   Updated: 2024/09/25 15:33:53 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_putstr2(char *str)
+void	ft_free_env(t_env *built)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (built->env[i])
 	{
-		write(1, &str[i], 1);
+		free(built->env[i]);
 		i++;
 	}
+	free(built->env);
+	free(built);
 }
 
-void	ft_color(char *str, int n, ...)
+void	ft_exit(t_exe *exec, t_env *built)
 {
-	va_list	args;
-	int		i;
-	char	**arg;
-
-	arg = malloc(n * sizeof(char *));
-	if (!arg)
-		return ;
-	i = 0;
-	va_start(args, n);
-	while (i < n)
-	{
-		arg[i] = va_arg(args, char *);
-		i++;
-	}
-	i = 0;
-	while (i < n)
-	{
-		ft_putstr2(arg[i]);
-		i++;
-	}
-	ft_putstr2(str);
-	write(1, RESET, 5);
-	va_end(args);
-	free(arg);
+	ft_free_exec(exec);
+	ft_free_env(built);
+	exit(0);
 }

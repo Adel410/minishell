@@ -1,17 +1,5 @@
 
 
-
-cas a gerer;
-
--segfault au niveau de l exec si l input est rempli d espace
--segfault si la string tab est pas termine
--a->cmd_path qui est mal free
-
-
-LIGNE DE COMMANDE QUI NE MARCHE PAS:
-
-->printf ls
-    le ls s execute 
-->"ls"
-    "ls": command not found
+-si export seul, printf l env dans l ordre alphabetique
+-SI variable env entre single quotes le recats en cmd et pas en string surtout si il est seul
 

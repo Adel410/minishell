@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:25:44 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/11 15:40:50 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:55:17 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ int	ft_strcmp(char *s1, char *s2)
 
 	i = 0;
 	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int	ft_strncmpchar(char *s1, char *s2, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i] && s1[i] != c)
 		i++;
 	return (s1[i] - s2[i]);
 }
