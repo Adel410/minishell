@@ -6,22 +6,20 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/26 19:38:55 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:00:38 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_recast_string(t_lex *lex, t_exe *new)
+int	ft_recast_meta(t_lex *lex, t_exe *new)
 {
-	if (new->string && (lex->type == '2' || lex->type == '3'))
-		new->string = ft_strjoin(new->string, lex->str);
-	else
-		new->string = ft_strdup(lex->str);
-}
-
-void	ft_recast_meta(t_lex *lex, t_exe *new)
-{
+	if ((lex->type == '5' || lex->type == '6' || lex->type == '#'
+			|| lex->type == '*') && lex->next == NULL)
+	{
+		ft_putstr("bash: syntax error near unexpected token `newline'\n");
+		return (2);
+	}
 	if (lex->type == '#')
 		new->append_output = 1;
 	else if (lex->type == '*')
@@ -33,24 +31,27 @@ void	ft_recast_meta(t_lex *lex, t_exe *new)
 		new->output_file = ft_strdup(lex->str);
 	else if (lex->type == '%')
 		new->input_file = ft_strdup(lex->str);
+	return (0);
 }
 
 int	ft_check_for_options(t_lex *next, t_exe *new)
 {
-	int	i;
+	int		i;
 
 	i = 1;
+	if (next->str[0] == '\0')
+		return (0);
 	while (new->cmds[i] != NULL)
 		i++;
 	new->cmds[i] = ft_strdup(next->str);
 	return (0);
 }
 
-void	ft_recast_fts(t_lex *lex, t_exe *new)
+void	ft_recast_fts(t_lex *lex, t_exe *new, t_b *b)
 {
 	if (new->cmds == NULL)
 	{
-		new->cmds = ft_calloc(10, sizeof(char *));
+		new->cmds = ft_calloc(b->nb_cmds1 + 10, sizeof(char *));
 		if (new->cmds == NULL)
 			return ;
 		new->cmds[0] = ft_strdup(lex->str);
@@ -63,22 +64,32 @@ void	ft_recast_fts(t_lex *lex, t_exe *new)
 		ft_check_for_options(lex, new);
 }
 
-void	ft_recast(t_lex *lex, t_exe *exec)
+int	ft_get_type(t_lex *lex, t_exe *new, t_b *b)
+{
+	int	check;
+
+	check = 0;
+	if (lex->type == '5' || lex->type == '6' || lex->type == '#'
+		|| lex->type == '*' || lex->type == '@' || lex->type == '%')
+		check = ft_recast_meta(lex, new);
+	else if (lex->type == ':')
+		new->limiter = ft_strdup(lex->str);
+	else if (lex->type == '8' || lex->type == '2' || lex->type == '3')
+		ft_recast_fts(lex, new, b);
+	return (check);
+}
+
+int	ft_recast(t_lex *lex, t_exe *exec, t_env *built, t_b *b)
 {
 	t_exe	*new;
+	int		check;
 
 	new = exec;
+	check = 0;
 	while (lex)
 	{
-		if (lex->type == '5' || lex->type == '6' || lex->type == '#'
-			|| lex->type == '*' || lex->type == '@' || lex->type == '%')
-			ft_recast_meta(lex, new);
-		else if (lex->type == ':')
-			new->limiter = ft_strdup(lex->str);
-		else if (lex->type == '2' || lex->type == '3')
-			ft_recast_string(lex, new);
-		else if (lex->type == '8')
-			ft_recast_fts(lex, new);
+		check = ft_get_type(lex, new, b);
+		built->exit_code = check;
 		if (lex->type == '4')
 		{
 			lex = lex->next;
@@ -88,5 +99,9 @@ void	ft_recast(t_lex *lex, t_exe *exec)
 		else
 			lex = lex->next;
 	}
-	ft_check_here_doc(exec);
+	ft_check_list(exec);
+	ft_check_here_doc(exec, built);
+	if (check != 0)
+		return (1);
+	return (0);
 }

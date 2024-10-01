@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_is.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 17:48:56 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:10:56 by ahadj-ar         ###   ########.fr       */
+/*   Created: 2024/09/29 18:23:43 by ahadj-ar          #+#    #+#             */
+/*   Updated: 2024/10/01 15:10:39 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_itoa(int i)
+int	ft_isspace(char c)
 {
-	char	*str;
-	int		len;
-	int		n;
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
+}
 
-	n = i;
-	len = 1;
-	while (n /= 10)
-		len++;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	while (len--)
-	{
-		str[len] = i % 10 + '0';
-		i /= 10;
-	}
-	return (str);
+int	ft_isdigit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+int	ft_islower(char c)
+{
+	return (c >= 'a' && c <= 'z');
+}
+
+int	ft_isupper(char c)
+{
+	return (c >= 'A' && c <= 'Z');
+}
+
+char	ft_tolower(char c)
+{
+	if (ft_isupper(c))
+		return (c + 32);
+	return (c);
 }

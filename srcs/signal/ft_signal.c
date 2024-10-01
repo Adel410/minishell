@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:20:32 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/26 18:45:16 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/29 20:19:01 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// exit_code = 130;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);

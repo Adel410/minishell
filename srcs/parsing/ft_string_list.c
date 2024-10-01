@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:17:54 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/23 13:48:57 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:19:31 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,27 @@ void	ft_get_join(t_parse *tmp)
 
 	string = ft_strdup(tmp->arg);
 	to_delete = tmp->next;
-	while (to_delete && to_delete->arg && to_delete->arg[0] != tmp->arg[0])
-	{
-		string = ft_strjoin2(string, to_delete->arg);
-		tmp->next = to_delete->next;
-		ft_free_node(to_delete);
-		to_delete = tmp->next;
-	}
 	if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
 	{
 		string = ft_strjoin2(string, to_delete->arg);
 		tmp->next = to_delete->next;
 		ft_free_node(to_delete);
+	}
+	else
+	{
+		while (to_delete && to_delete->arg && to_delete->arg[0] != tmp->arg[0])
+		{
+			string = ft_strjoin2(string, to_delete->arg);
+			tmp->next = to_delete->next;
+			ft_free_node(to_delete);
+			to_delete = tmp->next;
+		}
+		if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
+		{
+			string = ft_strjoin2(string, to_delete->arg);
+			tmp->next = to_delete->next;
+			ft_free_node(to_delete);
+		}
 	}
 	free(tmp->arg);
 	tmp->arg = string;

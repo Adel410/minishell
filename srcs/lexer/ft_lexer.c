@@ -6,102 +6,118 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/25 15:27:12 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:01:32 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_test_if_execute(char *arg, char **env)
+void	ft_copy_index(t_lex *lex, t_parse *tmp, char index, char **env)
 {
-	char	*path;
-	char	**cmd_path;
-
-	path = NULL;
-	path = ft_get_path(path, env);
-	cmd_path = ft_split4(path, ':');
-	free(path);
-	ft_add_slash_to_paths(cmd_path);
-	if (ft_check_access(arg, cmd_path) == 1)
-		return (1);
-	else
-		return (0);
-}
-
-void	ft_copy_index(t_lex *lex, char *arg, char index, char **env)
-{
-	if (index == '2')
+	if (lex->flag_echo == 1)
 	{
-		ft_strtrim(arg, '"');
-		ft_strrtrim(arg, '"');
-		if (ft_test_if_execute(arg, env) == 1)
+		if (ft_manage_string(lex, tmp, index) == 1)
+			return ;
+	}
+	else if (index == '2')
+	{
+		ft_strtrim(tmp->arg, '"');
+		ft_strrtrim(tmp->arg, '"');
+		if (ft_test_if_execute(tmp->arg, env) == 1)
 			index = '8';
 	}
 	else if (index == '3')
 	{
-		ft_strtrim(arg, '\'');
-		ft_strrtrim(arg, '\'');
-		if (ft_test_if_execute(arg, env) == 1)
+		ft_strtrim(tmp->arg, '\'');
+		ft_strrtrim(tmp->arg, '\'');
+		if (ft_test_if_execute(tmp->arg, env) == 1)
 			index = '8';
 	}
 	lex->type = index;
-	lex->str = ft_strdup(arg);
+	lex->str = ft_strdup(tmp->arg);
+	if (index == '4')
+		lex->flag_echo = 0;
+	if (ft_strcmp(lex->str, "echo") == 0)
+		lex->flag_echo = 1;
 }
 
-void	ft_get_index(t_parse *tmp, t_lex *tmp_lex, char **env)
+void	ft_get_index(t_parse *tmp, t_lex *lex, char **env)
 {
 	if (tmp->arg && ft_strcmp(tmp->arg, ">") == 0)
-		ft_copy_index(tmp_lex, tmp->arg, '5', env);
+		ft_copy_index(lex, tmp, '5', env);
 	else if (tmp->arg && ft_strcmp(tmp->arg, ">>") == 0)
-		ft_copy_index(tmp_lex, tmp->arg, '#', env);
+		ft_copy_index(lex, tmp, '#', env);
 	else if (tmp->arg && ft_strcmp(tmp->arg, "<") == 0)
-		ft_copy_index(tmp_lex, tmp->arg, '6', env);
+		ft_copy_index(lex, tmp, '6', env);
 	else if (tmp->arg && ft_strcmp(tmp->arg, "<<") == 0)
-		ft_copy_index(tmp_lex, tmp->arg, '*', env);
+		ft_copy_index(lex, tmp, '*', env);
 	else if (tmp->arg && ft_strcmp(tmp->arg, "|") == 0)
-		ft_copy_index(tmp_lex, tmp->arg, '4', env);
+		ft_copy_index(lex, tmp, '4', env);
 	else if (tmp->arg && (tmp->arg[0] == '"'))
-		ft_copy_index(tmp_lex, tmp->arg, '2', env);
+		ft_copy_index(lex, tmp, '2', env);
 	else if (tmp->arg && (tmp->arg[0] == '\''))
-		ft_copy_index(tmp_lex, tmp->arg, '3', env);
-	else if (tmp_lex->prev && (tmp_lex->prev->type == '5'
-			|| tmp_lex->prev->type == '#'))
-		ft_copy_index(tmp_lex, tmp->arg, '@', env);
-	else if (tmp_lex->prev && (tmp_lex->prev->type == '6'))
-		ft_copy_index(tmp_lex, tmp->arg, '%', env);
-	else if (tmp_lex->prev && (tmp_lex->prev->type == '*'))
-		ft_copy_index(tmp_lex, tmp->arg, ':', env);
+		ft_copy_index(lex, tmp, '3', env);
+	else if (lex->prev && (lex->prev->type == '5' || lex->prev->type == '#'))
+		ft_copy_index(lex, tmp, '@', env);
+	else if (lex->prev && (lex->prev->type == '6'))
+		ft_copy_index(lex, tmp, '%', env);
+	else if (lex->prev && (lex->prev->type == '*'))
+		ft_copy_index(lex, tmp, ':', env);
 	else
-		ft_copy_index(tmp_lex, tmp->arg, '8', env);
+		ft_copy_index(lex, tmp, '8', env);
 }
 
 void	ft_indexing(t_parse *parse, t_lex *lex, char **env)
 {
 	t_parse	*tmp;
 	t_lex	*tmp_lex;
+	int		flag;
 
 	tmp = parse;
 	tmp_lex = lex;
-	while (tmp->next)
+	while (tmp)
 	{
-		if (tmp->arg && ft_strcmp(tmp->arg, " ") == 0)
+		if (tmp->arg && tmp->arg[0] == ' ')
+			tmp = tmp->next;
+		ft_get_index(tmp, tmp_lex, env);
+		flag = tmp_lex->flag_echo;
+		if (tmp->next->next != NULL)
+		{
+			tmp_lex->next = ft_calloc(sizeof(t_lex), 1);
+			if (tmp_lex->next == NULL)
+				return ;
+			tmp_lex->next->prev = tmp_lex;
+			tmp_lex = tmp_lex->next;
+			tmp_lex->flag_echo = flag;
+			tmp = tmp->next;
+		}
+		else
+			break ;
+	}
+}
+
+int	ft_check_lexer(t_lex *lex)
+{
+	t_lex	*tmp;
+
+	tmp = lex;
+	while (tmp)
+	{
+		if (tmp->next)
 			tmp = tmp->next;
 		else
-		{
-			ft_get_index(tmp, tmp_lex, env);
-			if (tmp->next->next != NULL)
-			{
-				tmp_lex->next = ft_calloc(sizeof(t_lex), 1);
-				if (tmp_lex->next == NULL)
-					return ;
-				tmp_lex->next->prev = tmp_lex;
-				tmp_lex = tmp_lex->next;
-				tmp = tmp->next;
-			}
-			else
-				break ;
-		}
+			break ;
 	}
+	if (tmp->type == '4' || tmp->type == '5' || tmp->type == '6'
+		|| tmp->type == '#' || tmp->type == '*')
+	{
+		ft_putstr_fd("bash: syntax error near unexpected token `", 2);
+		ft_putstr_fd(tmp->str, 2);
+		ft_putstr_fd("'\n", 2);
+		return (1);
+	}
+	else
+		return (0);
 }
 
 void	ft_lexer(t_parse *parse, t_env *built, char **env)
@@ -109,9 +125,14 @@ void	ft_lexer(t_parse *parse, t_env *built, char **env)
 	t_lex	*lex;
 
 	lex = ft_calloc(sizeof(t_lex), 1);
+	lex->flag_echo = 0;
 	if (lex == NULL)
 		return ;
 	ft_indexing(parse, lex, env);
+	// ft_printf_lst(parse);
 	ft_free_parser(parse);
+	// ft_print_lex(lex);
+	if (ft_check_lexer(lex) == 1)
+		return ;
 	ft_execute(lex, built, env);
 }

@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_crash_malloc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 17:48:56 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:10:56 by ahadj-ar         ###   ########.fr       */
+/*   Created: 2024/10/01 18:02:55 by ahadj-ar          #+#    #+#             */
+/*   Updated: 2024/10/01 19:16:02 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_itoa(int i)
-{
-	char	*str;
-	int		len;
-	int		n;
+// void	ft_free_tab_and_parse(char **tab, t_parse *parse)
+// {
+// 	int	i;
 
-	n = i;
-	len = 1;
-	while (n /= 10)
-		len++;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	while (len--)
-	{
-		str[len] = i % 10 + '0';
-		i /= 10;
-	}
-	return (str);
-}
+// 	i = 0;
+// 	while(tab[i])
+// 	{
+// 		free(tab[i]);
+// 		i++;
+// 	}
+// 	free(tab);
+// 	ft_free_parser(parse);
+// 	exit(1);
+// }
+
+// void	ft_free_string_and_parse(char *str, t_parse *parse)
+// {
+// 	free(str);
+// 	ft_free_parser(parse);
+// 	exit(1);
+// }
+
+// void	ft_free_parse_and_crash(t_parse *parse)
+// {
+// 	ft_free_parser(parse);
+// 	exit(1);
+// }
+

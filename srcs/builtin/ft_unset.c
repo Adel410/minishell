@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:18:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/25 16:38:36 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:40:20 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,6 @@ char	*ft_find_str_to_unset(char *str)
 	to_del = ft_master_strndup(str, 0, i);
 	return (to_del);
 }
-
-// void	ft_lstdelone_env(t_env *ptr)
-// {
-// 	if (!ptr)
-// 		return ;
-// 	if (ptr->env_str)
-// 		free(ptr->env_str);
-// 	if (ptr->def)
-// 		free(ptr->def);
-// 	if (ptr->value)
-// 		free(ptr->value);
-// 	free(ptr);
-// }
 
 char	*ft_add_equal(char *str)
 {
@@ -56,17 +43,6 @@ char	*ft_add_equal(char *str)
 	free(str);
 	return (to_del);
 }
-void	ft_print_tab(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-	{
-		printf(BIG"%s\n"RESET, tab[i]);
-		i++;
-	}
-}
 
 void	ft_copy_env_for_unset(t_env *built, char **new_env)
 {
@@ -81,13 +57,13 @@ void	ft_copy_env_for_unset(t_env *built, char **new_env)
 		i++;
 	}
 	built->env[i] = NULL;
+	built->exit_code = 0;
 	ft_free_tab(new_env);
 }
 
-void	ft_unset(t_env *built, t_exe *current, char *str)
+void	ft_unset(t_env *built, char *str)
 {
 	char	**new_env;
-	(void)current;
 	int		i;
 	int		j;
 
@@ -95,9 +71,9 @@ void	ft_unset(t_env *built, t_exe *current, char *str)
 	new_env = ft_calloc(i + 1, sizeof(char *));
 	i = 0;
 	j = 0;
-	while(built->env[i])
+	while (built->env[i])
 	{
-		if (ft_strncmp(built->env[i],str, ft_strlen(str)) != 0)
+		if (ft_strncmp(built->env[i], str, ft_strlen(str)) != 0)
 		{
 			new_env[j] = ft_strdup(built->env[i]);
 			j++;
@@ -110,13 +86,12 @@ void	ft_unset(t_env *built, t_exe *current, char *str)
 
 void	ft_call_unset(t_env *built, t_exe *current)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	(void)built;
 	while (current->cmds[i])
 	{
-		ft_unset(built, current, current->cmds[i]);
+		ft_unset(built, current->cmds[i]);
 		i++;
 	}
 }

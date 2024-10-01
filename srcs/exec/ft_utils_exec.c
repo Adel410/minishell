@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:20:57 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/26 19:34:59 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:19:20 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ void	ft_free_exec(t_exe *exec)
 {
 	t_exe	*current;
 	t_exe	*next;
-	int		i;
 
-	i = 0;
 	current = exec;
-	while (current->next)
+	while (current)
 	{
 		next = current->next;
 		ft_free_cmds(current);
@@ -69,6 +67,11 @@ void	ft_free_exec(t_exe *exec)
 		{
 			free(current->limiter);
 			current->limiter = NULL;
+		}
+		if (current->string)
+		{
+			free(current->string);
+			current->string = NULL;
 		}
 		free(current);
 		current = next;

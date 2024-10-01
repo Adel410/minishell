@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:28:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/26 19:28:39 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:31:40 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	ft_input_redirection(t_exe *cmd, int cmd_index, int *pipefd)
 	{
 		fd_infile = open(cmd->input_file, O_RDONLY);
 		if (fd_infile == -1)
-			exit(EXIT_FAILURE);
+			ft_put_error2(cmd->input_file, 1);
 		if (dup2(fd_infile, STDIN_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		close(fd_infile);
 	}
 	else if (cmd_index > 0)
 	{
-		if (dup2(pipefd[(cmd_index - 1) * 2], STDIN_FILENO) == -1)
+		if (dup2(pipefd[(cmd_index) * 2], STDIN_FILENO) == -1)
 			exit(EXIT_FAILURE);
 	}
 }
@@ -47,7 +47,7 @@ void	ft_output_redirection(t_exe *cmd, int cmd_index, int *pipefd,
 			flags |= O_TRUNC;
 		fd_outfile = open(cmd->output_file, flags, 0644);
 		if (fd_outfile == -1)
-			exit(EXIT_FAILURE);
+			ft_put_error2(cmd->output_file, 1);
 		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		close(fd_outfile);

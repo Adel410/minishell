@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:03:20 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/23 16:55:58 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/29 19:51:44 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,25 @@ void	ft_print_lex(t_lex *lex)
 		printf("element == %s\n", tmp->str);
 		tmp = tmp->next;
 	}
+}
+
+int	ft_check_access(char *to_test, char **paths)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	tmp = NULL;
+	while (paths[i])
+	{
+		tmp = ft_strjoin2(paths[i], to_test);
+		if (access(tmp, X_OK) == 0)
+		{
+			free(tmp);
+			return (1);
+		}
+		i++;
+	}
+	free(tmp);
+	return (0);
 }

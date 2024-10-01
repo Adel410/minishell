@@ -1,35 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_tools3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 17:48:56 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:10:56 by ahadj-ar         ###   ########.fr       */
+/*   Created: 2024/10/01 15:06:21 by ahadj-ar          #+#    #+#             */
+/*   Updated: 2024/10/01 15:07:59 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_itoa(int i)
+char	*ft_strcpy(char *dest, const char *src)
 {
-	char	*str;
-	int		len;
-	int		n;
+	int	i;
 
-	n = i;
-	len = 1;
-	while (n /= 10)
-		len++;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	while (len--)
+	i = 0;
+	while (src[i] != '\0')
 	{
-		str[len] = i % 10 + '0';
-		i /= 10;
+		dest[i] = src[i];
+		i++;
 	}
-	return (str);
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strcat(char *dest, const char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (dest[i] != '\0')
+		i++;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
 }

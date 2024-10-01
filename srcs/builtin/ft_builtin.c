@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/26 19:31:57 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:59:36 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,9 @@ void	ft_pwd(char **env)
 
 	(void)env;
 	size = 1024;
-	cwd = getcwd(buf, size); // CHECK LA MEMOIRE
-	printf("%s\n", cwd);
-	// free(cwd);
-	// 	pid_t	pid;
-	// 	char	*argv[2];
-	// 	argv[0] = "/usr/bin/pwd";
-	// 	argv[1] = NULL;
-	// 	pid = fork();
-	// 	if (pid == -1)
-	// 		return ;
-	// 	if (pid == 0)
-	// 	{
-	// 		execve("/usr/bin/pwd", argv, env);
-	// 		exit(1);
-	// 	}
-	// 	else
-	// 		waitpid(pid, NULL, 0);
+	cwd = getcwd(buf, size);
+	ft_putstr(cwd);
+	ft_putstr("\n");
 }
 
 // ENV
@@ -55,19 +41,6 @@ void	ft_env(t_env *built)
 			ft_putstr(built->env[i]);
 			ft_putstr("\n");
 		}
-		i++;
-	}
-}
-
-void	ft_print_env(t_env *head)
-{
-	int	i;
-
-	i = 0;
-	while (head->env[i])
-	{
-		ft_putstr(head->env[i]);
-		ft_putstr("\n");
 		i++;
 	}
 }
@@ -92,28 +65,31 @@ void	ft_redirec_builtin(t_exe *current, int fd_outfile, int saved_stdout)
 		close(fd_outfile);
 	}
 	else
+	{
+		(void)saved_stdout;
 		return ;
+	}
 }
 
-void	ft_builtin(t_exe *current, t_env *built, char **env)
+void	ft_builtin(t_exe *current, t_env *built, t_b *b, char **env)
 {
 	if (ft_strcmp(current->cmds[0], "cd") == 0)
-		ft_cd(current);
+		ft_cd(current, built);
 	else if (ft_strcmp(current->cmds[0], "pwd") == 0)
 		ft_pwd(env);
 	else if (ft_strcmp(current->cmds[0], "env") == 0)
 		ft_env(built);
 	else if (ft_strcmp(current->cmds[0], "echo") == 0)
-		ft_echo(current);
+		ft_echo(current, built);
 	else if (ft_strcmp(current->cmds[0], "export") == 0)
 		ft_call_export(built, current);
 	else if (ft_strcmp(current->cmds[0], "unset") == 0)
 		ft_call_unset(built, current);
 	else if (ft_strcmp(current->cmds[0], "exit") == 0)
-		ft_exit(current, built);
+		ft_exit(current, built, b);
 }
 
-void	ft_which_builtin(t_exe *current, t_env *built, char **env)
+void	ft_which_builtin(t_exe *current, t_env *built, t_b *b, char **env)
 {
 	int	fd_outfile;
 	int	saved_stdout;
@@ -123,10 +99,10 @@ void	ft_which_builtin(t_exe *current, t_env *built, char **env)
 	if (current->output_file)
 	{
 		ft_redirec_builtin(current, fd_outfile, saved_stdout);
-		ft_builtin(current, built, env);
+		ft_builtin(current, built, b, env);
 		dup2(saved_stdout, STDOUT_FILENO);
 	}
 	else if (current->output_file == NULL)
-		ft_builtin(current, built, env);
-	return ;
+		ft_builtin(current, built, b, env);
+	built->exit_code = 0;
 }

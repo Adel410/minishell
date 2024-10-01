@@ -1,5 +1,3 @@
+// POSSIBLE SEGFAULT SUR EXIT
 
-
--si export seul, printf l env dans l ordre alphabetique
--SI variable env entre single quotes le recats en cmd et pas en string surtout si il est seul
-
+ECHO MAUVAISE GESTION DES ESPACES

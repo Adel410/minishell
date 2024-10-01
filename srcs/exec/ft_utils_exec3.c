@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:12:37 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/26 19:36:26 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:38:07 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,6 @@ int	ft_is_builtin(char *str)
 		return (0);
 }
 
-int	ft_check_access(char *to_test, char **paths)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	tmp = NULL;
-	while (paths[i])
-	{
-		tmp = ft_strjoin2(paths[i], to_test);
-		if (access(tmp, X_OK) == 0)
-		{
-			free(tmp);
-			return (1);
-		}
-		i++;
-	}
-	free(tmp);
-	return (0);
-}
-
 void	ft_free_lex(t_lex *lex)
 {
 	t_lex	*tmp;
@@ -66,30 +45,49 @@ void	ft_free_lex(t_lex *lex)
 	}
 }
 
-void	ft_check_type(t_lex *lex)
+int	ft_init_pipe_and_pid(t_b *b)
 {
-	t_lex	*current;
-
-	current = lex;
-	if (current->type == '4')
-		ft_putstr("minishell: syntax error near unexpected token '|'\n");
-	else if (current->type == '5' || current->type == '6'
-		|| current->type == '#' || current->type == '*')
-		ft_putstr("minishell: syntax error near unexpected token `newline'\n");
+	b->pipefd = ft_calloc((b->nb_cmds) * 2, sizeof(int));
+	if (!b->pipefd)
+		return (1);
+	b->pid = ft_calloc(b->nb_cmds, sizeof(pid_t));
+	if (!b->pid)
+	{
+		free(b->pipefd);
+		return (1);
+	}
+	return (0);
 }
 
-int	ft_count_pipe(t_lex *lex)
+void	ft_close_and_wait(t_b *b, t_env *built)
 {
-	int		count;
-	t_lex	*current;
+	ft_close_pipes(b->pipefd, b->nb_cmds);
+	b->x = 0;
+	while (waitpid(-1, &b->status, 0) > 0)
+		;
+	if (WIFEXITED(b->status))
+		built->exit_code = WEXITSTATUS(b->status);
+	free(b->pipefd);
+	free(b->pid);
+}
 
-	current = lex;
-	count = 0;
-	while (current)
+void	ft_free_b(t_b *b)
+{
+	int	i;
+
+	i = 0;
+	if (b->cmd_path)
 	{
-		if (current->type == '4')
-			count++;
-		current = current->next;
+		while (b->cmd_path[i])
+		{
+			free(b->cmd_path[i]);
+			i++;
+		}
 	}
-	return (count);
+	if (b->cmd_path)
+		free(b->cmd_path);
+	if (b->path)
+		free(b->path);
+	if (b)
+		free(b);
 }

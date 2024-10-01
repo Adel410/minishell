@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:19:08 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/23 18:02:02 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:45:05 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,20 @@ void	ft_free_tab(char **tab)
 void	ft_free_parser(t_parse *parse)
 {
 	t_parse	*tmp;
-	t_parse	*tmp2;
 
 	tmp = parse;
-	if (tmp == NULL)
+	while (parse)
 	{
-		return ;
-	}
-	else if (tmp)
-	{
-		while (tmp->next)
-		{
-			if (tmp->next)
-				tmp2 = tmp->next;
-			free(tmp->arg);
-			tmp = tmp2;
-		}
+		tmp = NULL;
+		if (parse->next)
+			tmp = parse->next;
+		if (parse && parse->arg && parse->arg[0] == '\0')
+			free(parse->arg);
+		else if (parse && parse->arg)
+			free(parse->arg);
+		if (parse)
+			free(parse);
+		parse = tmp;
 	}
 }
 
@@ -54,9 +52,10 @@ void	ft_printf_lst(t_parse *parse)
 	t_parse	*tmp;
 
 	tmp = parse;
-	while (tmp->next)
+	while (tmp)
 	{
-		printf("%s\n", tmp->arg);
+		if (tmp->arg)
+			printf("%s\n", tmp->arg);
 		tmp = tmp->next;
 	}
 }

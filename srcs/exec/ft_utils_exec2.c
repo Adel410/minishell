@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:00:49 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/26 19:36:19 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:48:50 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ void	ft_create_new(t_exe *new)
 
 void	ft_add_slash_to_paths(char **paths)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (paths[i])
 	{
-		paths[i] = ft_strjoin2(paths[i], "/");
+		tmp = paths[i];
+		paths[i] = ft_strjoin2(tmp, "/");
+		free(tmp);
 		i++;
 	}
 	paths[i] = NULL;
@@ -52,9 +55,14 @@ char	*ft_get_path(char *path, char **env)
 
 void	ft_cmd_path(t_b *b, char **env)
 {
+	b->path = NULL;
 	b->path = ft_get_path(b->path, env);
+	if (b->path == NULL)
+	{
+		b->cmd_path = NULL;
+		return ;
+	}
 	b->cmd_path = ft_split4(b->path, ':');
-	free(b->path);
 	ft_add_slash_to_paths(b->cmd_path);
 }
 
