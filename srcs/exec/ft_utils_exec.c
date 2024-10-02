@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:20:57 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:19:20 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:08:08 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	ft_free_cmds(t_exe *exec)
 			free(exec->cmds[i]);
 			i++;
 		}
-		free(exec->cmds[i]);
 		free(exec->cmds);
 		exec->cmds = NULL;
 	}
@@ -84,7 +83,7 @@ void	ft_close_pipes(int *pipefd, int cmds_count)
 	int	i;
 
 	i = 0;
-	while (i < (cmds_count * 2))
+	while (i < (cmds_count - 1) * 2)
 	{
 		close(pipefd[i]);
 		i++;

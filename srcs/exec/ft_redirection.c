@@ -6,13 +6,25 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:28:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/30 17:31:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:10:39 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_input_redirection(t_exe *cmd, int cmd_index, int *pipefd)
+void	ft_close_pipes_redir(t_b *b)
+{
+	int	i;
+
+	i = 0;
+	while (i < (b->nb_cmds - 1) * 2)
+	{
+		close(b->pipefd[i]);
+		i++;
+	}
+}
+
+void	ft_input_redirection(t_exe *cmd, t_b *b)
 {
 	int	fd_infile;
 
@@ -25,15 +37,14 @@ void	ft_input_redirection(t_exe *cmd, int cmd_index, int *pipefd)
 			exit(EXIT_FAILURE);
 		close(fd_infile);
 	}
-	else if (cmd_index > 0)
+	else if (b->w > 0)
 	{
-		if (dup2(pipefd[(cmd_index) * 2], STDIN_FILENO) == -1)
+		if (dup2(b->pipefd[(b->w - 1) * 2], STDIN_FILENO) == -1)
 			exit(EXIT_FAILURE);
 	}
 }
 
-void	ft_output_redirection(t_exe *cmd, int cmd_index, int *pipefd,
-		int cmds_count)
+void	ft_output_redirection(t_exe *cmd, t_b *b)
 {
 	int	flags;
 	int	fd_outfile;
@@ -52,17 +63,16 @@ void	ft_output_redirection(t_exe *cmd, int cmd_index, int *pipefd,
 			exit(EXIT_FAILURE);
 		close(fd_outfile);
 	}
-	else if (cmd_index < cmds_count - 1)
+	else if (b->w < b->nb_cmds - 1)
 	{
-		if (dup2(pipefd[cmd_index * 2 + 1], STDOUT_FILENO) == -1)
+		if (dup2(b->pipefd[b->w * 2 + 1], STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 	}
 }
 
-void	ft_setup_redirection(t_exe *cmd, int cmd_index, int *pipefd,
-		int cmds_count)
+void	ft_setup_redirection(t_exe *cmd, t_b *b)
 {
-	ft_input_redirection(cmd, cmd_index, pipefd);
-	ft_output_redirection(cmd, cmd_index, pipefd, cmds_count);
-	ft_close_pipes(pipefd, cmds_count);
+	ft_input_redirection(cmd, b);
+	ft_output_redirection(cmd, b);
+	ft_close_pipes_redir(b);
 }

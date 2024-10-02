@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/01 18:46:34 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:22:12 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@
 
 typedef struct s_b
 {
+	int				infile;
+	int				outfile;
 	char			**cmd_path;
 	char			*path;
 	int				*pipefd;
@@ -251,8 +253,7 @@ void				ft_putstr(char *str);
 int					ft_strstrstrlen(char ***str);
 int					ft_recast(t_lex *lex, t_exe *exec, t_env *built, t_b *b);
 //## REDIRECTION ##
-void				ft_setup_redirection(t_exe *exec, int cmd_index,
-						int *pipefd, int count_cmds);
+void				ft_setup_redirection(t_exe *exec, t_b *b);
 void				ft_close_pipes(int *pipefd, int cmds_count);
 
 //## EXECUTION ##

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:35:02 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 12:41:10 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:33:42 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_correct_name_export(char *str, t_env *built)
 		else if (ft_is_alpha_num(str[i]) == 0)
 		{
 			write(1, &str[i], 2);
-			ft_putstr_fd("': not a valid identifier ddd\n", 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			built->exit_code = 1;
 			return (0);
 		}

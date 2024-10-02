@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/01 18:01:32 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:00:59 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ void	ft_copy_index(t_lex *lex, t_parse *tmp, char index, char **env)
 			index = '8';
 	}
 	lex->type = index;
-	lex->str = ft_strdup(tmp->arg);
+	if (tmp->arg)
+		lex->str = ft_strdup(tmp->arg);
 	if (index == '4')
 		lex->flag_echo = 0;
-	if (ft_strcmp(lex->str, "echo") == 0)
+	if (lex->str && ft_strcmp(lex->str, "echo") == 0)
 		lex->flag_echo = 1;
 }
 
@@ -81,7 +82,7 @@ void	ft_indexing(t_parse *parse, t_lex *lex, char **env)
 			tmp = tmp->next;
 		ft_get_index(tmp, tmp_lex, env);
 		flag = tmp_lex->flag_echo;
-		if (tmp->next->next != NULL)
+		if (tmp->next && tmp->next->next != NULL)
 		{
 			tmp_lex->next = ft_calloc(sizeof(t_lex), 1);
 			if (tmp_lex->next == NULL)
@@ -108,7 +109,13 @@ int	ft_check_lexer(t_lex *lex)
 		else
 			break ;
 	}
-	if (tmp->type == '4' || tmp->type == '5' || tmp->type == '6'
+	if (tmp->str == NULL && tmp->type == '8')
+	{
+		tmp = tmp->prev;
+		free(tmp->next);
+		tmp->next = NULL;
+	}
+	else if (tmp->type == '4' || tmp->type == '5' || tmp->type == '6'
 		|| tmp->type == '#' || tmp->type == '*')
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `", 2);
@@ -116,8 +123,7 @@ int	ft_check_lexer(t_lex *lex)
 		ft_putstr_fd("'\n", 2);
 		return (1);
 	}
-	else
-		return (0);
+	return (0);
 }
 
 void	ft_lexer(t_parse *parse, t_env *built, char **env)

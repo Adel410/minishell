@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:17:54 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 19:19:31 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:47:36 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,25 @@ int	ft_detect_double_quote(char *str)
 	return (0);
 }
 
+void	ft_get_join2(t_parse *tmp, t_parse *to_delete, char *string)
+{
+	while (to_delete && to_delete->arg && to_delete->arg[0] != tmp->arg[0])
+	{
+		string = ft_strjoin2(string, to_delete->arg);
+		tmp->next = to_delete->next;
+		ft_free_node(to_delete);
+		to_delete = tmp->next;
+	}
+	if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
+	{
+		string = ft_strjoin2(string, to_delete->arg);
+		tmp->next = to_delete->next;
+		ft_free_node(to_delete);
+	}
+	free(tmp->arg);
+	tmp->arg = string;
+}
+
 void	ft_get_join(t_parse *tmp)
 {
 	char	*string;
@@ -52,25 +71,11 @@ void	ft_get_join(t_parse *tmp)
 		string = ft_strjoin2(string, to_delete->arg);
 		tmp->next = to_delete->next;
 		ft_free_node(to_delete);
+		free(tmp->arg);
+		tmp->arg = string;
 	}
 	else
-	{
-		while (to_delete && to_delete->arg && to_delete->arg[0] != tmp->arg[0])
-		{
-			string = ft_strjoin2(string, to_delete->arg);
-			tmp->next = to_delete->next;
-			ft_free_node(to_delete);
-			to_delete = tmp->next;
-		}
-		if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
-		{
-			string = ft_strjoin2(string, to_delete->arg);
-			tmp->next = to_delete->next;
-			ft_free_node(to_delete);
-		}
-	}
-	free(tmp->arg);
-	tmp->arg = string;
+		ft_get_join2(tmp, to_delete, string);
 }
 
 void	ft_join_string(t_parse *parse)

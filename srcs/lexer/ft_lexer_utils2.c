@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:35:44 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 17:47:16 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:40:23 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	ft_join_echo_args(t_parse *tmp, t_lex *lex, char index)
 	else
 	{
 		lex->type = index;
-		lex->str = ft_strdup(tmp->arg);
+		if (tmp->arg)
+			lex->str = ft_strdup(tmp->arg);
 	}
 }
 

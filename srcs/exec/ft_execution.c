@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 18:01:19 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:17:08 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ int	ft_execve(t_b *b, t_exe *exec, t_env *built, char **env)
 			current = current->next;
 		}
 		else if (access(current->cmds[0], F_OK) == 0)
+		{
 			ft_trouble_execute(current->cmds[0], current, built, b);
+		}
 		else
 		{
 			if (current->cmds && current->cmds[0])
@@ -106,7 +108,17 @@ void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b, char **env)
 			return (ft_close_pipes(b->pipefd, b->nb_cmds));
 		else if (b->pid[b->w] == 0)
 		{
-			ft_setup_redirection(current, b->w, b->pipefd, b->nb_cmds);
+			if (b->w == 0 && !exec->input_file)
+			{
+				if (dup2(b->infile, STDIN_FILENO) == -1)
+					exit(EXIT_FAILURE);
+			}
+			else if (b->w == b->nb_cmds - 1 && !exec->output_file)
+			{
+				if (dup2(b->pipefd[b->w * 2], built->save_stdout) == -1)
+					exit(EXIT_FAILURE);
+			}
+			ft_setup_redirection(current, b);
 			(close(built->save_stdin), close(built->save_stdout));
 			ft_execve(b, current, built, env);
 		}

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 18:00:38 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:29:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ int	ft_check_for_options(t_lex *next, t_exe *new)
 	int		i;
 
 	i = 1;
-	if (next->str[0] == '\0')
+	if (next->str && next->str[0] == '\0')
+		return (0);
+	else if (next->str && next->str[0] == ' ')
 		return (0);
 	while (new->cmds[i] != NULL)
 		i++;
-	new->cmds[i] = ft_strdup(next->str);
+	if (next->str)
+		new->cmds[i] = ft_strdup(next->str);
 	return (0);
 }
 
@@ -51,7 +54,7 @@ void	ft_recast_fts(t_lex *lex, t_exe *new, t_b *b)
 {
 	if (new->cmds == NULL)
 	{
-		new->cmds = ft_calloc(b->nb_cmds1 + 10, sizeof(char *));
+		new->cmds = ft_calloc(b->nb_cmds1 + 1, sizeof(char *));
 		if (new->cmds == NULL)
 			return ;
 		new->cmds[0] = ft_strdup(lex->str);
@@ -69,6 +72,8 @@ int	ft_get_type(t_lex *lex, t_exe *new, t_b *b)
 	int	check;
 
 	check = 0;
+	if (lex->type == '8' && ft_strcmp(lex->str, " ") == 0)
+		return 1;
 	if (lex->type == '5' || lex->type == '6' || lex->type == '#'
 		|| lex->type == '*' || lex->type == '@' || lex->type == '%')
 		check = ft_recast_meta(lex, new);

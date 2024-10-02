@@ -6,20 +6,27 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 14:59:36 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:43:05 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // PWD
-void	ft_pwd(char **env)
+void	ft_pwd(char **env, t_exe *current)
 {
 	char	buf[1024];
 	char	*cwd;
 	size_t	size;
 
 	(void)env;
+	if (current->cmds[1][0] == '-')
+	{
+		ft_putstr("bash : ");
+		ft_putstr(current->cmds[1]);
+		ft_putstr(" invalid option\n");
+		return ;
+	}
 	size = 1024;
 	cwd = getcwd(buf, size);
 	ft_putstr(cwd);
@@ -76,7 +83,7 @@ void	ft_builtin(t_exe *current, t_env *built, t_b *b, char **env)
 	if (ft_strcmp(current->cmds[0], "cd") == 0)
 		ft_cd(current, built);
 	else if (ft_strcmp(current->cmds[0], "pwd") == 0)
-		ft_pwd(env);
+		ft_pwd(env, current);
 	else if (ft_strcmp(current->cmds[0], "env") == 0)
 		ft_env(built);
 	else if (ft_strcmp(current->cmds[0], "echo") == 0)

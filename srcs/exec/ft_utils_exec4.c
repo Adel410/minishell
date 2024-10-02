@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:52:25 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 17:51:30 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:29:54 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_pipe(int *pipefd, int cmds_count)
 	int	i;
 
 	i = 0;
-	while (i < cmds_count)
+	while (i < cmds_count - 1)
 	{
 		if (pipe(pipefd + i * 2) == -1)
 			exit(EXIT_FAILURE);
