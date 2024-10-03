@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:06:53 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 16:53:38 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:56:27 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_dollar_in_string(char *str)
 	int	i;
 
 	i = 0;
-	if (ft_strlen(str) ==  0)
+	if (ft_strlen(str) == 0)
 		return (0);
 	while (str[i + 1])
 	{
@@ -28,29 +28,23 @@ int	ft_dollar_in_string(char *str)
 	return (0);
 }
 
-char	*ft_iso_dol(char *str, int i)
+void	ft_iso_dol(char *str, int i, t_env *built)
 {
-	char	*dollar_string;
 	int		start;
 	int		end;
+	char *tmp;
 
 	start = i;
 	end = 0;
 	if (str[0] == '$' && str[1] == '?')
 	{
-		dollar_string = ft_strdup("?");
-		return (dollar_string);
-	}
-	if (ft_isdigit(str[i + 1]) == 1)
-	{
-		
+		built->expand_string = ft_strdup("?");
+		return ;
 	}
 	while (str[i])
 	{
 		if (ft_is_alpha(str[i]) == 0)
 		{
-			write(1,"ENTRY\n", 6);
-			// printf("value i == %d\n",i);
 			end = i;
 			break ;
 		}
@@ -58,36 +52,31 @@ char	*ft_iso_dol(char *str, int i)
 	}
 	if (end == 0)
 		end = ft_strlen(str);
-	// printf("start == %d\n", start);
-	// printf("end == %d\n", end);
-	// printf("str == %s\n", str);
-	dollar_string = ft_master_strndup(str, start, end - start);
-	// printf("dollar_string == %s\n", dollar_string);
-	return (dollar_string);
+	tmp = ft_master_strndup(str, start, end - start);
+	built->expand_string = ft_strdup(tmp);
+	free(tmp);
 }
 
-char	*ft_isolate_dollar(char *str)
+void	ft_isolate_dollar(char *str, t_env *built)
 {
+	char	*tmp;
 	int		i;
 
-	char	*dollar_string;
-
 	i = 0;
-
-	dollar_string = NULL;
+	tmp = ft_strdup(str);
 	while (str[i])
 	{
 		if (str[i + 1] && str[i] == '$' && str[i + 1] == '?')
 		{
-			dollar_string = ft_strdup("?");
-			return(dollar_string);
+			built->expand_string = ft_strdup("?");
+			break ;
 		}
 		if (str[i] == '$')
 		{
-			dollar_string = ft_iso_dol(str, i + 1);
+			ft_iso_dol(str, i + 1, built);
 			break ;
 		}
 		i++;
 	}
-	return (dollar_string);
+	free(tmp);
 }

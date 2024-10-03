@@ -6,52 +6,40 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:17:54 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/02 15:47:36 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:25:13 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_detect_single_quote(char *str)
+void	ft_check_old_string(char *old_string, char *arg)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 39)
-			return (1);
-		i++;
-	}
-	return (0);
+	if (old_string != arg)
+		free(old_string);
 }
 
-int	ft_detect_double_quote(char *str)
+void	ft_get_join2(t_parse *tmp)
 {
-	int	i;
+	char	*string;
+	char	*old_string;
+	t_parse	*to_delete;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 34)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	ft_get_join2(t_parse *tmp, t_parse *to_delete, char *string)
-{
+	string = tmp->arg;
+	to_delete = tmp->next;
 	while (to_delete && to_delete->arg && to_delete->arg[0] != tmp->arg[0])
 	{
+		old_string = string;
 		string = ft_strjoin2(string, to_delete->arg);
+		ft_check_old_string(old_string, tmp->arg);
 		tmp->next = to_delete->next;
 		ft_free_node(to_delete);
 		to_delete = tmp->next;
 	}
 	if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
 	{
+		old_string = string;
 		string = ft_strjoin2(string, to_delete->arg);
+		ft_check_old_string(old_string, tmp->arg);
 		tmp->next = to_delete->next;
 		ft_free_node(to_delete);
 	}
@@ -64,7 +52,7 @@ void	ft_get_join(t_parse *tmp)
 	char	*string;
 	t_parse	*to_delete;
 
-	string = ft_strdup(tmp->arg);
+	string = tmp->arg;
 	to_delete = tmp->next;
 	if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
 	{
@@ -75,7 +63,7 @@ void	ft_get_join(t_parse *tmp)
 		tmp->arg = string;
 	}
 	else
-		ft_get_join2(tmp, to_delete, string);
+		ft_get_join2(tmp);
 }
 
 void	ft_join_string(t_parse *parse)

@@ -1,0 +1,47 @@
+void	ft_get_join2(t_parse *tmp)
+{
+	char	*string;
+	char	*old_string;
+	t_parse	*to_delete;
+
+	string = tmp->arg;
+	to_delete = tmp->next;
+	while (to_delete && to_delete->arg && to_delete->arg[0] != tmp->arg[0])
+	{
+		old_string = string;
+		string = ft_strjoin2(string, to_delete->arg);
+		ft_check_old_string(old_string, tmp->arg);
+		tmp->next = to_delete->next;
+		ft_free_node(to_delete);
+		to_delete = tmp->next;
+	}
+	if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
+	{
+		old_string = string;
+		string = ft_strjoin2(string, to_delete->arg);
+		ft_check_old_string(old_string, tmp->arg);
+		tmp->next = to_delete->next;
+		ft_free_node(to_delete);
+	}
+	free(tmp->arg);
+	tmp->arg = string;
+}
+
+void	ft_get_join(t_parse *tmp)
+{
+	char	*string;
+	t_parse	*to_delete;
+
+	string = tmp->arg;
+	to_delete = tmp->next;
+	if (to_delete && to_delete->arg && to_delete->arg[0] == tmp->arg[0])
+	{
+		string = ft_strjoin2(string, to_delete->arg);
+		tmp->next = to_delete->next;
+		ft_free_node(to_delete);
+		free(tmp->arg);
+		tmp->arg = string;
+	}
+	else
+		ft_get_join2(tmp);
+}

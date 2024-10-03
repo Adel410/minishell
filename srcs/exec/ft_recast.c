@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/02 18:29:24 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:30:48 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_check_for_options(t_lex *next, t_exe *new)
 	i = 1;
 	if (next->str && next->str[0] == '\0')
 		return (0);
-	else if (next->str && next->str[0] == ' ')
+	else if (next->str && next->str[0] == ' ' && next->str[0] == '\0')
 		return (0);
 	while (new->cmds[i] != NULL)
 		i++;

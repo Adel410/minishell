@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:34:37 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/01 16:38:32 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:36:17 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,33 @@ char	*ft_strjoin2(char const *s1, char const *s2)
 		j++;
 	}
 	ptr[j] = '\0';
+	return (ptr);
+}
+
+char	*ft_strjoin3(char *s1, char *s2)
+{
+	size_t index;
+	size_t j;
+	char *ptr;
+
+	j = 0;
+	index = ft_strlen_stat(s1) + ft_strlen_stat(s2) + 1;
+	ptr = (char *)malloc(index);
+	index = 0;
+	while (s1[index])
+	{
+		ptr[j] = s1[index];
+		index++;
+		j++;
+	}
+	index = 0;
+	while (s2[index])
+	{
+		ptr[j] = s2[index];
+		index++;
+		j++;
+	}
+	ptr[j] = '\0';
+	(free(s1), free(s2));
 	return (ptr);
 }

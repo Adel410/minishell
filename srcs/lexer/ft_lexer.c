@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/02 16:00:59 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:26:11 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_indexing(t_parse *parse, t_lex *lex, char **env)
 	tmp_lex = lex;
 	while (tmp)
 	{
-		if (tmp->arg && tmp->arg[0] == ' ')
+		if (tmp->arg && tmp->arg[0] == ' ' && tmp->arg[1] == '\0')
 			tmp = tmp->next;
 		ft_get_index(tmp, tmp_lex, env);
 		flag = tmp_lex->flag_echo;
@@ -135,9 +135,9 @@ void	ft_lexer(t_parse *parse, t_env *built, char **env)
 	if (lex == NULL)
 		return ;
 	ft_indexing(parse, lex, env);
-	// ft_printf_lst(parse);
+	ft_printf_lst(parse);
 	ft_free_parser(parse);
-	// ft_print_lex(lex);
+	ft_print_lex(lex);
 	if (ft_check_lexer(lex) == 1)
 		return ;
 	ft_execute(lex, built, env);

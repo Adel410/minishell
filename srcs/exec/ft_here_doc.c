@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:34:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/30 16:18:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:22:26 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_here_doc_prompt(char *line, char *limiter, t_env *built, int fd)
 		if (ft_dollar_in_string(line) == 1)
 		{
 			printf("dollar in string\n");
-			line = ft_expand_dollar(line, built, 0);
+			ft_expand_dollar(line, built);
 			line = ft_strjoin2(line, "\n");
 		}
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0

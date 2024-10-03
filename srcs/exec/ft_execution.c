@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/02 19:17:08 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:17:23 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,20 @@ int	ft_execve(t_b *b, t_exe *exec, t_env *built, char **env)
 	return (0);
 }
 
+void	ft_dup2_first_last(int value, t_b *b, t_env *built)
+{
+	if (value == 0)
+	{
+		if (dup2(b->infile, STDIN_FILENO) == -1)
+			exit(EXIT_FAILURE);
+	}
+	else if (value == 1)
+	{
+		if (dup2(b->pipefd[b->w * 2], built->save_stdout) == -1)
+			exit(EXIT_FAILURE);
+	}
+}
+
 void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b, char **env)
 {
 	t_exe	*current;
@@ -109,15 +123,9 @@ void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b, char **env)
 		else if (b->pid[b->w] == 0)
 		{
 			if (b->w == 0 && !exec->input_file)
-			{
-				if (dup2(b->infile, STDIN_FILENO) == -1)
-					exit(EXIT_FAILURE);
-			}
+				ft_dup2_first_last(0, b, built);
 			else if (b->w == b->nb_cmds - 1 && !exec->output_file)
-			{
-				if (dup2(b->pipefd[b->w * 2], built->save_stdout) == -1)
-					exit(EXIT_FAILURE);
-			}
+				ft_dup2_first_last(1, b, built);
 			ft_setup_redirection(current, b);
 			(close(built->save_stdin), close(built->save_stdout));
 			ft_execve(b, current, built, env);

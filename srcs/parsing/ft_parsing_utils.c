@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:19:08 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 18:45:05 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:27:05 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	ft_free_parser(t_parse *parse)
 		tmp = NULL;
 		if (parse->next)
 			tmp = parse->next;
-		if (parse && parse->arg && parse->arg[0] == '\0')
+		else if (parse && parse->arg && parse->arg[0] == '\0')
 			free(parse->arg);
-		else if (parse && parse->arg)
+		if (parse && parse->arg)
 			free(parse->arg);
 		if (parse)
 			free(parse);

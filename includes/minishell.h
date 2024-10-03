@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/02 18:22:12 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:23:53 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,8 @@ typedef struct s_env
 	char			**env;
 	char			*def;
 	char			*value;
+	char			*expand_string;
+	char			*tmp;
 }					t_env;
 
 typedef struct s_exe
@@ -163,7 +165,7 @@ typedef struct s_exe
 	struct s_b		*b;
 }					t_exe;
 
-
+char				*ft_strjoin3(char *s1, char *s2);
 void				ft_free_string_and_parse(char *str, t_parse *parse);
 void				ft_free_parse_and_crash(t_parse *parse);
 void				ft_free_tab_and_parse(char **tab, t_parse *parse);
@@ -194,13 +196,12 @@ int					ft_count_cmds2(t_lex *lex);
 int					ft_is_alpha_num(char c);
 void				ft_close_and_wait(t_b *b, t_env *built);
 int					ft_init_pipe_and_pid(t_b *b);
-char				*ft_isolate_dollar(char *str);
-char				*ft_expand_env(char *str, t_env *built);
-char				*ft_expand_dollar(char *str, t_env *built, int flag);
+void				ft_isolate_dollar(char *str, t_env *built);
+void				ft_expand_env(t_env *built);
+char				*ft_expand_dollar(char *str, t_env *built);
 void				ft_free_b(t_b *b);
 char				*ft_itoa(int i);
-char				*ft_isolate_dollar(char *str);
-char				*ft_iso_dol(char *str, int i);
+void				ft_iso_dol(char *str, int i, t_env *built);
 int					ft_dollar_in_string(char *str);
 int					ft_strncmpchar(char *s1, char *s2, char c);
 void				ft_expand_arg(t_parse *parse, t_env *built);

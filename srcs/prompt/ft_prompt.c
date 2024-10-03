@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:04:23 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/01 13:50:26 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:09:02 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_prompt(char **env, t_env *built)
 
 	ft_setup_signals_handler();
 	ft_init_history();
+	built->expand_string = NULL;
+	built->tmp = NULL;
 	while (1)
 	{
 		parse = (t_parse *)malloc(sizeof(t_parse));

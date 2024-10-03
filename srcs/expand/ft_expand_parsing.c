@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:01:53 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 18:50:52 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:14:35 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,40 +38,43 @@
 // 	return (str);
 // }
 
-char	*ft_expand_env(char *str, t_env *built)
+void	ft_expand_env(t_env *built)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*tmp;
 
 	i = 0;
 	j = 0;
-	if (str[0] == '?')
+	tmp = ft_strdup(built->expand_string);
+	free(built->expand_string);
+	if (tmp[0] == '?')
 	{
-		free(str);
-		str = ft_itoa(built->exit_code);
-		return (str);
+		free(tmp);
+		built->expand_string = ft_itoa(built->exit_code);
+		return ;
 	}
-	if (str[ft_strlen(str) - 1] == '\n')
-		ft_strrtrim(str, '\n');
-	str = ft_strjoin2(str, "=");
-	//str = ft_while_expand_env(built, str);
+	if (tmp[ft_strlen(tmp) - 1] == '\n')
+		ft_strrtrim(tmp, '\n');
+	built->expand_string = ft_strjoin2(tmp, "=");
 	while (built->env[i])
 	{
-		if (ft_strncmp(built->env[i], str, ft_strlen(str)) == 0)
+		if (ft_strncmp(built->env[i], built->expand_string,
+				ft_strlen(built->expand_string)) == 0)
 		{
-			free(str);
-			str = ft_strdup(built->env[i]);
-			while (str[j] != '=')
+			free(built->expand_string);
+			built->expand_string = ft_strdup(built->env[i]);
+			while (built->expand_string[j] != '=')
 				j++;
-			free(str);
-			str = ft_strndup2(built->env[i], j + 1);
+			free(built->expand_string);
+			free(tmp);
+			built->expand_string = ft_strndup2(built->env[i], j + 1);
 			break ;
 		}
 		i++;
 	}
 	if (built->env[i] == NULL)
-		str = ft_strdup("");
-	return (str);
+		built->expand_string = ft_strdup("");
 }
 
 int	ft_size_of_expand(char *str)
@@ -100,11 +103,12 @@ int	ft_size_of_expand(char *str)
 	return (size);
 }
 
-char	*ft_join_string_env(char *str, char *expand)
+void	ft_join_string_env(char *str, char *expand, t_env *built)
 {
 	char	*before;
 	char	*after;
 	char	*tmp;
+	char	*tmp2;
 	int		i;
 	int		size;
 
@@ -118,39 +122,43 @@ char	*ft_join_string_env(char *str, char *expand)
 	}
 	before = ft_strndup(str, i);
 	tmp = ft_strjoin2(before, expand);
+	(free(before), free(expand));
 	size = ft_size_of_expand(str);
 	i = i + size + 1;
 	after = ft_strndup2(str, i);
-	;
-	tmp = ft_strjoin2(tmp, after);
-	return (tmp);
+	tmp2 = ft_strjoin2(tmp, after);
+	free(tmp);
+	built->tmp = ft_strdup(tmp2);
+	(free(after), free(tmp2));
 }
 
-char	*ft_expand_dollar(char *str, t_env *built, int flag)
+char	*ft_expand_dollar(char *str, t_env *built)
 {
-	char	*expand_string;
-
-	if (str[0] == '$' && str[1] == '\0')
+	built->tmp = NULL;
+	if (!str)
+		return NULL;
+	if (str && str[0] == '$' && str[1] == '\0')
 	{
-		expand_string = ft_strdup("$");
-		return (expand_string);
+		built->expand_string = ft_strdup("$");
+		return (built->expand_string);
 	}
-	else if (str[0] == '"' && str[1] == '$' && str[2] == '"' && str[3] == '\0')
+	else if (str && str[0] == '"' && str[1] == '$' && str[2] == '"' && str[3] == '\0')
 	{
-		expand_string = ft_strdup("$");
-		return (expand_string);
+		built->expand_string = ft_strdup("$");
+		return (built->expand_string);
 	}
-	expand_string = ft_isolate_dollar(str);
-	if (flag == 0)
-		expand_string = ft_expand_env(expand_string, built);
-	expand_string = ft_join_string_env(str, expand_string);
-	if (ft_dollar_in_string(expand_string) == 1)
-		expand_string = ft_expand_dollar(expand_string, built, 0);
-	if (expand_string[0] == '"')
-		expand_string = ft_strjoin2(expand_string, "\"");
-	else if (expand_string[0] == '\'')
-		expand_string = ft_strjoin2(expand_string, "\'");
-	return (expand_string);
+	ft_isolate_dollar(str, built);
+	ft_expand_env(built);
+	ft_join_string_env(str, built->expand_string, built);
+	if (built->tmp[0] == '"')
+		built->expand_string = ft_strjoin2(built->tmp, "\"");
+	else if (built->tmp[0] == '\'')
+		built->expand_string = ft_strjoin2(built->tmp, "\'");
+	else
+		built->expand_string = ft_strdup(built->tmp);
+	free(built->tmp);
+	free(str);
+	return (built->expand_string);
 }
 
 void	ft_is_check_after_dollar(char *str, t_env *built)
@@ -161,7 +169,7 @@ void	ft_is_check_after_dollar(char *str, t_env *built)
 	while (str[i] && str[i] != '$')
 		i++;
 	if (ft_isdigit(str[i + 1] == 1))
-		ft_expand_dollar(str, built, 1);
+		ft_expand_dollar(str, built);
 }
 
 void	ft_expand_arg(t_parse *parse, t_env *built)
@@ -176,7 +184,9 @@ void	ft_expand_arg(t_parse *parse, t_env *built)
 			if (ft_dollar_in_string(tmp->arg) == 1)
 			{
 				ft_is_check_after_dollar(tmp->arg, built);
-				tmp->arg = ft_expand_dollar(tmp->arg, built, 0);
+				tmp->arg = ft_expand_dollar(tmp->arg, built);
+				while (ft_dollar_in_string(tmp->arg) == 1)
+					tmp->arg = ft_expand_dollar(built->expand_string, built);
 			}
 		}
 		tmp = tmp->next;

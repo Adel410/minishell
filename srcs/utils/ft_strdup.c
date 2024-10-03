@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:49:33 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/25 17:57:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:43:18 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_strndup2(const char *s, int n)
 	int		i;
 
 	i = 0;
-	dest = malloc(sizeof(char) * (10240));
+	dest = malloc(sizeof(char) * (ft_strlen((char *)s + 1)));
 	if (!dest)
 		return (NULL);
 	while (s[n])
