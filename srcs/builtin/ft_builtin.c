@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/02 19:43:05 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:43:21 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,26 @@
 // PWD
 void	ft_pwd(char **env, t_exe *current)
 {
-	char	buf[1024];
+	char	buf[PATH_MAX];
 	char	*cwd;
 	size_t	size;
 
-	(void)env;
-	if (current->cmds[1][0] == '-')
+	if (env)
 	{
-		ft_putstr("bash : ");
-		ft_putstr(current->cmds[1]);
-		ft_putstr(" invalid option\n");
-		return ;
+		if (current->cmds[1] && current->cmds[1][0] == '-')
+		{
+			ft_putstr("bash : ");
+			ft_putstr(current->cmds[1]);
+			ft_putstr(" invalid option\n");
+			return ;
+		}
+		size = PATH_MAX;
+		cwd = getcwd(buf, size);
+		ft_putstr(cwd);
+		ft_putstr("\n");
 	}
-	size = 1024;
-	cwd = getcwd(buf, size);
-	ft_putstr(cwd);
-	ft_putstr("\n");
+	else
+		ft_putstr("CASSE TOI DE LA\n");
 }
 
 // ENV
@@ -52,13 +56,17 @@ void	ft_env(t_env *built)
 	}
 }
 
-void	ft_redirec_builtin(t_exe *current, int fd_outfile, int saved_stdout)
+void	ft_redirec_builtin(t_exe *current, t_b *b, t_env *built)
 {
 	int	flags;
+	int	fd_outfile;
 
+	if (b->w == 0 && !current->input_file)
+		ft_dup2_first_last(0, b, built);
+	else if (b->w == b->nb_cmds - 1 && !current->output_file)
+		ft_dup2_first_last(1, b, built);
 	if (current->output_file)
 	{
-		saved_stdout = dup(STDOUT_FILENO);
 		flags = O_WRONLY | O_CREAT;
 		if (current->append_output)
 			flags |= O_APPEND;
@@ -66,24 +74,24 @@ void	ft_redirec_builtin(t_exe *current, int fd_outfile, int saved_stdout)
 			flags |= O_TRUNC;
 		fd_outfile = open(current->output_file, flags, 0644);
 		if (fd_outfile == -1)
-			exit(EXIT_FAILURE);
+			ft_put_error2(current->output_file, 1);
 		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		close(fd_outfile);
 	}
-	else
+	else if (b->w < b->nb_cmds - 1)
 	{
-		(void)saved_stdout;
-		return ;
+		if (dup2(b->pipefd[b->w * 2 + 1], STDOUT_FILENO) == -1)
+			exit(EXIT_FAILURE);
 	}
 }
 
-void	ft_builtin(t_exe *current, t_env *built, t_b *b, char **env)
+void	ft_builtin(t_exe *current, t_env *built, t_b *b)
 {
 	if (ft_strcmp(current->cmds[0], "cd") == 0)
 		ft_cd(current, built);
 	else if (ft_strcmp(current->cmds[0], "pwd") == 0)
-		ft_pwd(env, current);
+		ft_pwd(built->env, current);
 	else if (ft_strcmp(current->cmds[0], "env") == 0)
 		ft_env(built);
 	else if (ft_strcmp(current->cmds[0], "echo") == 0)
@@ -96,20 +104,18 @@ void	ft_builtin(t_exe *current, t_env *built, t_b *b, char **env)
 		ft_exit(current, built, b);
 }
 
-void	ft_which_builtin(t_exe *current, t_env *built, t_b *b, char **env)
+void	ft_which_builtin(t_exe *current, t_env *built, t_b *b)
 {
 	int	fd_outfile;
-	int	saved_stdout;
 
 	fd_outfile = 0;
-	saved_stdout = 0;
 	if (current->output_file)
 	{
-		ft_redirec_builtin(current, fd_outfile, saved_stdout);
-		ft_builtin(current, built, b, env);
-		dup2(saved_stdout, STDOUT_FILENO);
+		ft_redirec_builtin(current, b, built);
+		ft_builtin(current, built, b);
+		dup2(built->save_stdout, STDOUT_FILENO);
 	}
 	else if (current->output_file == NULL)
-		ft_builtin(current, built, b, env);
+		ft_builtin(current, built, b);
 	built->exit_code = 0;
 }

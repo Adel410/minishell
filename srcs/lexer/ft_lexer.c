@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/03 17:26:11 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:23:04 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ void	ft_copy_index(t_lex *lex, t_parse *tmp, char index, char **env)
 	}
 	else if (index == '2')
 	{
-		ft_strtrim(tmp->arg, '"');
-		ft_strrtrim(tmp->arg, '"');
+		(ft_strtrim(tmp->arg, '"'), ft_strrtrim(tmp->arg, '"'));
 		if (ft_test_if_execute(tmp->arg, env) == 1)
 			index = '8';
 	}
 	else if (index == '3')
 	{
-		ft_strtrim(tmp->arg, '\'');
-		ft_strrtrim(tmp->arg, '\'');
+		(ft_strtrim(tmp->arg, '\''), ft_strrtrim(tmp->arg, '\''));
 		if (ft_test_if_execute(tmp->arg, env) == 1)
 			index = '8';
 	}
@@ -38,7 +36,8 @@ void	ft_copy_index(t_lex *lex, t_parse *tmp, char index, char **env)
 		lex->str = ft_strdup(tmp->arg);
 	if (index == '4')
 		lex->flag_echo = 0;
-	if (lex->str && ft_strcmp(lex->str, "echo") == 0)
+	if ((lex->str && ft_strcmp(lex->str, "echo") == 0) || (lex->str
+			&& ft_strcmp(lex->str, "export") == 0))
 		lex->flag_echo = 1;
 }
 
@@ -135,10 +134,8 @@ void	ft_lexer(t_parse *parse, t_env *built, char **env)
 	if (lex == NULL)
 		return ;
 	ft_indexing(parse, lex, env);
-	ft_printf_lst(parse);
 	ft_free_parser(parse);
-	ft_print_lex(lex);
 	if (ft_check_lexer(lex) == 1)
 		return ;
-	ft_execute(lex, built, env);
+	ft_execute(lex, built);
 }

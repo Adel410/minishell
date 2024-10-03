@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:03:20 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/29 19:51:44 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:51:35 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,18 @@ int	ft_check_access(char *to_test, char **paths)
 	char	*tmp;
 
 	i = 0;
-	tmp = NULL;
 	while (paths[i])
 	{
+		tmp = NULL;
 		tmp = ft_strjoin2(paths[i], to_test);
 		if (access(tmp, X_OK) == 0)
 		{
 			free(tmp);
 			return (1);
 		}
+		if (tmp)
+			free(tmp);
 		i++;
 	}
-	free(tmp);
 	return (0);
 }

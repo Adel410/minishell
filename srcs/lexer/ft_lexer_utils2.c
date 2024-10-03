@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:35:44 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/02 16:40:23 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:48:07 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,15 @@ int	ft_test_if_execute(char *arg, char **env)
 	free(path);
 	ft_add_slash_to_paths(cmd_path);
 	if (ft_check_access(arg, cmd_path) == 1)
+	{
+		ft_free_tab(cmd_path);
 		return (1);
+	}
 	else
+	{
+		ft_free_tab(cmd_path);
 		return (0);
+	}
 }
 
 void	ft_join_echo_args(t_parse *tmp, t_lex *lex, char index)

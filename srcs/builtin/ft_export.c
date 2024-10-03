@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:35:02 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/02 19:33:42 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:33:10 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,6 @@ int	ft_correct_name_export(char *str, t_env *built)
 	return (1);
 }
 
-// int	ft_correct_def_export(char *str, t_env *built)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '=')
-// 		{
-// 			built->flag = 1;
-// 			return (1);
-// 		}
-// 		i++;
-// 	}
-// 	built->exit_code = 0;
-// 	return (0);
-// }
-
 int	ft_check_export(char *str, t_env *built)
 {
 	if (built->flag == 0)
@@ -61,11 +43,6 @@ int	ft_check_export(char *str, t_env *built)
 		if (ft_correct_name_export(str, built) == 0)
 			return (0);
 	}
-	// else if (built->flag == 1)
-	// {
-	// 	if (ft_correct_def_export(str, built) == 0)
-	// 		return (0);
-	// }
 	return (1);
 }
 
@@ -81,8 +58,13 @@ void	ft_copy_env_for_export(t_env *built, char **new_env)
 		built->env[i] = ft_strdup(new_env[i]);
 		i++;
 	}
-	built->env[i] = NULL;
-	ft_free_tab(new_env);
+	i = 0;
+	while (new_env[i])
+	{
+		free(new_env[i]);
+		i++;
+	}
+	free(new_env);
 }
 
 void	ft_export(t_env *built, char *str)
@@ -90,7 +72,6 @@ void	ft_export(t_env *built, char *str)
 	char	**new_env;
 	int		i;
 
-	// int		end;
 	i = ft_strstrlen(built->env);
 	if (ft_check_export(str, built) == 1)
 	{
@@ -101,6 +82,7 @@ void	ft_export(t_env *built, char *str)
 			if (ft_strncmpchar(built->env[i], str, '=') == 0)
 			{
 				free(built->env[i]);
+				printf("%s == a export\n", str);
 				built->env[i] = ft_strdup(str);
 				return ;
 			}
@@ -110,26 +92,47 @@ void	ft_export(t_env *built, char *str)
 		new_env[i] = ft_strdup(str);
 		ft_free_tab(built->env);
 		ft_copy_env_for_export(built, new_env);
-		// end = ft_find_end_def(str);
 	}
 	return ;
 }
 
-void	ft_call_export(t_env *built, t_exe *current)
+void	ft_set_export(t_env *built, t_exe *current)
 {
-	int	i;
+	int		i;
+	char	*tmp_cmd;
 
 	i = 1;
 	built->flag = 0;
+	while (current->cmds[i])
+	{
+		if (current->cmds[i][ft_strlen(current->cmds[i]) - 2] == '='
+			&& current->cmds[i][ft_strlen(current->cmds[i]) - 1] == ' '
+			&& current->cmds[i + 1])
+		{
+			ft_putstr("CASSE TOI DE LA\n");
+			return ;
+		}
+		else if (current->cmds[i][ft_strlen(current->cmds[i]) - 1] == '='
+			&& current->cmds[i + 1])
+		{
+			tmp_cmd = ft_strjoin2(current->cmds[i], current->cmds[i + 1]);
+			i++;
+		}
+		else
+			tmp_cmd = ft_strdup(current->cmds[i]);
+		ft_export(built, tmp_cmd);
+		free(tmp_cmd);
+		i++;
+	}
+}
+
+void	ft_call_export(t_env *built, t_exe *current)
+{
 	if (current->cmds[1] == NULL)
 	{
 		ft_export_alphabetic_order(built);
 		ft_print_env(built);
 		return ;
 	}
-	while (current->cmds[i])
-	{
-		ft_export(built, current->cmds[i]);
-		i++;
-	}
+	ft_set_export(built, current);
 }

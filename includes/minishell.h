@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/03 16:23:53 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:22:32 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -165,6 +166,7 @@ typedef struct s_exe
 	struct s_b		*b;
 }					t_exe;
 
+void				ft_dup2_first_last(int value, t_b *b, t_env *built);
 char				*ft_strjoin3(char *s1, char *s2);
 void				ft_free_string_and_parse(char *str, t_parse *parse);
 void				ft_free_parse_and_crash(t_parse *parse);
@@ -258,7 +260,7 @@ void				ft_setup_redirection(t_exe *exec, t_b *b);
 void				ft_close_pipes(int *pipefd, int cmds_count);
 
 //## EXECUTION ##
-int					ft_execute(t_lex *lex, t_env *built, char **env);
+int					ft_execute(t_lex *lex, t_env *built);
 void				ft_init_exec(t_exe *exec);
 void				ft_free_cmds(t_exe *exec);
 void				ft_free_exec(t_exe *exec);
@@ -315,8 +317,7 @@ char				*get_next_line(int fd);
 
 //## BUILTIN ##
 void				ft_echo(t_exe *current, t_env *built);
-void				ft_which_builtin(t_exe *current, t_env *built, t_b *b,
-						char **env);
+void				ft_which_builtin(t_exe *current, t_env *built, t_b *b);
 
 //## ERROR ##
 void				ft_error(int i);

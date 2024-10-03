@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 12:17:23 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:38:43 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_while_execve(t_b *b, t_exe *current, t_env *built)
 	ft_put_error(current->cmds[0], 127);
 }
 
-int	ft_execve(t_b *b, t_exe *exec, t_env *built, char **env)
+int	ft_execve(t_b *b, t_exe *exec, t_env *built)
 {
 	t_exe	*current;
 
@@ -72,14 +72,12 @@ int	ft_execve(t_b *b, t_exe *exec, t_env *built, char **env)
 	{
 		if (current->builtin)
 		{
-			ft_which_builtin(current, built, b, env);
+			ft_which_builtin(current, built, b);
 			exit(0);
 			current = current->next;
 		}
 		else if (access(current->cmds[0], F_OK) == 0)
-		{
 			ft_trouble_execute(current->cmds[0], current, built, b);
-		}
 		else
 		{
 			if (current->cmds && current->cmds[0])
@@ -92,21 +90,7 @@ int	ft_execve(t_b *b, t_exe *exec, t_env *built, char **env)
 	return (0);
 }
 
-void	ft_dup2_first_last(int value, t_b *b, t_env *built)
-{
-	if (value == 0)
-	{
-		if (dup2(b->infile, STDIN_FILENO) == -1)
-			exit(EXIT_FAILURE);
-	}
-	else if (value == 1)
-	{
-		if (dup2(b->pipefd[b->w * 2], built->save_stdout) == -1)
-			exit(EXIT_FAILURE);
-	}
-}
-
-void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b, char **env)
+void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b)
 {
 	t_exe	*current;
 
@@ -114,7 +98,6 @@ void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b, char **env)
 	if (ft_init_pipe_and_pid(b) == 1)
 		return ;
 	ft_pipe(b->pipefd, b->nb_cmds);
-	b->w = 0;
 	while (b->w < b->nb_cmds && current)
 	{
 		b->pid[b->w] = fork();
@@ -128,7 +111,7 @@ void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b, char **env)
 				ft_dup2_first_last(1, b, built);
 			ft_setup_redirection(current, b);
 			(close(built->save_stdin), close(built->save_stdout));
-			ft_execve(b, current, built, env);
+			ft_execve(b, current, built);
 		}
 		current = current->next;
 		b->w++;
@@ -136,12 +119,13 @@ void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b, char **env)
 	ft_close_and_wait(b, built);
 }
 
-int	ft_execute(t_lex *lex, t_env *built, char **env)
+int	ft_execute(t_lex *lex, t_env *built)
 {
 	t_exe	*exec;
 	t_b		*b;
 
 	b = ft_calloc(1, sizeof(t_b));
+	b->w = 0;
 	exec = ft_calloc(1, sizeof(t_exe));
 	if (exec == NULL)
 		return (1);
@@ -154,9 +138,9 @@ int	ft_execute(t_lex *lex, t_env *built, char **env)
 	ft_free_lex(lex);
 	// ft_print_exec(exec);
 	if (exec->builtin && b->nb_cmds == 1)
-		ft_which_builtin(exec, built, b, env);
+		ft_which_builtin(exec, built, b);
 	else
-		ft_fork_and_pipe(exec, built, b, env);
+		ft_fork_and_pipe(exec, built, b);
 	if (access("here_doc", F_OK) == 0)
 		unlink("here_doc");
 	ft_free_exec(exec);

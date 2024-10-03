@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:30:48 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:47:23 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_recast_meta(t_lex *lex, t_exe *new)
 
 int	ft_check_for_options(t_lex *next, t_exe *new)
 {
-	int		i;
+	int	i;
 
 	i = 1;
 	if (next->str && next->str[0] == '\0')
@@ -73,7 +73,7 @@ int	ft_get_type(t_lex *lex, t_exe *new, t_b *b)
 
 	check = 0;
 	if (lex->type == '8' && ft_strcmp(lex->str, " ") == 0)
-		return 1;
+		return (1);
 	if (lex->type == '5' || lex->type == '6' || lex->type == '#'
 		|| lex->type == '*' || lex->type == '@' || lex->type == '%')
 		check = ft_recast_meta(lex, new);

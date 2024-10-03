@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:28:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/02 19:10:39 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:28:46 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_close_pipes_redir(t_b *b)
 	int	i;
 
 	i = 0;
-	while (i < (b->nb_cmds - 1) * 2)
+	while (i < (b->nb_cmds) * 2)
 	{
 		close(b->pipefd[i]);
 		i++;
