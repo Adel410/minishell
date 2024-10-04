@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:55:23 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:08:07 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:52:33 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_is_alpha_num_and_space(char c)
 		return (1);
 	return (0);
 }
+
 int	ft_is_alpha_num(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')

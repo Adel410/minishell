@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 19:38:43 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:33:50 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,10 @@ int	ft_execute(t_lex *lex, t_env *built)
 		return (1);
 	b->nb_cmds = ft_count_cmds(exec);
 	ft_free_lex(lex);
-	// ft_print_exec(exec);
 	if (exec->builtin && b->nb_cmds == 1)
 		ft_which_builtin(exec, built, b);
 	else
 		ft_fork_and_pipe(exec, built, b);
-	if (access("here_doc", F_OK) == 0)
-		unlink("here_doc");
 	ft_free_exec(exec);
 	ft_free_b(b);
 	return (0);

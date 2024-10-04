@@ -3,6 +3,7 @@
 		"history.h": "c",
 		"minishell.h": "c",
 		"signal.h": "c",
-		"features.h": "c"
+		"features.h": "c",
+		"typeinfo": "c"
 	}
 }

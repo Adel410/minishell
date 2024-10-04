@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:15:24 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 19:15:18 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:48:18 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	ft_space_arg(t_parse *parse)
 
 	tmp = parse;
 	tab = ft_split(tmp->arg, ' ');
-	// if (!tab)
-	// 	ft_free_tab_and_parse(tab, parse);
 	i = 0;
 	free(tmp->arg);
 	while (tab[i])

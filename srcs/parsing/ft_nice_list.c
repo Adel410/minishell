@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:41:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/03 17:51:57 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:48:11 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	ft_join_double_redir(t_parse *tmp, int redir_type)
 		new_arg = ft_strdup(">>");
 	else
 		new_arg = ft_strdup("<<");
-	// if (!new_arg)
-	// 	ft_free_string_and_parse(new_arg, to_free);
 	free(tmp->arg);
 	tmp->arg = new_arg;
 	to_free = tmp->next;
@@ -43,7 +41,8 @@ void	ft_check_double_redir(t_parse *parse)
 	{
 		if (tmp && tmp->arg && tmp->next->arg)
 		{
-			if (tmp && tmp->arg && tmp->next && tmp->next->arg && tmp->arg[0] == '>' && tmp->next->arg[0] == '>')
+			if (tmp && tmp->arg && tmp->next && tmp->next->arg
+				&& tmp->arg[0] == '>' && tmp->next->arg[0] == '>')
 				ft_join_double_redir(tmp, 1);
 			else if (tmp->arg[0] == '<' && tmp->next->arg[0] == '<')
 				ft_join_double_redir(tmp, 2);
@@ -97,6 +96,5 @@ void	ft_parsing(t_parse *parse, t_env *built, char **env)
 		return ;
 	}
 	ft_expand_arg(parse, built);
-	// ft_printf_lst(parse);
 	ft_lexer(parse, built, env);
 }

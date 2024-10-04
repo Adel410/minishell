@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:35:02 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 18:33:10 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:43:54 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,6 @@ int	ft_correct_name_export(char *str, t_env *built)
 			return (0);
 		}
 		i++;
-	}
-	return (1);
-}
-
-int	ft_check_export(char *str, t_env *built)
-{
-	if (built->flag == 0)
-	{
-		if (ft_correct_name_export(str, built) == 0)
-			return (0);
 	}
 	return (1);
 }
@@ -82,8 +72,8 @@ void	ft_export(t_env *built, char *str)
 			if (ft_strncmpchar(built->env[i], str, '=') == 0)
 			{
 				free(built->env[i]);
-				printf("%s == a export\n", str);
 				built->env[i] = ft_strdup(str);
+				ft_free_tab(new_env);
 				return ;
 			}
 			new_env[i] = ft_strdup(built->env[i]);
@@ -102,7 +92,6 @@ void	ft_set_export(t_env *built, t_exe *current)
 	char	*tmp_cmd;
 
 	i = 1;
-	built->flag = 0;
 	while (current->cmds[i])
 	{
 		if (current->cmds[i][ft_strlen(current->cmds[i]) - 2] == '='
@@ -134,5 +123,6 @@ void	ft_call_export(t_env *built, t_exe *current)
 		ft_print_env(built);
 		return ;
 	}
+	built->flag = 0;
 	ft_set_export(built, current);
 }

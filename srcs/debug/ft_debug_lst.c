@@ -6,21 +6,11 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:41:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/29 20:14:46 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:17:55 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-
-	// char			**cmds;
-	// char 			**cmd_path;
-	// char			*input_file;
-	// char			*limiter;
-	// char			*output_file;
-	// int				append_output;
-	// int				here_doc;
-	// int				builtin;
 	
 void	ft_debug_lst(t_exe *exe)
 {
@@ -36,7 +26,6 @@ void	ft_debug_lst(t_exe *exe)
 		printf("%d == append_output\n", ptr->append_output);
 		printf("%d == here_doc\n", ptr->here_doc);
 		printf("%d == builtin\n", ptr->builtin);
-		// printf("%s == string\n", ptr->string);
 		i = 0;
 		while (ptr->cmds[i])
 		{
@@ -44,11 +33,6 @@ void	ft_debug_lst(t_exe *exe)
 			i++;
 		}
 		i = 0;
-		// while (ptr->cmd_path[i])
-		// {
-		// 	printf("%s == cmd_path\n", ptr->cmd_path[i]);
-		// 	i++;
-		// }		
 		ptr = ptr->next;
 		printf("\n\n");
 	}

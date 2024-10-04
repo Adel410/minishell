@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:40:09 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 18:25:56 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:44:00 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_print_env(t_env *head)
 		if (head->env[i][0] == '_' && head->env[i][1] == '=')
 		{
 			ft_putstr("_=/usr/bin/export\n");
-			break;
+			break ;
 		}
 		ft_putstr(head->env[i]);
 		ft_putstr("\n");
@@ -78,4 +78,14 @@ void	ft_free_env(t_env *built)
 	}
 	free(built->env);
 	free(built);
+}
+
+int	ft_check_export(char *str, t_env *built)
+{
+	if (built->flag == 0)
+	{
+		if (ft_correct_name_export(str, built) == 0)
+			return (0);
+	}
+	return (1);
 }

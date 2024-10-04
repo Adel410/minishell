@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:06:53 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 15:56:27 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:20:07 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_iso_dol(char *str, int i, t_env *built)
 {
 	int		start;
 	int		end;
-	char *tmp;
+	char	*tmp;
 
 	start = i;
 	end = 0;
@@ -79,4 +79,30 @@ void	ft_isolate_dollar(char *str, t_env *built)
 		i++;
 	}
 	free(tmp);
+}
+
+int	ft_size_of_expand(char *str)
+{
+	int	i;
+	int	size;
+
+	i = 0;
+	size = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			i++;
+			if (str[i] == '?')
+				return (1);
+			while (str[i] && ft_is_alpha(str[i]) == 1)
+			{
+				size++;
+				i++;
+			}
+			break ;
+		}
+		i++;
+	}
+	return (size);
 }

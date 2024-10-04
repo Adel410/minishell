@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:34:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 16:22:26 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:52:50 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_check_here_doc(t_exe *exec, t_env *built)
 		{
 			if (ft_here_doc(current, built) == 0)
 			{
+				free(current->input_file);
 				current->input_file = ft_strdup("here_doc");
 			}
 		}
@@ -32,6 +33,8 @@ void	ft_check_here_doc(t_exe *exec, t_env *built)
 
 void	ft_here_doc_prompt(char *line, char *limiter, t_env *built, int fd)
 {
+	char	*tmp;
+
 	while (1)
 	{
 		ft_putstr("heredoc > ");
@@ -40,9 +43,9 @@ void	ft_here_doc_prompt(char *line, char *limiter, t_env *built, int fd)
 			break ;
 		if (ft_dollar_in_string(line) == 1)
 		{
-			printf("dollar in string\n");
-			ft_expand_dollar(line, built);
-			line = ft_strjoin2(line, "\n");
+			tmp = ft_strdup(line);
+			free(line);
+			line = ft_expand_dollar(tmp, built);
 		}
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
 			&& line[ft_strlen(limiter)] == '\n')
@@ -72,6 +75,7 @@ int	ft_here_doc(t_exe *exec, t_env *built)
 	else
 		return (1);
 	ft_here_doc_prompt(line, limiter, built, fd);
+	free(limiter);
 	close(fd);
 	return (0);
 }

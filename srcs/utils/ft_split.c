@@ -6,13 +6,12 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:21:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/26 19:55:01 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:52:56 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// Fonction pour libérer la mémoire allouée pour le tableau de chaînes de caractères
 void	freetab(char **tab, int k)
 {
 	while (k >= 0)
@@ -41,7 +40,6 @@ char	*ft_strncpy(char *dest, const char *src, unsigned int n)
 	return (dest);
 }
 
-// Alloue et copie un mot dans une nouvelle chaîne
 static char	*ft_put_word_in_malloc(const char *s, char c)
 {
 	int		i;
@@ -58,7 +56,6 @@ static char	*ft_put_word_in_malloc(const char *s, char c)
 	return (word);
 }
 
-// Alloue et remplit le tableau de mots
 static char	**ft_malloc_word(char *s, char c)
 {
 	int		i;
@@ -99,7 +96,6 @@ static char	**ft_malloc_word(char *s, char c)
 	return (tab);
 }
 
-// Fonction principale de découpage de chaîne
 char	**ft_split(char *s, char c)
 {
 	if (!s)

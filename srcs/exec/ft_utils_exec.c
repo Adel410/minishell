@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:20:57 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 19:24:15 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:27:04 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	ft_free_cmds(t_exe *exec)
 	}
 	if (exec->input_file)
 	{
+		if (access("here_doc", F_OK) == 0)
+			unlink("here_doc");
 		free(exec->input_file);
 		exec->input_file = NULL;
 	}
@@ -101,7 +103,10 @@ int	ft_count_cmds(t_exe *exec)
 	{
 		if (current->cmds && current->cmds[0])
 			count++;
-		current = current->next;
+		if (current->next)
+			current = current->next;
+		else
+			break ;
 	}
 	return (count);
 }

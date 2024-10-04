@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:01:53 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 17:14:35 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:41:31 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,36 @@
 // 	return (str);
 // }
 
-void	ft_expand_env(t_env *built)
+void	ft_expand_variable(t_env *built, char *tmp)
 {
-	int		i;
-	int		j;
-	char	*tmp;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
+	while (built->env[i])
+	{
+		if (ft_strncmp(built->env[i], built->expand_string,
+				ft_strlen(built->expand_string)) == 0)
+		{
+			free(built->expand_string);
+			built->expand_string = ft_strdup(built->env[i]);
+			while (built->expand_string[j] != '=')
+				j++;
+			(free(built->expand_string), free(tmp));
+			built->expand_string = ft_strndup2(built->env[i], j + 1);
+			break ;
+		}
+		i++;
+	}
+	if (built->env[i] == NULL)
+		built->expand_string = ft_strdup("");
+}
+
+void	ft_expand_env(t_env *built)
+{
+	char	*tmp;
+
 	tmp = ft_strdup(built->expand_string);
 	free(built->expand_string);
 	if (tmp[0] == '?')
@@ -57,50 +79,7 @@ void	ft_expand_env(t_env *built)
 	if (tmp[ft_strlen(tmp) - 1] == '\n')
 		ft_strrtrim(tmp, '\n');
 	built->expand_string = ft_strjoin2(tmp, "=");
-	while (built->env[i])
-	{
-		if (ft_strncmp(built->env[i], built->expand_string,
-				ft_strlen(built->expand_string)) == 0)
-		{
-			free(built->expand_string);
-			built->expand_string = ft_strdup(built->env[i]);
-			while (built->expand_string[j] != '=')
-				j++;
-			free(built->expand_string);
-			free(tmp);
-			built->expand_string = ft_strndup2(built->env[i], j + 1);
-			break ;
-		}
-		i++;
-	}
-	if (built->env[i] == NULL)
-		built->expand_string = ft_strdup("");
-}
-
-int	ft_size_of_expand(char *str)
-{
-	int	i;
-	int	size;
-
-	i = 0;
-	size = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-		{
-			i++;
-			if (str[i] == '?')
-				return (1);
-			while (str[i] && ft_is_alpha(str[i]) == 1)
-			{
-				size++;
-				i++;
-			}
-			break ;
-		}
-		i++;
-	}
-	return (size);
+	ft_expand_variable(built, tmp);
 }
 
 void	ft_join_string_env(char *str, char *expand, t_env *built)
@@ -109,23 +88,22 @@ void	ft_join_string_env(char *str, char *expand, t_env *built)
 	char	*after;
 	char	*tmp;
 	char	*tmp2;
-	int		i;
 	int		size;
 
-	i = 0;
-	while (str[i])
+	built->i = 0;
+	while (str[built->i])
 	{
-		if (str[i] != '$')
-			i++;
+		if (str[built->i] != '$')
+			built->i++;
 		else
 			break ;
 	}
-	before = ft_strndup(str, i);
+	before = ft_strndup(str, built->i);
 	tmp = ft_strjoin2(before, expand);
 	(free(before), free(expand));
 	size = ft_size_of_expand(str);
-	i = i + size + 1;
-	after = ft_strndup2(str, i);
+	built->i = built->i + size + 1;
+	after = ft_strndup2(str, built->i);
 	tmp2 = ft_strjoin2(tmp, after);
 	free(tmp);
 	built->tmp = ft_strdup(tmp2);
@@ -136,13 +114,14 @@ char	*ft_expand_dollar(char *str, t_env *built)
 {
 	built->tmp = NULL;
 	if (!str)
-		return NULL;
+		return (NULL);
 	if (str && str[0] == '$' && str[1] == '\0')
 	{
 		built->expand_string = ft_strdup("$");
 		return (built->expand_string);
 	}
-	else if (str && str[0] == '"' && str[1] == '$' && str[2] == '"' && str[3] == '\0')
+	else if (str && str[0] == '"' && str[1] == '$' && str[2] == '"'
+		&& str[3] == '\0')
 	{
 		built->expand_string = ft_strdup("$");
 		return (built->expand_string);
@@ -156,8 +135,7 @@ char	*ft_expand_dollar(char *str, t_env *built)
 		built->expand_string = ft_strjoin2(built->tmp, "\'");
 	else
 		built->expand_string = ft_strdup(built->tmp);
-	free(built->tmp);
-	free(str);
+	(free(built->tmp), free(str));
 	return (built->expand_string);
 }
 
