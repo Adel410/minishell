@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:54:49 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/04 17:21:42 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:00:55 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	ft_add_env(t_env *head, char **env)
 	return ;
 }
 
-volatile sig_atomic_t	signal_received = 0;
+volatile sig_atomic_t	g_signal_received = 0;
+
 int	main(int ac, char **av, char **env)
 {
 	t_env	*built;

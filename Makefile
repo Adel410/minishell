@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/01 18:09:38 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/04 20:07:29 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ NAME	= minishell
 
 FILES	=	srcs/main.c \
 			srcs/prompt/ft_prompt.c \
+			srcs/prompt/ft_prompt_utils.c \
 			srcs/prompt/ft_history.c \
 			srcs/signal/ft_signal.c \
 			srcs/error/ft_error.c \

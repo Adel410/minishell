@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 14:45:18 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:03:46 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	ft_redirec_builtin(t_exe *current, t_b *b, t_env *built)
 		else
 			flags |= O_TRUNC;
 		fd_outfile = open(current->output_file, flags, 0644);
-		if (fd_outfile == -1)
-			ft_put_error2(current->output_file, 1);
 		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		close(fd_outfile);

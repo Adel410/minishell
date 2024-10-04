@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:06:53 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 15:20:07 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:04:34 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,15 @@ int	ft_size_of_expand(char *str)
 		i++;
 	}
 	return (size);
+}
+
+void	ft_is_check_after_dollar(char *str, t_env *built)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '$')
+		i++;
+	if (ft_isdigit(str[i + 1] == 1))
+		ft_expand_dollar(str, built);
 }

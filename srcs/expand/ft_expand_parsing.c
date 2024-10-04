@@ -6,37 +6,11 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:01:53 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 19:41:31 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:04:30 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// char	*ft_while_expand_env(t_env *built, char *str)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (built->env[i])
-// 	{
-// 		if (ft_strncmp(built->env[i], str, ft_strlen(str)) == 0)
-// 		{
-// 			free(str);
-// 			str = ft_strdup(built->env[i]);
-// 			while (str[j] != '=')
-// 				j++;
-// 			free(str);
-// 			str = ft_strndup2(built->env[i], j + 1);
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// 	if (built->env[i] == NULL)
-// 		str = ft_strdup("");
-// 	return (str);
-// }
 
 void	ft_expand_variable(t_env *built, char *tmp)
 {
@@ -137,17 +111,6 @@ char	*ft_expand_dollar(char *str, t_env *built)
 		built->expand_string = ft_strdup(built->tmp);
 	(free(built->tmp), free(str));
 	return (built->expand_string);
-}
-
-void	ft_is_check_after_dollar(char *str, t_env *built)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '$')
-		i++;
-	if (ft_isdigit(str[i + 1] == 1))
-		ft_expand_dollar(str, built);
 }
 
 void	ft_expand_arg(t_parse *parse, t_env *built)

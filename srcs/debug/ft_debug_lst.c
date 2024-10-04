@@ -6,12 +6,12 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 14:41:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 15:17:55 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:59:48 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-	
+
 void	ft_debug_lst(t_exe *exe)
 {
 	t_exe	*ptr;

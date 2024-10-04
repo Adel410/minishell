@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 10:38:04 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/30 13:53:58 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:01:42 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	ft_put_error(char *str, int exit_code)
 	}
 	else if (exit_code == 1)
 	{
-		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": no such file or directory\n", 2);
 		exit(127);

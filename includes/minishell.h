@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/04 19:22:10 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:04:40 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,16 @@ typedef struct s_exe
 	struct s_b					*b;
 }								t_exe;
 
-extern volatile sig_atomic_t	signal_received;
+extern volatile sig_atomic_t	g_signal_received;
 
+void							ft_is_check_after_dollar(char *str,
+									t_env *built);
+char							*ft_zsh_prompt(t_env *built);
+void							ft_multiple_checks(t_env *built, t_parse *parse,
+									char *input);
+void							ft_reset_std(t_env *built);
+void							ft_ctrl_d(t_env *built, t_parse *parse);
+void							ft_save_std(t_env *built);
 int								ft_here_doc(t_exe *exec, t_env *built);
 int								ft_size_of_expand(char *str);
 int								ft_correct_name_export(char *str, t_env *built);

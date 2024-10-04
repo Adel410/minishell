@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:20:32 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 17:18:10 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:00:47 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
-		signal_received = 1;
+		g_signal_received = 1;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
