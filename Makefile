@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/04 20:07:29 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/05 12:57:08 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ FILES	=	srcs/main.c \
 			srcs/builtin/ft_builtin.c \
 			srcs/builtin/ft_echo.c \
 			srcs/builtin/ft_exit.c \
+			srcs/builtin/ft_exit_utils.c \
 			srcs/builtin/ft_cd.c \
 			srcs/builtin/ft_export.c \
 			srcs/builtin/ft_unset.c \
@@ -45,6 +46,7 @@ FILES	=	srcs/main.c \
 			srcs/utils/ft_strdup.c \
 			srcs/utils/ft_strjoin.c \
 			srcs/utils/ft_strjoin2.c \
+			srcs/utils/ft_strtol.c \
 			srcs/utils/ft_tools.c \
 			srcs/utils/ft_tools2.c \
 			srcs/utils/ft_tools3.c \
@@ -55,6 +57,7 @@ FILES	=	srcs/main.c \
 			srcs/utils/ft_split2.c \
 			srcs/utils/ft_split3.c \
 			srcs/utils/ft_split4.c \
+			srcs/utils/ft_split_utils.c \
 			srcs/utils/ft_colors.c \
 			srcs/utils/ft_init.c \
 			srcs/utils/ft_linked.c \

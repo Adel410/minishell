@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 20:03:46 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:10:46 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	ft_env(t_env *built)
 void	ft_redirec_builtin(t_exe *current, t_b *b, t_env *built)
 {
 	int	flags;
-	int	fd_outfile;
 
 	if (b->w == 0 && !current->input_file)
 		ft_dup2_first_last(0, b, built);
@@ -72,10 +71,10 @@ void	ft_redirec_builtin(t_exe *current, t_b *b, t_env *built)
 			flags |= O_APPEND;
 		else
 			flags |= O_TRUNC;
-		fd_outfile = open(current->output_file, flags, 0644);
-		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
+		built->fd_outfile = open(current->output_file, flags, 0644);
+		if (dup2(built->fd_outfile, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
-		close(fd_outfile);
+		close(built->fd_outfile);
 	}
 	else if (b->w < b->nb_cmds - 1)
 	{
@@ -104,9 +103,6 @@ void	ft_builtin(t_exe *current, t_env *built, t_b *b)
 
 void	ft_which_builtin(t_exe *current, t_env *built, t_b *b)
 {
-	int	fd_outfile;
-
-	fd_outfile = 0;
 	if (current->output_file)
 	{
 		ft_redirec_builtin(current, b, built);
@@ -115,5 +111,4 @@ void	ft_which_builtin(t_exe *current, t_env *built, t_b *b)
 	}
 	else if (current->output_file == NULL)
 		ft_builtin(current, built, b);
-	built->exit_code = 0;
 }

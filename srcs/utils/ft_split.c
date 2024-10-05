@@ -6,39 +6,11 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:21:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/04 14:52:56 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:04:53 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	freetab(char **tab, int k)
-{
-	while (k >= 0)
-	{
-		free(tab[k]);
-		k--;
-	}
-	free(tab);
-}
-
-char	*ft_strncpy(char *dest, const char *src, unsigned int n)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (src[i] && i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
-}
 
 static char	*ft_put_word_in_malloc(const char *s, char c)
 {
@@ -56,44 +28,62 @@ static char	*ft_put_word_in_malloc(const char *s, char c)
 	return (word);
 }
 
+static int	handle_non_separator(t_split_data *data)
+{
+	data->tab[data->j] = ft_put_word_in_malloc(&data->s[data->i], data->c);
+	if (!data->tab[data->j])
+	{
+		freetab(data->tab, data->j - 1);
+		return (0);
+	}
+	while (data->s[data->i] && data->s[data->i] != data->c)
+		data->i++;
+	data->j++;
+	return (1);
+}
+
+static int	handle_separator(t_split_data *data)
+{
+	data->tab[data->j] = malloc(sizeof(char) * 2);
+	if (!data->tab[data->j])
+	{
+		freetab(data->tab, data->j - 1);
+		return (0);
+	}
+	data->tab[data->j][0] = data->c;
+	data->tab[data->j][1] = '\0';
+	data->j++;
+	data->i++;
+	return (1);
+}
+
 static char	**ft_malloc_word(char *s, char c)
 {
-	int		i;
-	int		j;
-	int		word_count;
-	char	**tab;
+	t_split_data	data;
 
-	i = 0;
-	j = 0;
-	word_count = ft_strlen(s);
-	tab = malloc(sizeof(char *) * (word_count + 1));
-	if (!tab)
+	data.s = s;
+	data.c = c;
+	data.i = 0;
+	data.j = 0;
+	data.word_count = ft_strlen(s);
+	data.tab = malloc(sizeof(char *) * (data.word_count + 1));
+	if (!data.tab)
 		return (NULL);
-	while (s[i])
+	while (data.s[data.i])
 	{
-		if (s[i] != c)
+		if (data.s[data.i] != data.c)
 		{
-			tab[j] = ft_put_word_in_malloc(&s[i], c);
-			if (!tab[j])
-			{
-				freetab(tab, j - 1);
+			if (!handle_non_separator(&data))
 				return (NULL);
-			}
-			while (s[i] && s[i] != c)
-				i++;
-			j++;
 		}
 		else
 		{
-			tab[j] = malloc(sizeof(char) * 2);
-			tab[j][0] = c;
-			tab[j][1] = '\0';
-			j++;
-			i++;
+			if (!handle_separator(&data))
+				return (NULL);
 		}
 	}
-	tab[j] = NULL;
-	return (tab);
+	data.tab[data.j] = NULL;
+	return (data.tab);
 }
 
 char	**ft_split(char *s, char c)

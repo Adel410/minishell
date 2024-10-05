@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/04 20:04:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:36:07 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,34 @@ typedef struct s_lex
 	struct s_lex				*next;
 }								t_lex;
 
+typedef struct s_split_data3
+{
+	char						**split;
+	char						*str;
+	char						*charset;
+	int							i;
+	int							word;
+}								t_split_data3;
+
+typedef struct s_split_data
+{
+	char						**tab;
+	char						*s;
+	char						c;
+	int							i;
+	int							j;
+	int							word_count;
+}								t_split_data;
+
 typedef struct s_env
 {
 	int							i;
 	int							j;
 	int							flag;
-	int							exit_code;
+	long						exit_code;
 	int							save_stdin;
 	int							save_stdout;
+	int							fd_outfile;
 	char						**env;
 	char						*def;
 	char						*value;
@@ -168,6 +188,125 @@ typedef struct s_exe
 
 extern volatile sig_atomic_t	g_signal_received;
 
+//## PARSING ##
+int								ft_check_tab(char **tab);
+void							ft_space_arg(t_parse *parse);
+void							ft_meta_arg(t_parse *parse);
+void							ft_string_arg(t_parse *parse);
+void							ft_join_string(t_parse *parse);
+void							ft_printf_lst(t_parse *parse);
+void							ft_free_node(t_parse *node);
+void							ft_free_tab(char **tab);
+void							ft_free_parser(t_parse *parse);
+void							ft_parsing(t_parse *parse, t_env *built,
+									char **env);
+int								ft_string_is_closed(char *str);
+void							ft_free_env(t_env *built);
+void							ft_free_lex(t_lex *lex);
+void							ft_exit(t_exe *exec, t_env *built, t_b *b);
+int								ft_check_access(char *to_test, char **paths);
+void							ft_print_exec(t_exe *exec);
+void							ft_check_type(t_lex *lex);
+void							ft_check_here_doc(t_exe *exec, t_env *built);
+void							ft_add_slash_to_paths(char **paths);
+void							ft_cmd_path(t_b *b, char **env);
+void							ft_create_new(t_exe *new);
+void							ft_debug_lst(t_exe *exe);
+void							ft_putstr(char *str);
+int								ft_strstrstrlen(char ***str);
+int								ft_recast(t_lex *lex, t_exe *exec, t_env *built,
+									t_b *b);
+
+//## REDIRECTION ##
+void							ft_setup_redirection(t_exe *exec, t_b *b);
+void							ft_close_pipes(int *pipefd, int cmds_count);
+
+//## EXECUTION ##
+int								ft_execute(t_lex *lex, t_env *built);
+void							ft_init_exec(t_exe *exec);
+void							ft_free_cmds(t_exe *exec);
+void							ft_free_exec(t_exe *exec);
+int								ft_count_cmds(t_exe *exec);
+
+//## BUILTIN ##
+void							ft_lstadd_back(t_env **lst, t_env *new);
+t_env							*ft_lstnew(char *str);
+void							ft_free_stack(t_env **head);
+void							ft_read_list(t_env **head);
+void							ft_echo(t_exe *current, t_env *built);
+void							ft_which_builtin(t_exe *current, t_env *built,
+									t_b *b);
+
+//## META TAB UTILS ##
+int								ft_meta_char(char c);
+int								ft_meta_detect(char *str);
+
+//## STRING TAB UTILS ##
+int								ft_string_char(char c);
+int								ft_string_detect(char *str);
+
+//## UTILS ##
+//## COLORS ##
+void							ft_putstr2(char *str);
+void							ft_color(char *str, int n, ...);
+
+//## SPLIT ##
+void							freetab(char **tab, int k);
+char							**ft_split(char *s, char c);
+char							**ft_split2(char *str, char *charset);
+
+//## STRDUP ##
+char							*ft_strdup(char *s);
+char							*ft_malloc_copy_char(char c);
+char							*ft_strndup(const char *s, int n);
+char							*ft_strndup2(const char *s, int n);
+char							*ft_master_strndup(char *s, int start,
+									int size);
+
+//## STRJOIN ##
+int								ft_size(char const *s1, char const *s2);
+char							*ft_strjoin(char const *s1, char const *s2);
+char							*ft_strjoin2(char const *s1, char const *s2);
+char							*ft_join(char *str, char const *s1,
+									char const *s2);
+
+//## TOOLS ##
+int								ft_strlen(char *str);
+int								ft_strstrlen(char **str);
+void							ft_bzero(void *s, size_t n);
+void							*ft_calloc(size_t nmemb, size_t size);
+int								ft_strncmp(const char *s1, const char *s2,
+									size_t n);
+int								ft_strcmp(char *s1, char *s2);
+char							*ft_free_stash(char *str);
+char							*get_next_line(int fd);
+
+//## ERROR ##
+void							ft_error(int i);
+
+//## SIGNAL ##
+void							ft_handle_sigint(int sig);
+void							ft_handle_sigquit(int sig);
+void							ft_setup_signals_handler(void);
+
+//## PROMPT ##
+void							ft_init_history(void);
+void							ft_prompt(char **env, t_env *built);
+
+//## MISCELLANEOUS ##
+int								ft_get_digit(const char c);
+void							freetab(char **tab, int k);
+char							*ft_strncpy(char *dest, const char *src,
+									unsigned int n);
+int								ft_char_is_separator1(char c, char *charset);
+void							ft_process_separator(t_split_data3 *data);
+long							ft_strtol(const char *nptr, char **endptr,
+									int base);
+void							ft_print_and_close(t_env *built);
+char							*ft_merge_sign_with_arg(char **cmds,
+									t_env *built);
+int								ft_handle_too_many_args(char **cmds,
+									char *merged_str, t_env *built);
 void							ft_is_check_after_dollar(char *str,
 									t_env *built);
 char							*ft_zsh_prompt(t_env *built);
@@ -244,129 +383,6 @@ void							ft_strtrim(char *str, char c);
 void							ft_print_lex(t_lex *lex);
 void							ft_lexer(t_parse *parse, t_env *built,
 									char **env);
-//## PARSING ##
-int								ft_check_tab(char **tab);
-void							ft_space_arg(t_parse *parse);
-void							ft_meta_arg(t_parse *parse);
-void							ft_string_arg(t_parse *parse);
-void							ft_join_string(t_parse *parse);
-void							ft_printf_lst(t_parse *parse);
-void							ft_free_node(t_parse *node);
-void							ft_free_tab(char **tab);
-void							ft_free_parser(t_parse *parse);
-
-//##STOP ##
-void							ft_parsing(t_parse *parse, t_env *built,
-									char **env);
-int								ft_string_is_closed(char *str);
-void							ft_free_env(t_env *built);
-void							ft_free_tab(char **tab);
 char							**ft_split3(char *str, char *charset);
-void							ft_free_lex(t_lex *lex);
-void							ft_exit(t_exe *exec, t_env *built, t_b *b);
-int								ft_check_access(char *to_test, char **paths);
-void							ft_print_exec(t_exe *exec);
-void							ft_check_type(t_lex *lex);
-void							ft_check_here_doc(t_exe *exec, t_env *built);
-void							ft_add_slash_to_paths(char **paths);
-void							ft_cmd_path(t_b *b, char **env);
-void							ft_create_new(t_exe *new);
-void							ft_debug_lst(t_exe *exe);
-void							ft_free_parser(t_parse *parse);
-void							ft_putstr(char *str);
-int								ft_strstrstrlen(char ***str);
-int								ft_recast(t_lex *lex, t_exe *exec, t_env *built,
-									t_b *b);
-//## REDIRECTION ##
-void							ft_setup_redirection(t_exe *exec, t_b *b);
-void							ft_close_pipes(int *pipefd, int cmds_count);
-
-//## EXECUTION ##
-int								ft_execute(t_lex *lex, t_env *built);
-void							ft_init_exec(t_exe *exec);
-void							ft_free_cmds(t_exe *exec);
-void							ft_free_exec(t_exe *exec);
-int								ft_count_cmds(t_exe *exec);
-
-//## BUILTIN ##
-void							ft_lstadd_back(t_env **lst, t_env *new);
-t_env							*ft_lstnew(char *str);
-void							ft_free_stack(t_env **head);
-void							ft_read_list(t_env **head);
-
-//## PARSING ##
-//##META TAB UTILS ##
-int								ft_meta_char(char c);
-int								ft_meta_detect(char *str);
-
-//##STRING TAB UTILS##
-int								ft_string_char(char c);
-int								ft_string_detect(char *str);
-
-//## UTILS ##
-//## COLORS ##
-void							ft_putstr2(char *str);
-void							ft_color(char *str, int n, ...);
-
-//## SPLIT ##
-void							freetab(char **tab, int k);
-char							**ft_split(char *s, char c);
-char							**ft_split2(char *str, char *charset);
-
-//## STRDUP ##
-char							*ft_strdup(char *s);
-char							*ft_malloc_copy_char(char c);
-char							*ft_strndup(const char *s, int n);
-char							*ft_strndup2(const char *s, int n);
-char							*ft_master_strndup(char *s, int start,
-									int size);
-
-//## STRJOIN ##
-int								ft_size(char const *s1, char const *s2);
-char							*ft_strjoin(char const *s1, char const *s2);
-char							*ft_strjoin2(char const *s1, char const *s2);
-char							*ft_join(char *str, char const *s1,
-									char const *s2);
-
-//## TOOLS ##
-int								ft_strlen(char *str);
-int								ft_strstrlen(char **str);
-void							ft_bzero(void *s, size_t n);
-void							*ft_calloc(size_t nmemb, size_t size);
-int								ft_strncmp(const char *s1, const char *s2,
-									size_t n);
-int								ft_strcmp(char *s1, char *s2);
-char							*ft_free_stash(char *str);
-char							*get_next_line(int fd);
-
-//## BUILTIN ##
-void							ft_echo(t_exe *current, t_env *built);
-void							ft_which_builtin(t_exe *current, t_env *built,
-									t_b *b);
-
-//## ERROR ##
-void							ft_error(int i);
-
-//## SIGNAL ##
-void							ft_handle_sigint(int sig);
-void							ft_handle_sigquit(int sig);
-void							ft_setup_signals_handler(void);
-
-//## PROMPT ##
-void							ft_init_history(void);
-// void				ft_prompt(char **env, t_env *built, t_parse *parse);
-void							ft_prompt(char **env, t_env *built);
-
-// // #TOOLS#
-// char		**ft_split(char const *s, char c);
-// char		*ft_strjoin(char const *s1, char const *s2);
-// char		*ft_malloc_copy_char(char c);
-// char		*ft_strdup(char *s);
-// char		*ft_strndup(const char *s, int n);
-// char		*ft_strndup2(const char *s, int n);
-// char		*ft_master_strndup(char *s, int start, int size);
-// int			ft_strncmp(const char *s1, const char *s2, size_t n);
-// int			ft_strstrlen(char **str);
-// int			ft_strlen(char *str);
 
 #endif

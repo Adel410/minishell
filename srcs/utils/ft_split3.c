@@ -6,13 +6,13 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:47 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/27 19:47:15 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:02:10 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	char_is_separator1(char c, char *charset)
+int	ft_char_is_separator1(char c, char *charset)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ int	char_is_separator1(char c, char *charset)
 	return (0);
 }
 
-int	count_words1(char *str, char *charset)
+int	ft_count_words1(char *str, char *charset)
 {
 	int	i;
 	int	words;
@@ -37,20 +37,20 @@ int	count_words1(char *str, char *charset)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i + 1] && char_is_separator1(str[i + 1], charset) == 1
-			&& char_is_separator1(str[i], charset) == 0)
+		if (str[i + 1] && ft_char_is_separator1(str[i + 1], charset) == 1
+			&& ft_char_is_separator1(str[i], charset) == 0)
 			words++;
 		i++;
 	}
 	return (words);
 }
 
-void	write_word1(char *dest, char *from, char *charset)
+void	ft_write_word1(char *dest, char *from, char *charset)
 {
 	int	i;
 
 	i = 0;
-	while (char_is_separator1(from[i], charset) == 0)
+	while (ft_char_is_separator1(from[i], charset) == 0)
 	{
 		dest[i] = from[i];
 		i++;
@@ -58,39 +58,33 @@ void	write_word1(char *dest, char *from, char *charset)
 	dest[i] = '\0';
 }
 
-void	write_split1(char **split, char *str, char *charset)
+void	ft_write_split1(char **split, char *str, char *charset)
 {
-	int	i;
-	int	j;
-	int	word;
-	int	cha;
+	t_split_data3	data;
+	int				j;
 
-	word = 0;
-	i = 0;
-	cha = 0;
-	while (str[i] != '\0')
+	data.split = split;
+	data.str = str;
+	data.charset = charset;
+	data.i = 0;
+	data.word = 0;
+	while (data.str[data.i] != '\0')
 	{
-		cha = char_is_separator1(str[i], charset);
-		if (cha > 0)
-		{
-			split[word] = malloc(sizeof(char) * 2);
-			split[word][0] = charset[cha];
-			split[word][1] = '\0';
-			word++;
-			i++;
-		}
-		else
+		ft_process_separator(&data);
+		if (ft_char_is_separator1(data.str[data.i], data.charset) == 0)
 		{
 			j = 0;
-			while (char_is_separator1(str[i + j], charset) == 0)
+			while (ft_char_is_separator1(data.str[data.i + j],
+					data.charset) == 0)
 				j++;
-			split[word] = (char *)malloc(sizeof(char) * (j + 1));
-			write_word1(split[word], str + i, charset);
-			i += j;
-			word++;
+			data.split[data.word] = (char *)malloc(sizeof(char) * (j + 1));
+			ft_write_word1(data.split[data.word], data.str + data.i,
+				data.charset);
+			data.i += j;
+			data.word++;
 		}
-		split[word] = NULL;
 	}
+	data.split[data.word] = NULL;
 }
 
 char	**ft_split3(char *str, char *charset)
@@ -98,9 +92,9 @@ char	**ft_split3(char *str, char *charset)
 	char	**split;
 	int		words;
 
-	words = count_words1(str, charset);
+	words = ft_count_words1(str, charset);
 	split = (char **)malloc(sizeof(char *) * (words + 10));
 	split[words] = 0;
-	write_split1(split, str, charset);
+	ft_write_split1(split, str, charset);
 	return (split);
 }

@@ -6,124 +6,99 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:46:09 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:07:35 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/05 13:14:16 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-long	ft_strtol(const char *nptr, char **endptr, int base)
+void	ft_validate_number_and_exit(char *str, t_env *built)
 {
-	int		negative;
-	long	result;
-	int		digit;
-
-	negative = 0;
-	result = 0;
-	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
-	{
-		if (*nptr == '-')
-			negative = 1;
-		else
-			negative = 0;
-		nptr++;
-	}
-	while (1)
-	{
-		if (*nptr >= '0' && *nptr <= '9')
-			digit = *nptr - '0';
-		else if (*nptr >= 'a' && *nptr <= 'z')
-			digit = *nptr - 'a' + 10;
-		else if (*nptr >= 'A' && *nptr <= 'Z')
-			digit = *nptr - 'A' + 10;
-		else
-			break ;
-		if (digit >= base)
-			break ;
-		if (result > (LONG_MAX - digit) / base)
-		{
-			if (negative)
-				result = LONG_MIN;
-			else
-				result = LONG_MAX;
-			while ((*nptr >= '0' && *nptr <= '9') || (*nptr >= 'a'
-					&& *nptr <= 'z') || (*nptr >= 'A' && *nptr <= 'Z'))
-				nptr++;
-			break ;
-		}
-		result = result * base + digit;
-		nptr++;
-	}
-	if (endptr)
-		*endptr = (char *)nptr;
-	if (negative)
-		return (-result);
-	else
-		return (result);
-}
-
-void	ft_exit(t_exe *exec, t_env *built, t_b *b)
-{
-	long	code;
-	char	*str;
 	char	*endptr;
-	char	*merged_str;
+	long	code;
 
-	merged_str = NULL;
-	ft_putstr_fd("exit\n", 1);
-	(close(built->save_stdin), close(built->save_stdout));
-	if (exec->cmds[1])
-	{
-		str = exec->cmds[1];
-		if ((ft_strcmp(str, "+") == 0 || ft_strcmp(str, "-") == 0)
-			&& exec->cmds[2])
-		{
-			merged_str = ft_calloc(strlen(str), ft_strlen(exec->cmds[2]) + 1);
-			if (!merged_str)
-				built->exit_code = 1;
-			ft_strcpy(merged_str, str);
-			ft_strcat(merged_str, exec->cmds[2]);
-			str = merged_str;
-		}
-		if (!is_valid_number(str))
-		{
-			ft_putstr_fd("bash: exit: ", 2);
-			ft_putstr_fd(str, 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			code = 2;
-		}
-		else
-		{
-			code = ft_strtol(str, &endptr, 10);
-			if (*endptr != '\0')
-			{
-				ft_putstr_fd("bash: exit: ", 2);
-				ft_putstr_fd(str, 2);
-				ft_putstr_fd(": numeric argument required\n", 2);
-				code = 2;
-			}
-			else if (exec->cmds[2] && !merged_str)
-			{
-				ft_putstr_fd("bash: exit: too many arguments\n", 2);
-				free(merged_str);
-				return ;
-			}
-		}
-		free(merged_str);
-	}
-	else
-		code = built->exit_code;
-	if (code > INT_MAX || code < INT_MIN)
+	if (!is_valid_number(str))
 	{
 		ft_putstr_fd("bash: exit: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		code = 2;
+		ft_free_env(built);
+		exit(2);
 	}
+	code = ft_strtol(str, &endptr, 10);
+	if (*endptr != '\0')
+	{
+		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_free_env(built);
+		exit(2);
+	}
+	built->exit_code = code;
+}
+
+int	ft_process_exit_arguments(t_exe *exec, char *str, char *merged_str,
+		t_env *built)
+{
+	ft_validate_number_and_exit(str, built);
+	if (ft_handle_too_many_args(exec->cmds, merged_str, built) == 1)
+	{
+		return (1);
+		free(merged_str);
+	}
+	else
+		return (0);
+}
+
+int	ft_is_exit_code_invalid(long exit_code, char *str)
+{
+	if (exit_code > INT_MAX || exit_code < INT_MIN)
+	{
+		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_cleanup_and_exit(t_b *b, t_exe *exec, t_env *built, long exit_code)
+{
+	int	normalized_code;
+
 	ft_free_b(b);
 	ft_free_exec(exec);
 	ft_free_env(built);
-	exit((code % 256 + 256) % 256);
+	normalized_code = exit_code % 256;
+	if (normalized_code < 0)
+		normalized_code += 256;
+	exit(normalized_code);
+}
+
+void	ft_exit(t_exe *exec, t_env *built, t_b *b)
+{
+	long	exit_code;
+	char	*str;
+	char	*merged_str;
+
+	ft_print_and_close(built);
+	merged_str = NULL;
+	if (exec->cmds[1])
+	{
+		str = ft_merge_sign_with_arg(exec->cmds, built);
+		if (str)
+		{
+			if (ft_process_exit_arguments(exec, str, merged_str, built) == 1)
+			{
+				built->exit_code = 1;
+				return ;
+			}
+		}
+	}
+	else
+		str = NULL;
+	exit_code = built->exit_code;
+	if (ft_is_exit_code_invalid(exit_code, str))
+		exit_code = 2;
+	ft_cleanup_and_exit(b, exec, built, exit_code);
 }
