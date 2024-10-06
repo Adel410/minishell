@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/05 12:57:08 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/06 11:52:04 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ FILES	=	srcs/main.c \
 			srcs/parsing/ft_nice_list.c \
 			srcs/parsing/ft_space_list.c \
 			srcs/parsing/ft_string_list.c \
+			srcs/parsing/ft_concat_arg.c \
 			srcs/parsing/ft_parsing_utils2.c \
 			srcs/parsing/ft_parsing_utils.c \
 			srcs/expand/ft_expand_parsing.c \

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/04 18:28:00 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:55:53 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 
 void	ft_copy_index(t_lex *lex, t_parse *tmp, char index, char **env)
 {
-	if (lex->flag_echo == 1)
-	{
-		if (ft_manage_string(lex, tmp, index) == 1)
-			return ;
-	}
-	else if (index == '2')
+	if (index == '2')
 	{
 		(ft_strtrim(tmp->arg, '"'), ft_strrtrim(tmp->arg, '"'));
 		if (ft_test_if_execute(tmp->arg, env) == 1)

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:41:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/04 14:48:11 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:51:21 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ void	ft_parsing(t_parse *parse, t_env *built, char **env)
 		return ;
 	}
 	ft_expand_arg(parse, built);
+	ft_concatenate(parse);
 	ft_lexer(parse, built, env);
 }

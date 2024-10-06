@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:44:46 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/01 14:29:02 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:41:16 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_echo_without_n(t_exe *current)
 	while (current->cmds[i])
 	{
 		ft_putstr(current->cmds[i]);
+		ft_putstr(" ");
 		i++;
 	}
 	ft_putstr("\n");
@@ -61,6 +62,7 @@ void	ft_echo(t_exe *current, t_env *built)
 		while (current->cmds[i])
 		{
 			ft_putstr(current->cmds[i]);
+			ft_putstr(" ");
 			i++;
 		}
 	}

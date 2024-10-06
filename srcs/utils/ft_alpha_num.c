@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:55:23 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/05 13:16:49 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:58:52 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_is_alpha(char c)
 	return (0);
 }
 
-int	is_valid_number(const char *str)
+int	ft_is_valid_number(const char *str)
 {
 	if (*str == '+' || *str == '-')
 		str++;

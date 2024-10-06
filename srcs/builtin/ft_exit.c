@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:46:09 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/05 13:14:16 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:58:48 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_validate_number_and_exit(char *str, t_env *built)
 	char	*endptr;
 	long	code;
 
-	if (!is_valid_number(str))
+	if (!ft_is_valid_number(str))
 	{
 		ft_putstr_fd("bash: exit: ", 2);
 		ft_putstr_fd(str, 2);

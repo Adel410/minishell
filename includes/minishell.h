@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/05 13:36:07 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:58:30 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ typedef struct s_exe
 extern volatile sig_atomic_t	g_signal_received;
 
 //## PARSING ##
+void							ft_concatenate(t_parse *parse);
 int								ft_check_tab(char **tab);
 void							ft_space_arg(t_parse *parse);
 void							ft_meta_arg(t_parse *parse);
@@ -245,7 +246,6 @@ int								ft_meta_detect(char *str);
 int								ft_string_char(char c);
 int								ft_string_detect(char *str);
 
-//## UTILS ##
 //## COLORS ##
 void							ft_putstr2(char *str);
 void							ft_color(char *str, int n, ...);
@@ -280,20 +280,6 @@ int								ft_strncmp(const char *s1, const char *s2,
 int								ft_strcmp(char *s1, char *s2);
 char							*ft_free_stash(char *str);
 char							*get_next_line(int fd);
-
-//## ERROR ##
-void							ft_error(int i);
-
-//## SIGNAL ##
-void							ft_handle_sigint(int sig);
-void							ft_handle_sigquit(int sig);
-void							ft_setup_signals_handler(void);
-
-//## PROMPT ##
-void							ft_init_history(void);
-void							ft_prompt(char **env, t_env *built);
-
-//## MISCELLANEOUS ##
 int								ft_get_digit(const char c);
 void							freetab(char **tab, int k);
 char							*ft_strncpy(char *dest, const char *src,
@@ -327,7 +313,7 @@ void							ft_free_string_and_parse(char *str,
 void							ft_free_parse_and_crash(t_parse *parse);
 void							ft_free_tab_and_parse(char **tab,
 									t_parse *parse);
-int								is_valid_number(const char *str);
+int								ft_is_valid_number(const char *str);
 char							*ft_strcat(char *dest, const char *src);
 char							*ft_strcpy(char *dest, const char *src);
 char							*ft_join_path(t_b *b, char *cmd);
@@ -384,5 +370,17 @@ void							ft_print_lex(t_lex *lex);
 void							ft_lexer(t_parse *parse, t_env *built,
 									char **env);
 char							**ft_split3(char *str, char *charset);
+
+//## ERROR ##
+void							ft_error(int i);
+
+//## SIGNAL ##
+void							ft_handle_sigint(int sig);
+void							ft_handle_sigquit(int sig);
+void							ft_setup_signals_handler(void);
+
+//## PROMPT ##
+void							ft_init_history(void);
+void							ft_prompt(char **env, t_env *built);
 
 #endif
