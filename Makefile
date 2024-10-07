@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/06 11:52:04 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/07 14:00:50 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,6 @@ FILES	=	srcs/main.c \
 			srcs/utils/ft_alpha_num.c \
 			srcs/utils/ft_strdup.c \
 			srcs/utils/ft_strjoin.c \
-			srcs/utils/ft_strjoin2.c \
 			srcs/utils/ft_strtol.c \
 			srcs/utils/ft_tools.c \
 			srcs/utils/ft_tools2.c \
@@ -60,8 +59,6 @@ FILES	=	srcs/main.c \
 			srcs/utils/ft_split4.c \
 			srcs/utils/ft_split_utils.c \
 			srcs/utils/ft_colors.c \
-			srcs/utils/ft_init.c \
-			srcs/utils/ft_linked.c \
 			srcs/exec/ft_execution.c \
 			srcs/exec/ft_recast.c \
 			srcs/exec/ft_redirection.c \

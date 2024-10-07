@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:21:58 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/05 13:04:53 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:00:22 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*ft_put_word_in_malloc(const char *s, char c)
 	return (word);
 }
 
-static int	handle_non_separator(t_split_data *data)
+static int	ft_handle_non_separator(t_split_data *data)
 {
 	data->tab[data->j] = ft_put_word_in_malloc(&data->s[data->i], data->c);
 	if (!data->tab[data->j])
@@ -42,7 +42,7 @@ static int	handle_non_separator(t_split_data *data)
 	return (1);
 }
 
-static int	handle_separator(t_split_data *data)
+static int	ft_handle_separator(t_split_data *data)
 {
 	data->tab[data->j] = malloc(sizeof(char) * 2);
 	if (!data->tab[data->j])
@@ -73,12 +73,12 @@ static char	**ft_malloc_word(char *s, char c)
 	{
 		if (data.s[data.i] != data.c)
 		{
-			if (!handle_non_separator(&data))
+			if (!ft_handle_non_separator(&data))
 				return (NULL);
 		}
 		else
 		{
-			if (!handle_separator(&data))
+			if (!ft_handle_separator(&data))
 				return (NULL);
 		}
 	}

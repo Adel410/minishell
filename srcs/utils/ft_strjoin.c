@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:49:10 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/09/26 19:55:11 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:02:18 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,74 @@ char	*ft_join(char *str, char const *s1, char const *s2)
 	return (str);
 }
 
-// fake strjoin
-char	*ft_strjoin(char const *s1, char const *s2)
+int	ft_strlen_stat(const char *str)
 {
-	char	*str;
-	int		size;
+	int	i;
 
-	size = ft_size(s1, s2);
-	str = ft_calloc(sizeof(char *), size + 2);
+	i = 0;
 	if (!str)
+		return (0);
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+// vrai strjoin
+char	*ft_strjoin2(char const *s1, char const *s2)
+{
+	size_t	index;
+	size_t	j;
+	char	*ptr;
+
+	j = 0;
+	index = ft_strlen_stat(s1) + ft_strlen_stat(s2) + 1;
+	ptr = (char *)malloc(index);
+	index = 0;
+	if (ptr == NULL)
 		return (NULL);
-	str = ft_join(str, s1, s2);
-	return (str);
+	while (s1[index])
+	{
+		ptr[j] = s1[index];
+		index++;
+		j++;
+	}
+	index = 0;
+	while (s2[index])
+	{
+		ptr[j] = s2[index];
+		index++;
+		j++;
+	}
+	ptr[j] = '\0';
+	return (ptr);
+}
+
+char	*ft_strjoin3(char *s1, char *s2)
+{
+	size_t	index;
+	size_t	j;
+	char	*ptr;
+
+	j = 0;
+	index = ft_strlen_stat(s1) + ft_strlen_stat(s2) + 1;
+	ptr = (char *)malloc(index);
+	index = 0;
+	while (s1[index])
+	{
+		ptr[j] = s1[index];
+		index++;
+		j++;
+	}
+	index = 0;
+	while (s2[index])
+	{
+		ptr[j] = s2[index];
+		index++;
+		j++;
+	}
+	ptr[j] = '\0';
+	(free(s1), free(s2));
+	return (ptr);
 }

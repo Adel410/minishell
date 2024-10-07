@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:17:54 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/03 17:25:13 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:55:28 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,77 @@ void	ft_get_join(t_parse *tmp)
 		ft_get_join2(tmp);
 }
 
-void	ft_join_string(t_parse *parse)
+int	ft_check_if_quote(t_parse *tmp, char c)
+{
+	if (!tmp)
+		return (0);
+	while (tmp)
+	{
+		if (tmp->arg[0] == c)
+			return (1);
+		if (tmp->next)
+			tmp = tmp->next;
+		else
+			break ;
+	}
+	return (0);
+}
+
+int	ft_check_if_joinable(t_parse *tmp)
+{
+	int	flag;
+
+	flag = 0;
+	while (tmp)
+	{
+		if (tmp->arg && tmp->arg[0] == '"')
+		{
+			flag = 1;
+			if (tmp->next)
+			{
+				flag += ft_check_if_quote(tmp->next, tmp->arg[0]);
+				printf("flag === %d\n", flag);
+				if (flag != 2)
+					return (1);
+				else
+					return (0);
+			}
+			else
+				return (1);
+		}
+		if (tmp->arg && tmp->arg[0] == '\'')
+		{
+			flag = 1;
+			flag += ft_check_if_quote(tmp, tmp->arg[0]);
+			printf("flag === %d\n", flag);
+			if (flag != 2)
+				return (1);
+			else
+				return (0);
+		}
+		if (tmp->next)
+			tmp = tmp->next;
+		else
+			break ;
+	}
+	return (0);
+}
+
+int	ft_join_string(t_parse *parse)
 {
 	t_parse	*tmp;
 
 	tmp = parse;
-	while (tmp)
+	if (ft_check_if_joinable(tmp) == 0)
 	{
-		if (tmp->arg && (tmp->arg[0] == 34 || tmp->arg[0] == 39))
-			ft_get_join(tmp);
-		tmp = tmp->next;
+		while (tmp)
+		{
+			if (tmp->arg && (tmp->arg[0] == 34 || tmp->arg[0] == 39))
+				ft_get_join(tmp);
+			tmp = tmp->next;
+		}
+		return (0);
 	}
+	else
+		return (1);
 }

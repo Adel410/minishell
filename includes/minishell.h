@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/07 13:44:09 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:35:00 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int								ft_check_tab(char **tab);
 void							ft_space_arg(t_parse *parse);
 void							ft_meta_arg(t_parse *parse);
 void							ft_string_arg(t_parse *parse);
-void							ft_join_string(t_parse *parse);
+int								ft_join_string(t_parse *parse);
 void							ft_printf_lst(t_parse *parse);
 void							ft_free_node(t_parse *node);
 void							ft_free_tab(char **tab);
