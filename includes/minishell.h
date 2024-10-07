@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/06 11:58:30 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:44:09 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_b
 {
 	int							infile;
 	int							outfile;
+	int							hd_count;
 	char						**cmd_path;
 	char						*path;
 	int							*pipefd;
@@ -181,6 +182,7 @@ typedef struct s_exe
 	char						*output_file;
 	int							append_output;
 	int							here_doc;
+	int							fd_here_doc;
 	int							builtin;
 	struct s_exe				*next;
 	struct s_b					*b;
@@ -271,6 +273,8 @@ char							*ft_join(char *str, char const *s1,
 									char const *s2);
 
 //## TOOLS ##
+void							ft_unlink_here_doc(int here_doc_count);
+void							ft_int_to_str(int num, char *buffer);
 int								ft_strlen(char *str);
 int								ft_strstrlen(char **str);
 void							ft_bzero(void *s, size_t n);
@@ -296,12 +300,13 @@ int								ft_handle_too_many_args(char **cmds,
 void							ft_is_check_after_dollar(char *str,
 									t_env *built);
 char							*ft_zsh_prompt(t_env *built);
-void							ft_multiple_checks(t_env *built, t_parse *parse,
-									char *input);
+void							ft_multiple_checks(t_env *built, char *input);
 void							ft_reset_std(t_env *built);
-void							ft_ctrl_d(t_env *built, t_parse *parse);
+void							ft_ctrl_d(t_env *built);
 void							ft_save_std(t_env *built);
-int								ft_here_doc(t_exe *exec, t_env *built);
+int								ft_here_doc(t_exe *exec, t_env *built,
+									int here_doc_count);
+char							*ft_create_filename(int here_doc_count);
 int								ft_size_of_expand(char *str);
 int								ft_correct_name_export(char *str, t_env *built);
 int								ft_check_export(char *str, t_env *built);
@@ -361,7 +366,8 @@ char							*ft_get_path(char *path, char **env);
 char							**ft_split4(char const *s, char c);
 void							ft_check_node(t_exe *current);
 int								ft_check_limiter(t_exe *current);
-void							ft_check_list(t_exe *exec);
+void							ft_check_list(t_exe *exec, t_env *built,
+									t_b *b);
 int								ft_check_if_already(t_exe *current, char *str);
 int								ft_is_builtin(char *str);
 void							ft_strrtrim(char *str, char c);

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 19:34:38 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:41:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ int	ft_recast_meta(t_lex *lex, t_exe *new)
 	if (lex->type == '#')
 		new->append_output = 1;
 	else if (lex->type == '*')
-	{
 		new->here_doc = 1;
-		new->input_file = ft_strdup("here_doc");
-	}
 	else if (lex->type == '@')
 		new->output_file = ft_strdup(lex->str);
 	else if (lex->type == '%')
@@ -104,8 +101,7 @@ int	ft_recast(t_lex *lex, t_exe *exec, t_env *built, t_b *b)
 		else
 			lex = lex->next;
 	}
-	ft_check_list(exec);
-	ft_check_here_doc(exec, built);
+	ft_check_list(exec, built, b);
 	if (check != 0)
 		return (1);
 	return (0);

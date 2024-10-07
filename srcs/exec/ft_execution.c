@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/06 11:33:08 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:44:15 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ void	ft_trouble_execute(char *str, t_exe *current, t_env *built, t_b *b)
 	if (cmd_path != NULL)
 	{
 		if (access(cmd_path, X_OK) == 0)
-		{
-			if (access("here_doc", F_OK) == 0)
-				unlink("here_doc");
 			execve(cmd_path, current->cmds, built->env);
-		}
 	}
 	else if (access(str, X_OK) != 0 || access(str, W_OK) != 0
 		|| opendir(str) == NULL)
@@ -141,6 +137,7 @@ int	ft_execute(t_lex *lex, t_env *built)
 		ft_which_builtin(exec, built, b);
 	else
 		ft_fork_and_pipe(exec, built, b);
+	ft_unlink_here_doc(b->hd_count);
 	ft_free_exec(exec);
 	ft_free_b(b);
 	return (0);

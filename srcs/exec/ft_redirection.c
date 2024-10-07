@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:28:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 19:31:39 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:49:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_input_redirection(t_exe *cmd, t_b *b)
 		if (dup2(fd_infile, STDIN_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		close(fd_infile);
+		if (access("here_doc", F_OK) == 1)
+			unlink("here_doc");
 	}
 	else if (b->w > 0)
 	{

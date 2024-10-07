@@ -6,16 +6,14 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 20:02:10 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/05 13:20:25 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:36:58 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_ctrl_d(t_env *built, t_parse *parse)
+void	ft_ctrl_d(t_env *built)
 {
-	(void)built;
-	(void)parse;
 	built->exit_code = 143;
 	exit(143);
 }
@@ -33,10 +31,10 @@ void	ft_reset_std(t_env *built)
 	(close(built->save_stdin), close(built->save_stdout));
 }
 
-void	ft_multiple_checks(t_env *built, t_parse *parse, char *input)
+void	ft_multiple_checks(t_env *built, char *input)
 {
 	if (!input)
-		ft_ctrl_d(built, parse);
+		ft_ctrl_d(built);
 	if (input && *input)
 		add_history(input);
 }
