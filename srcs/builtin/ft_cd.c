@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:24:58 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/08 16:21:02 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:03:31 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_cd(t_exe *current, t_env *built)
 	path = NULL;
 	if (current->cmds[1] && current->cmds[2])
 	{
-		ft_putstr_fd("bash: cd: too many arguments\n", 2);
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		built->exit_code = 1;
 		return ;
 	}

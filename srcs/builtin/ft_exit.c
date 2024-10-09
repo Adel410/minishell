@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:46:09 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/06 11:58:48 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:03:40 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_validate_number_and_exit(char *str, t_env *built)
 
 	if (!ft_is_valid_number(str))
 	{
-		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		ft_free_env(built);
@@ -28,7 +28,7 @@ void	ft_validate_number_and_exit(char *str, t_env *built)
 	code = ft_strtol(str, &endptr, 10);
 	if (*endptr != '\0')
 	{
-		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		ft_free_env(built);
@@ -54,7 +54,7 @@ int	ft_is_exit_code_invalid(long exit_code, char *str)
 {
 	if (exit_code > INT_MAX || exit_code < INT_MIN)
 	{
-		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		return (1);

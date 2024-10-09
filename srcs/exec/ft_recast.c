@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 13:34:24 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:09:23 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	ft_recast_meta(t_lex *lex, t_exe *new)
 	if ((lex->type == '5' || lex->type == '6' || lex->type == '#'
 			|| lex->type == '*') && lex->next == NULL)
 	{
-		ft_putstr("bash: syntax error near unexpected token `newline'\n");
+		ft_putstr_fd("minishell:", 2);
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		return (2);
 	}
 	if (lex->type == '#')

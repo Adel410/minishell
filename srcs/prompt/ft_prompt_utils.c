@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 20:02:10 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/08 15:13:02 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:03:12 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_multiple_checks(t_env *built, char *input)
 void	ft_zsh_prompt(t_env *built)
 {
 	if (built->exit_code == 0)
-		built->input = readline(GREEN BIG "➜ " CYAN BIG " Minishell 🔧🐪 " RESET);
+		built->input = readline(GREEN BIG "➜ " CYAN BIG " Minishell " RESET);
 	else
-		built->input = readline(RED BIG "➜ " CYAN BIG " Minishell 🔧🐪 " RESET);
+		built->input = readline(RED BIG "➜ " CYAN BIG " Minishell " RESET);
 }

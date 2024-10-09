@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:04:23 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/08 15:00:51 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:24:15 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ void	ft_prompt(t_env *built)
 	while (1)
 	{
 		parse = (t_parse *)malloc(sizeof(t_parse));
+		if (!parse)
+			exit(EXIT_FAILURE);
 		ft_zsh_prompt(built);
 		ft_multiple_checks(built, built->input);
 		if (ft_strlen(built->input) == 0)
+		{
+			free(parse);
 			continue ;
+		}
 		ft_save_std(built);
 		if (ft_strlen(built->input) > 0)
 			parse->arg = ft_strdup(built->input);

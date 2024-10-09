@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:53:04 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/07 13:40:52 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:09:03 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,15 @@ int	ft_check_limiter(t_exe *current)
 	if (current->here_doc == 1 && !current->limiter)
 	{
 		if (current->next != NULL)
-			ft_putstr_fd("bash: syntax error near unexpected token '|'\n", 2);
+		{
+			ft_putstr_fd("minishell:", 2);
+			ft_putstr_fd("syntax error near unexpected token '|'\n", 2);
+		}
 		else
-			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n",
-				2);
+		{
+			ft_putstr_fd("minishell:", 2);
+			ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		}
 		return (2);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:54:49 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 13:26:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:25:19 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_add_env(t_env *head, char **env)
 	return ;
 }
 
-int	g_signal_received;
+int	g_signal_received = 0;
 
 int	main(int ac, char **av, char **env)
 {
@@ -52,8 +52,7 @@ int	main(int ac, char **av, char **env)
 	built = (t_env *)malloc(sizeof(t_env));
 	if (!built)
 	{
-		printf("error here\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	built->exit_code = 0;
 	ft_add_env(built, env);

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 13:32:31 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:29:08 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ int	ft_check_lexer(t_lex *lex)
 			|| tmp->type == '#' || tmp->type == '*')
 		{
 			if (tmp->next && (tmp->next->type == '4' || tmp->next->type == '5'
-					|| tmp->next->type == '6' || tmp->next->type == '#'
-					|| tmp->next->type == '*'))
+					|| tmp->next->type == '6' || tmp->next->type == '#'))
 			{
-				ft_putstr_fd("bash: syntax error near unexpected token\n", 2);
-				return (1);
+				ft_putstr_fd("minishell: ", 2);
+				return (ft_putstr_fd("syntax error near unexpected token\n", 2),
+					1);
 			}
 		}
 		if (tmp->next)
@@ -112,9 +112,12 @@ void	ft_lexer(t_parse *parse, t_env *built)
 	t_lex	*lex;
 
 	lex = ft_calloc(sizeof(t_lex), 1);
-	lex->flag_echo = 0;
-	if (lex == NULL)
+	if (!lex)
+	{
+		ft_free_parser(parse);
 		return ;
+	}
+	lex->flag_echo = 0;
 	ft_indexing(parse, lex);
 	ft_free_parser(parse);
 	if (ft_check_lexer(lex) == 1)

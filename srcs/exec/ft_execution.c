@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 13:59:30 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:31:10 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,12 @@ int	ft_execute(t_lex *lex, t_env *built)
 	t_b		*b;
 
 	b = ft_calloc(1, sizeof(t_b));
+	if (!b)
+		return (ft_free_lex(lex), 1);
 	b->w = 0;
 	exec = ft_calloc(1, sizeof(t_exe));
-	if (exec == NULL)
-		return (1);
+	if (!exec)
+		return (ft_free_lex(lex), 1);
 	ft_init_exec(exec);
 	b->nb_cmds1 = ft_count_cmds2(lex);
 	ft_cmd_path(b, built->env);

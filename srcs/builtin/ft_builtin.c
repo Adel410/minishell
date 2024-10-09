@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/05 12:10:46 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:03:25 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_pwd(char **env, t_exe *current)
 	{
 		if (current->cmds[1] && current->cmds[1][0] == '-')
 		{
-			ft_putstr("bash : ");
+			ft_putstr("minishell : ");
 			ft_putstr(current->cmds[1]);
 			ft_putstr(" invalid option\n");
 			return ;

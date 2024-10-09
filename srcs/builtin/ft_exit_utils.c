@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:30:29 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/05 12:40:48 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:03:35 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_handle_too_many_args(char **cmds, char *merged_str, t_env *built)
 {
 	if (cmds[2] && !merged_str)
 	{
-		ft_putstr_fd("bash: exit: too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		built->exit_code = 1;
 		return (1);
 	}

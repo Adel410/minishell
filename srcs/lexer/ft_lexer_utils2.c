@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:35:44 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/08 15:39:53 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:05:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,20 @@ int	ft_check_last_node(t_lex *tmp)
 		tmp = tmp->prev;
 		free(tmp->next);
 		tmp->next = NULL;
-		return (ft_putstr_fd("bash: syntax error near unexpected token `", 2),
-			ft_putstr_fd(tmp->str, 2), ft_putstr_fd("'\n", 2), 1);
+		return (ft_putstr_fd("minishell: syntax error near unexpected token `",
+				2),
+			ft_putstr_fd(tmp->str, 2),
+			ft_putstr_fd("'\n", 2),
+			1);
 	}
 	if (tmp->type == '4' || tmp->type == '5' || tmp->type == '6'
 		|| tmp->type == '#' || tmp->type == '*')
 	{
-		return (ft_putstr_fd("bash: syntax error near unexpected token `", 2),
-			ft_putstr_fd(tmp->str, 2), ft_putstr_fd("'\n", 2), 1);
+		return (ft_putstr_fd("minishell: syntax error near unexpected token `",
+				2),
+			ft_putstr_fd(tmp->str, 2),
+			ft_putstr_fd("'\n", 2),
+			1);
 	}
 	return (0);
 }

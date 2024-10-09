@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:20:32 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/04 20:00:47 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:22:35 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_handle_sigquit(int sig)
 {
 	if (sig == SIGQUIT)
 	{
+		g_signal_received = 2;
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
