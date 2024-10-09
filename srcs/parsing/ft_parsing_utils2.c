@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 13:50:50 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/08 17:05:26 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:13:28 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,11 @@ int	ft_meta_detect(char *str)
 	return (0);
 }
 
-int	ft_find_meta(char *str)
+void	ft_invalid_input(t_parse *parse)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (ft_meta_char(str[i]) == 1)
-			return (i);
-		i++;
-	}
-	return (i);
+	ft_putstr_fd("Please enter valid strings\nMinishell is slow, thanks\n", 2);
+	free(parse->arg);
+	free(parse);
 }
 
 int	ft_check_parse_error(char **tab, int i, char token)

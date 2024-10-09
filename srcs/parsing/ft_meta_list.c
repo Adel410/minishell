@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:16:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/08 14:48:59 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:25:53 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_split_meta(t_parse *tmp)
 	t_parse	*tmp2;
 
 	i = 0;
-	tab = ft_split3(tmp->arg, TOKEN);
+	tab = ft_split3(tmp->arg);
 	if (!tab)
 	{
 		ft_free_parser(tmp);

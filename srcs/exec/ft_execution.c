@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 14:31:10 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:05:33 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_trouble_execute(char *str, t_exe *current, t_env *built, t_b *b)
 {
 	char	*cmd_path;
 
+	if (str[0] == '\0')
+		exit(0);
 	if ((str[0] == '.' || str[0] == '/') && chdir(str) == 0)
 	{
 		chdir("..");
@@ -31,7 +33,7 @@ void	ft_trouble_execute(char *str, t_exe *current, t_env *built, t_b *b)
 	}
 	else if (access(str, X_OK) != 0 || access(str, W_OK) != 0
 		|| opendir(str) == NULL)
-		ft_put_error2(current->cmds[0], 1);
+		ft_put_error(current->cmds[0], 127);
 	else if (cmd_path == NULL)
 		ft_put_error(current->cmds[0], 127);
 }
@@ -108,8 +110,8 @@ void	ft_fork_and_pipe(t_exe *exec, t_env *built, t_b *b)
 				ft_dup2_first_last(0, b, built);
 			else if (b->w == b->nb_cmds - 1 && !exec->output_file)
 				ft_dup2_first_last(1, b, built);
-			ft_setup_redirection(current, b);
 			(close(built->save_stdin), close(built->save_stdout));
+			ft_setup_redirection(current, b);
 			ft_execve(b, current, built);
 		}
 		current = current->next;
@@ -126,7 +128,6 @@ int	ft_execute(t_lex *lex, t_env *built)
 	b = ft_calloc(1, sizeof(t_b));
 	if (!b)
 		return (ft_free_lex(lex), 1);
-	b->w = 0;
 	exec = ft_calloc(1, sizeof(t_exe));
 	if (!exec)
 		return (ft_free_lex(lex), 1);
@@ -142,6 +143,7 @@ int	ft_execute(t_lex *lex, t_env *built)
 	else
 		ft_fork_and_pipe(exec, built, b);
 	ft_unlink_here_doc(b->hd_count);
+	(close(built->save_stdin), close(built->save_stdout));
 	ft_free_exec(exec);
 	ft_free_b(b);
 	return (0);

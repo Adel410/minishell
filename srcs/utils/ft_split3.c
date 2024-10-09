@@ -6,95 +6,88 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:47 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/05 13:02:10 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:47:26 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_char_is_separator1(char c, char *charset)
+int	ft_is_separator(char c)
 {
-	int	i;
-
-	i = 0;
-	while (charset[i])
-	{
-		if (c == charset[i])
-			return (i);
-		i++;
-	}
-	if (c == '\0')
-		return (-1);
-	return (0);
+	return (c == '<' || c == '>' || c == '|' || c == '"' || c == '\''
+		|| c == ' ');
 }
 
-int	ft_count_words1(char *str, char *charset)
+int	ft_count_words1(char *str)
 {
 	int	i;
-	int	words;
+	int	count;
+	int	in_word;
 
-	words = 0;
 	i = 0;
+	count = 0;
+	in_word = 0;
 	while (str[i])
 	{
-		if (str[i + 1] && ft_char_is_separator1(str[i + 1], charset) == 1
-			&& ft_char_is_separator1(str[i], charset) == 0)
-			words++;
+		if (ft_is_separator(str[i]))
+		{
+			if (in_word)
+				count++;
+			count++;
+			in_word = 0;
+		}
+		else if (!in_word)
+			in_word = 1;
 		i++;
 	}
-	return (words);
+	if (in_word)
+		count++;
+	return (count);
 }
 
-void	ft_write_word1(char *dest, char *from, char *charset)
+void	ft_write_word(char **split, char *str, int len, int *index)
+{
+	split[*index] = malloc(len + 1);
+	ft_strncpy(split[*index], str, len);
+	split[*index][len] = '\0';
+	(*index)++;
+}
+
+void	ft_write_split1(char **split, char *str, int max_words)
 {
 	int	i;
+	int	word_start;
+	int	word_index;
 
 	i = 0;
-	while (ft_char_is_separator1(from[i], charset) == 0)
+	word_start = 0;
+	word_index = 0;
+	while (str[i] && word_index < max_words - 1)
 	{
-		dest[i] = from[i];
+		if (ft_is_separator(str[i]))
+		{
+			if (i > word_start)
+				ft_write_word(split, str + word_start, i - word_start,
+					&word_index);
+			ft_write_word(split, str + i, 1, &word_index);
+			word_start = i + 1;
+		}
 		i++;
 	}
-	dest[i] = '\0';
+	if (i > word_start && word_index < max_words - 1)
+		ft_write_word(split, str + word_start, i - word_start, &word_index);
+	split[word_index] = NULL;
 }
 
-void	ft_write_split1(char **split, char *str, char *charset)
-{
-	t_split_data3	data;
-	int				j;
-
-	data.split = split;
-	data.str = str;
-	data.charset = charset;
-	data.i = 0;
-	data.word = 0;
-	while (data.str[data.i] != '\0')
-	{
-		ft_process_separator(&data);
-		if (ft_char_is_separator1(data.str[data.i], data.charset) == 0)
-		{
-			j = 0;
-			while (ft_char_is_separator1(data.str[data.i + j],
-					data.charset) == 0)
-				j++;
-			data.split[data.word] = (char *)malloc(sizeof(char) * (j + 1));
-			ft_write_word1(data.split[data.word], data.str + data.i,
-				data.charset);
-			data.i += j;
-			data.word++;
-		}
-	}
-	data.split[data.word] = NULL;
-}
-
-char	**ft_split3(char *str, char *charset)
+char	**ft_split3(char *str)
 {
 	char	**split;
 	int		words;
 
-	words = ft_count_words1(str, charset);
-	split = (char **)malloc(sizeof(char *) * (words + 10));
-	split[words] = 0;
-	ft_write_split1(split, str, charset);
+	words = ft_count_words1(str);
+	split = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!split)
+		return (NULL);
+	ft_write_split1(split, str, words + 1);
 	return (split);
 }

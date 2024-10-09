@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:41:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 13:57:04 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:08:12 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	ft_parsing(t_parse *parse, t_env *built)
 	}
 	else
 	{
-		ft_putstr("Please enter valid strings\nMinishell is slow, thanks\n");
+		ft_invalid_input(parse);
 		return ;
 	}
 }

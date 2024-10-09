@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 10:38:04 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 14:03:50 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:49:35 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_put_error(char *str, int exit_code)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": is a directory\n", 2);
+		ft_putstr_fd(": Is a directory\n", 2);
 	}
 	else if (exit_code == 127)
 	{
@@ -47,14 +47,14 @@ void	ft_put_error(char *str, int exit_code)
 	else if (exit_code == 1)
 	{
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": no such file or directory\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		exit(127);
 	}
 	else if (exit_code == 2)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": permission denied\n", 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 	}
 	exit(exit_code);
 }
@@ -65,7 +65,7 @@ void	ft_put_error2(char *str, int exit_code)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": permission denied\n", 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 	}
 	else if (exit_code == 128)
 	{

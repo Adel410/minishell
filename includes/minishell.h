@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 14:21:34 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:09:56 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_split_data3
 	char						*str;
 	char						*charset;
 	int							i;
+	int							j;
 	int							word;
 }								t_split_data3;
 
@@ -139,6 +140,7 @@ typedef struct s_exe
 extern int	g_signal_received;
 
 //## PARSING ##
+void							ft_invalid_input(t_parse *parse);
 void							ft_trim_arg(t_parse *parse);
 void							ft_concatenate(t_parse *parse);
 int								ft_check_tab(char **tab);
@@ -323,7 +325,7 @@ void							ft_strrtrim(char *str, char c);
 void							ft_strtrim(char *str, char c);
 void							ft_print_lex(t_lex *lex);
 void							ft_lexer(t_parse *parse, t_env *built);
-char							**ft_split3(char *str, char *charset);
+char							**ft_split3(char *str);
 
 //## ERROR ##
 void							ft_error(int i);

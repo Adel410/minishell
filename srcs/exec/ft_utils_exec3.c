@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:12:37 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 13:24:47 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:04:11 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_free_lex(t_lex *lex)
 
 int	ft_init_pipe_and_pid(t_b *b)
 {
+	b->w = 0;
 	b->pipefd = ft_calloc((b->nb_cmds) * 2, sizeof(int));
 	if (!b->pipefd)
 		return (1);

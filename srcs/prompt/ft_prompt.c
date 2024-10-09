@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:04:23 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 14:24:15 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:13:07 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_prompt(t_env *built)
 		ft_multiple_checks(built, built->input);
 		if (ft_strlen(built->input) == 0)
 		{
-			free(parse);
+			(free(parse), free(built->input));
 			continue ;
 		}
 		ft_save_std(built);

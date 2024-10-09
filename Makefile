@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/09 13:22:49 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/09 18:56:13 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ FILES	=	srcs/main.c \
 			srcs/builtin/ft_export.c \
 			srcs/builtin/ft_unset.c \
 			srcs/builtin/ft_builtin_utils.c \
-			srcs/debug/ft_debug_lst.c \
 			srcs/lexer/ft_lexer.c \
 			srcs/lexer/ft_lexer_utils.c \
 			srcs/lexer/ft_lexer_utils2.c \

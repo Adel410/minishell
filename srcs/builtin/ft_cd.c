@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:24:58 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 14:03:31 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:42:12 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	ft_cd(t_exe *current, t_env *built)
 		path = ft_strdup(current->cmds[1]);
 	if (chdir(path) == -1)
 	{
+		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(path, 2);
-		ft_putstr_fd(" : no such file or directory\n", 2);
+		ft_putstr_fd(" : No such file or directory\n", 2);
 		free(path);
 		built->exit_code = 1;
 		return ;

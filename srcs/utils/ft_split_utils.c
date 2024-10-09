@@ -6,26 +6,28 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:56:08 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/05 13:05:34 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:27:39 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_process_separator(t_split_data3 *data)
-{
-	int	cha;
+// void	ft_process_separator(t_split_data3 *data)
+// {
+// 	int	cha;
 
-	cha = ft_char_is_separator1(data->str[data->i], data->charset);
-	if (cha > 0)
-	{
-		data->split[data->word] = malloc(sizeof(char) * 2);
-		data->split[data->word][0] = data->charset[cha];
-		data->split[data->word][1] = '\0';
-		data->word++;
-		data->i++;
-	}
-}
+// 	cha = ft_char_is_separator1(data->str[data->i], data->charset);
+// 	if (cha > 0)
+// 	{
+// 		data->split[data->word] = malloc(sizeof(char) * 2);
+// 		if (data->split[data->word] == NULL)
+// 			return ;
+// 		data->split[data->word][0] = data->charset[cha];
+// 		data->split[data->word][1] = '\0';
+// 		data->word++;
+// 		data->i++;
+// 	}
+// }
 
 void	freetab(char **tab, int k)
 {
