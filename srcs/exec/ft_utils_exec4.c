@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:52:25 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/07 13:56:54 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:18:40 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_dup2_first_last(int value, t_b *b, t_env *built)
 	{
 		if (dup2(b->infile, STDIN_FILENO) == -1)
 			exit(EXIT_FAILURE);
+		close(b->infile);
 	}
 	else if (value == 1)
 	{

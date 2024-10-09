@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 19:05:33 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:48:29 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	ft_trouble_execute(char *str, t_exe *current, t_env *built, t_b *b)
 		if (access(cmd_path, X_OK) == 0)
 			execve(cmd_path, current->cmds, built->env);
 	}
-	else if (access(str, X_OK) != 0 || access(str, W_OK) != 0
-		|| opendir(str) == NULL)
+	else if (access(str, X_OK) != 0 || access(str, W_OK) != 0)
 		ft_put_error(current->cmds[0], 127);
 	else if (cmd_path == NULL)
 		ft_put_error(current->cmds[0], 127);
