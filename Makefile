@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/09 19:28:05 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/10 22:23:54 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,8 @@ OBJ	= $(FILES:.c=.o)
 ### RULES ###
 
 all	: $(NAME)
+		@cat  test.txt
+		# @display 200.webp
 
 $(NAME)	: $(OBJ) $(INCLUDES)
 		$(CC) $(OBJ) $(LDFLAGS) -o  $(NAME) 
@@ -96,4 +98,5 @@ fclean:
 
 re: fclean all
 
-.PHONY:	clean fclean re
+.PHONY:	clean fclean re                                  
+                  

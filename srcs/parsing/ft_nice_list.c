@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:41:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 18:08:12 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:33:01 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,23 @@ void	ft_check_double_redir(t_parse *parse)
 	tmp = parse;
 	while (tmp && tmp->next)
 	{
-		if (tmp && tmp->arg && tmp->next->arg)
+		if (tmp->arg && tmp->next->arg)
 		{
-			if (tmp && tmp->arg && tmp->next && tmp->next->arg
-				&& tmp->arg[0] == '>' && tmp->next->arg[0] == '>')
+			if (tmp->arg[0] == '>' && tmp->next->arg[0] == '>')
 			{
-				if (tmp->next->next && tmp->next->next->arg[0] != '>')
+				if (tmp->next->next && tmp->next->next->arg
+					&& tmp->next->next->arg[0] != '>')
 					ft_join_double_redir(tmp, 1);
+				else
+					tmp = tmp->next;
 			}
 			else if (tmp->arg[0] == '<' && tmp->next->arg[0] == '<')
 			{
-				if (tmp->next->next && tmp->next->next->arg[0] != '<')
+				if (tmp->next->next && tmp->next->next->arg
+					&& tmp->next->next->arg[0] != '<')
 					ft_join_double_redir(tmp, 2);
+				else
+					tmp = tmp->next;
 			}
 			else
 				tmp = tmp->next;

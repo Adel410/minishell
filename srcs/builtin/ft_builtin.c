@@ -6,14 +6,14 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 14:03:25 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:13:34 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // PWD
-void	ft_pwd(char **env, t_exe *current)
+void	ft_pwd(char **env, t_exe *current, t_env *built)
 {
 	char	buf[PATH_MAX];
 	char	*cwd;
@@ -26,15 +26,20 @@ void	ft_pwd(char **env, t_exe *current)
 			ft_putstr("minishell : ");
 			ft_putstr(current->cmds[1]);
 			ft_putstr(" invalid option\n");
+			built->exit_code = 0;
 			return ;
 		}
 		size = PATH_MAX;
 		cwd = getcwd(buf, size);
-		ft_putstr(cwd);
-		ft_putstr("\n");
+		if (cwd == NULL)
+			perror("pwd");
+		else
+		{
+			ft_putstr(cwd);
+			ft_putstr("\n");
+		}
 	}
-	else
-		ft_putstr("CASSE TOI DE LA\n");
+	built->exit_code = 0;
 }
 
 // ENV
@@ -59,22 +64,31 @@ void	ft_env(t_env *built)
 void	ft_redirec_builtin(t_exe *current, t_b *b, t_env *built)
 {
 	int	flags;
+	int	fd_outfile;
+	int	i;
 
+	i = 0;
 	if (b->w == 0 && !current->input_file)
 		ft_dup2_first_last(0, b, built);
 	else if (b->w == b->nb_cmds - 1 && !current->output_file)
 		ft_dup2_first_last(1, b, built);
 	if (current->output_file)
 	{
-		flags = O_WRONLY | O_CREAT;
-		if (current->append_output)
-			flags |= O_APPEND;
-		else
-			flags |= O_TRUNC;
-		built->fd_outfile = open(current->output_file, flags, 0644);
-		if (dup2(built->fd_outfile, STDOUT_FILENO) == -1)
-			exit(EXIT_FAILURE);
-		close(built->fd_outfile);
+		while (current->output_file[i])
+		{
+			flags = O_WRONLY | O_CREAT;
+			if (current->append_output)
+				flags |= O_APPEND;
+			else
+				flags |= O_TRUNC;
+			fd_outfile = open(current->output_file[i], flags, 0644);
+			if (fd_outfile == -1)
+				ft_put_error2(current->output_file[i], 1);
+			if (dup2(fd_outfile, STDOUT_FILENO) == -1)
+				exit(EXIT_FAILURE);
+			close(fd_outfile);
+			i++;
+		}
 	}
 	else if (b->w < b->nb_cmds - 1)
 	{
@@ -88,7 +102,7 @@ void	ft_builtin(t_exe *current, t_env *built, t_b *b)
 	if (ft_strcmp(current->cmds[0], "cd") == 0)
 		ft_cd(current, built);
 	else if (ft_strcmp(current->cmds[0], "pwd") == 0)
-		ft_pwd(built->env, current);
+		ft_pwd(built->env, current, built);
 	else if (ft_strcmp(current->cmds[0], "env") == 0)
 		ft_env(built);
 	else if (ft_strcmp(current->cmds[0], "echo") == 0)

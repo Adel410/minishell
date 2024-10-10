@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 19:31:44 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/10 22:17:42 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include <errno.h>
 # define RED "\033[31m"
 # define GREEN "\033[32m"
 # define BLUE "\033[34m"
@@ -57,6 +58,9 @@ typedef struct s_b
 	int							nb_cmds1;
 	int							pipe_count;
 	pid_t						*pid;
+	int							input_index;
+	int 						output_index;
+	int							limiter_index;
 	int							i;
 	int							l;
 	int							m;
@@ -127,12 +131,13 @@ typedef struct s_exe
 	char						*redir;
 	char						*path;
 	char						*string;
-	char						*input_file;
-	char						*limiter;
-	char						*output_file;
+	char						**input_file;
+	char						**output_file;
+	char						**limiter;
 	int							append_output;
 	int							here_doc;
 	int							fd_here_doc;
+	int							hd_index;
 	int							builtin;
 	struct s_exe				*next;
 	struct s_b					*b;
@@ -159,7 +164,7 @@ void							ft_free_env(t_env *built);
 void							ft_free_lex(t_lex *lex);
 void							ft_exit(t_exe *exec, t_env *built, t_b *b);
 int								ft_check_access(char *to_test, char **paths);
-void							ft_print_exec(t_exe *exec);
+void							ft_print_exec(t_exe *exec, int nb_cmds1);
 void							ft_check_type(t_lex *lex);
 void							ft_check_here_doc(t_exe *exec, t_env *built);
 void							ft_add_slash_to_paths(char **paths);
@@ -178,8 +183,8 @@ void							ft_close_pipes(int *pipefd, int cmds_count);
 //## EXECUTION ##
 int								ft_execute(t_lex *lex, t_env *built);
 void							ft_init_exec(t_exe *exec);
-void							ft_free_cmds(t_exe *exec);
-void							ft_free_exec(t_exe *exec);
+void							ft_free_cmds(t_exe *exec, int _nb_cmds1);
+void							ft_free_exec(t_exe *exec, int nb_cmds1);
 int								ft_count_cmds(t_exe *exec);
 
 //## BUILTIN ##
@@ -256,8 +261,7 @@ void							ft_multiple_checks(t_env *built, char *input);
 void							ft_reset_std(t_env *built);
 void							ft_ctrl_d(t_env *built);
 void							ft_save_std(t_env *built);
-int								ft_here_doc(t_exe *exec, t_env *built,
-									int here_doc_count);
+int								ft_here_doc(t_exe *exec, t_env *built, t_b *b);
 char							*ft_create_filename(int here_doc_count);
 int								ft_size_of_expand(char *str);
 int								ft_correct_name_export(char *str, t_env *built);

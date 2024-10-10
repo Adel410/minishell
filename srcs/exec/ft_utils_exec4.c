@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:52:25 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 19:18:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:22:42 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_count_cmds2(t_lex *lex)
 	current = lex;
 	while (current)
 	{
-		if (current->type == '8' || current->type == '2'
-			|| current->type == '3')
+		if (current->type == '8' || current->type == '2' || current->type == '3'
+			|| current->type == '@' || current->type == '%' ||current->type == ':')
 			count++;
 		current = current->next;
 	}

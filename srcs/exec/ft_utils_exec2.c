@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:00:49 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/09/30 16:48:50 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/10 22:11:37 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_cmd_path(t_b *b, char **env)
 	ft_add_slash_to_paths(b->cmd_path);
 }
 
-void	ft_print_exec(t_exe *exec)
+void	ft_print_exec(t_exe *exec, int nb_cmds1)
 {
 	int	i;
 
@@ -76,19 +76,34 @@ void	ft_print_exec(t_exe *exec)
 		if (exec->cmds)
 		{
 			printf("cmds: %s\n", exec->cmds[0]);
-			while (exec->cmds[i])
+			while (i <= nb_cmds1)
 			{
 				printf("option num %d: %s\n", i, exec->cmds[i]);
 				i++;
 			}
 		}
 		printf("builtin: %d\n", exec->builtin);
-		printf("input_file: %s\n", exec->input_file);
-		printf("output_file: %s\n", exec->output_file);
+		i = 0;
+		if (exec->input_file)
+		{
+			while (i <= nb_cmds1)
+			{
+				printf("inputfile numero %d --> %s\n", i, exec->input_file[i]);
+				i++;
+			}
+		}
+		i = 0;
+		if (exec->output_file)
+		{
+			while (i <= nb_cmds1)
+			{
+				printf("outputfile numero %d --> %s\n", i,
+					exec->output_file[i]);
+				i++;
+			}
+		}
 		printf("append_output: %d\n", exec->append_output);
 		printf("here_doc: %d\n", exec->here_doc);
-		printf("string: %s\n", exec->string);
-		printf("limiter: %s\n", exec->limiter);
 		printf("NEW NODE ------>\n");
 		exec = exec->next;
 	}

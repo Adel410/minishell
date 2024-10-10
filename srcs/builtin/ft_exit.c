@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:46:09 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 18:43:33 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:39:34 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	ft_cleanup_and_exit(t_b *b, t_exe *exec, t_env *built, long exit_code)
 {
 	int	normalized_code;
 
+	ft_free_exec(exec, b->nb_cmds1);
 	ft_free_b(b);
-	ft_free_exec(exec);
 	ft_free_env(built);
 	normalized_code = exit_code % 256;
 	if (normalized_code < 0)
