@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:59:58 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:27:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_pwd(t_exe *current, t_env *built)
 	cwd = getcwd(buf, size);
 	if (cwd == NULL)
 	{
-		perror("minishell : pwd");
+		perror("minishell: pwd");
 		built->exit_code = 1;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:41:28 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/11 12:03:20 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:22:04 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_parsing(t_parse *parse, t_env *built)
 	}
 	else
 	{
+		(close(built->save_stdout),close(built->save_stdin));
 		ft_invalid_input(parse);
-		return ;
 	}
 }

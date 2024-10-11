@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:04:23 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 18:13:07 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:20:53 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_prompt(t_env *built)
 	ft_init_history();
 	while (1)
 	{
+		if (g_signal_received)
+			g_signal_received = 0;
 		parse = (t_parse *)malloc(sizeof(t_parse));
 		if (!parse)
 			exit(EXIT_FAILURE);
@@ -34,8 +36,6 @@ void	ft_prompt(t_env *built)
 		if (ft_strlen(built->input) > 0)
 			parse->arg = ft_strdup(built->input);
 		free(built->input);
-		if (g_signal_received)
-			g_signal_received = 0;
 		ft_parsing(parse, built);
 		ft_reset_std(built);
 	}

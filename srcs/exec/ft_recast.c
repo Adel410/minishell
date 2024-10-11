@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:33:44 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:35:02 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_recast_fts(t_lex *lex, t_exe *new, t_b *b)
 			new->cmds = ft_calloc(b->nb_cmds1 + 1, sizeof(char *));
 			if (new->cmds == NULL)
 				return ;
+			new->cmds[b->nb_cmds1] = NULL;
 			new->cmds[0] = ft_strdup(lex->str);
 			if (ft_is_builtin(lex->str) == 1)
 				new->builtin = 1;
@@ -58,7 +59,9 @@ void	ft_recast_limiter(t_lex *lex, t_exe *new, t_b *b)
 			new->limiter = ft_calloc(sizeof(char *), b->limiter_count + 1);
 			if (new->limiter == NULL)
 				return ;
+			new->limiter[0] = ft_strdup(lex->str);
 			new->limiter[b->limiter_count] = NULL;
+			new->hd_index++;
 		}
 		if (new->hd_index < b->limiter_count)
 		{

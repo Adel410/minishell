@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:53:04 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:33:56 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:54:13 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,19 @@ void	ft_check_list(t_exe *exec, t_env *built, t_b *b)
 	current = exec;
 	while (current)
 	{
-		if (exec->hd_index)
+		while (current->hd_index > 0)
 		{
-			printf("LIMITER INDEX == %d\n", b->limiter_index);
 			if (ft_here_doc(current, built, b) == 1)
 				perror("Fail creating here_doc\n");
 			b->hd_count++;
-			exec->hd_index--;
+			current->hd_index--;
 		}
 		ft_check_node(current);
 		ft_check_limiter(current);
-		current = current->next;
+		if (current->next)
+			current = current->next;
+		else
+			break ;
 	}
 }
 

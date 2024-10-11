@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:52:25 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:39:13 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:52:52 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,20 @@ char	*ft_join_path(t_b *b, char *cmd)
 	return (NULL);
 }
 
-void	ft_dup2_first_last(int value, t_b *b, t_env *built)
-{
-	if (value == 0)
-	{
-		if (dup2(b->infile, STDIN_FILENO) == -1)
-			exit(EXIT_FAILURE);
-		close(b->infile);
-	}
-	else if (value == 1)
-	{
-		if (dup2(b->pipefd[b->w * 2], built->save_stdout) == -1)
-			exit(EXIT_FAILURE);
-	}
-}
+// void	ft_dup2_first_last(int value, t_b *b, t_env *built)
+// {
+// 	if (value == 0)
+// 	{
+// 		if (dup2(built->save_stdin, STDIN_FILENO) == -1)
+// 			exit(EXIT_FAILURE);
+// 		close(b->infile);
+// 	}
+// 	else if (value == 1)
+// 	{
+// 		if (dup2(b->pipefd[b->w * 2], built->save_stdout) == -1)
+// 			exit(EXIT_FAILURE);
+// 	}
+// }
 
 void	ft_unlink_here_doc(int here_doc_count)
 {

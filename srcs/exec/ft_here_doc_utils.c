@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 12:29:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:30:44 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:25:40 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,23 @@ char	*ft_create_filename(int here_doc_count)
 	return (tmp);
 }
 
-void	ft_dup_here_doc(t_exe *exec, char *file_name, int nb_count1)
+void	ft_dup_here_doc(t_exe *exec, char *file_name, t_b *b)
 {
 	int	i;
 
 	if (exec->input_file == NULL)
 	{
-		exec->input_file = ft_calloc(sizeof(char *), nb_count1 + 1);
+		exec->input_file = ft_calloc(b->size_in + 1, sizeof(char *));
 		if (exec->input_file == NULL)
 			return ;
+		exec->input_file[0] = ft_strdup(file_name);
 	}
-	i = 0;
-	while (i < nb_count1 && exec->input_file[i] != NULL)
-		i++;
-	if (i < nb_count1)
+	else
 	{
+		i = 0;
+		while (exec->input_file[i] && exec->input_file[i][0] != '\0')
+			i++;
 		exec->input_file[i] = ft_strdup(file_name);
-		if (exec->input_file[i] == NULL)
-			return ;
-		exec->input_file[i + 1] = NULL;
 	}
 }
 

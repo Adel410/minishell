@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:28:11 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:14:29 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:05:52 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	ft_input_redirection(t_exe *cmd, t_b *b)
 		{
 			fd_infile = open(cmd->input_file[i], O_RDONLY);
 			if (fd_infile == -1)
+			{
+				ft_close_pipes_redir(b);
 				ft_put_error2(cmd->input_file[i], 1);
+			}
 			if (dup2(fd_infile, STDIN_FILENO) == -1)
 				exit(EXIT_FAILURE);
 			close(fd_infile);

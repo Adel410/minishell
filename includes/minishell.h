@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/11 14:00:41 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:23:08 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ typedef struct s_b
 	int				nb_cmds;
 	int				nb_cmds1;
 	int				input_count;
+	int				size_in;
 	int				output_count;
+	int				size_out;
 	int				limiter_count;
-	int				pipe_count;
 	pid_t			*pid;
 	int				input_index;
 	int				output_index;
 	int				limiter_index;
 	int				i;
 	int				w;
-	int				x;
 }					t_b;
 
 typedef struct s_parse
@@ -199,6 +199,7 @@ void				ft_free_stack(t_env **head);
 void				ft_read_list(t_env **head);
 void				ft_echo(t_exe *current, t_env *built);
 void				ft_which_builtin(t_exe *current, t_env *built, t_b *b);
+void				ft_update_oldpwd(t_env *built, char *path);
 
 //## META TAB UTILS ##
 int					ft_meta_char(char c);
@@ -263,8 +264,7 @@ void				ft_multiple_checks(t_env *built, char *input);
 void				ft_reset_std(t_env *built);
 void				ft_ctrl_d(t_env *built);
 char				*ft_here_doc_bis(char *str);
-void				ft_dup_here_doc(t_exe *exec, char *file_name,
-						int nb_count1);
+void				ft_dup_here_doc(t_exe *exec, char *file_name, t_b *b);
 void				ft_save_std(t_env *built);
 int					ft_here_doc(t_exe *exec, t_env *built, t_b *b);
 char				*ft_create_filename(int here_doc_count);
@@ -295,7 +295,6 @@ int					ft_isupper(char c);
 int					ft_islower(char c);
 int					ft_isdigit(char c);
 int					ft_isspace(char c);
-int					ft_atoi(char *str);
 int					ft_is_alpha_num_and_space(char c);
 void				ft_putstr_fd(char *s, int fd);
 int					ft_count_cmds2(t_lex *lex);
@@ -307,6 +306,7 @@ void				ft_expand_env(t_env *built);
 char				*ft_expand_dollar(char *str, t_env *built);
 void				ft_free_b(t_b *b);
 char				*ft_itoa(int i);
+int					ft_atoi(const char *str);
 void				ft_iso_dol(char *str, int i, t_env *built);
 int					ft_dollar_in_string(char *str);
 int					ft_strncmpchar(char *s1, char *s2, char c);

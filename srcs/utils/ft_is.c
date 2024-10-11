@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 18:23:43 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:10:39 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:47:12 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,27 @@ int	ft_isdigit(char c)
 	return (0);
 }
 
-int	ft_islower(char c)
+int	ft_atoi(const char *str)
 {
-	return (c >= 'a' && c <= 'z');
-}
+	int		i;
+	int		sign;
+	long	result;
 
-int	ft_isupper(char c)
-{
-	return (c >= 'A' && c <= 'Z');
-}
-
-char	ft_tolower(char c)
-{
-	if (ft_isupper(c))
-		return (c + 32);
-	return (c);
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return ((int)(result * sign));
 }

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:40:09 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:36:05 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:19:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,27 @@ int	ft_check_export(char *str, t_env *built)
 			return (0);
 	}
 	return (1);
+}
+
+void	ft_update_oldpwd(t_env *built, char *path)
+{
+	int	i;
+
+	if (built->env)
+	{
+		i = 0;
+		if (path)
+		{
+			while (built->env[i])
+			{
+				if (ft_strncmp("OLDPWD", built->env[i], 6) == 0)
+				{
+					free(built->env[i]);
+					built->env[i] = ft_strjoin2("OLDPWD=", path);
+					return ;
+				}
+				i++;
+			}
+		}
+	}
 }

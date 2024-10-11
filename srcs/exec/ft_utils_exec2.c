@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:00:49 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 14:01:43 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:05:51 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_create_new(t_exe *new)
 	new->next = ft_calloc(1, sizeof(t_exe));
 	if (new->next == NULL)
 		return ;
+	new->next->hd_index = 0;
 	new->next->next = NULL;
 }
 

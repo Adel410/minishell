@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:34:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:29:53 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:22:56 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_here_doc(t_exe *exec, t_env *built, t_b *b)
 	line = NULL;
 	ft_here_doc_prompt(line, exec->limiter[b->hd_count], built, fd);
 	close(fd);
-	ft_dup_here_doc(exec, file_name, b->nb_cmds1);
+	ft_dup_here_doc(exec, file_name, b);
 	free(file_name);
 	return (0);
 }

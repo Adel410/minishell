@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:20:57 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 12:21:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:26:24 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_count_elements(t_lex *lex, t_b *b)
 			b->limiter_count++;
 		current = current->next;
 	}
+	b->size_in = b->input_count + b->limiter_count;
+	b->size_out = b->output_count + b->limiter_count;
 }
 
 void	ft_close_pipes(int *pipefd, int cmds_count)

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:12:37 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 19:04:11 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:38:39 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	ft_init_pipe_and_pid(t_b *b)
 void	ft_close_and_wait(t_b *b, t_env *built)
 {
 	ft_close_pipes(b->pipefd, b->nb_cmds);
-	b->x = 0;
 	while (waitpid(-1, &b->status, 0) > 0)
 		;
 	if (WIFEXITED(b->status))
