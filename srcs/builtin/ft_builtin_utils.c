@@ -6,23 +6,11 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:40:09 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/08 14:39:32 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:36:05 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	ft_print_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		printf(BIG "%s\n" RESET, tab[i]);
-		i++;
-	}
-}
 
 void	ft_export_alphabetic_order(t_env *built)
 {

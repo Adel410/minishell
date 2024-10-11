@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/10 22:23:54 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/11 12:33:04 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ FILES	=	srcs/main.c \
 			srcs/parsing/ft_concat_arg.c \
 			srcs/parsing/ft_parsing_utils2.c \
 			srcs/parsing/ft_parsing_utils.c \
+			srcs/parsing/ft_double_redir.c \
 			srcs/expand/ft_expand_parsing.c \
 			srcs/expand/ft_expand_utils.c \
 			srcs/utils/ft_alpha_num.c \
@@ -60,9 +61,13 @@ FILES	=	srcs/main.c \
 			srcs/utils/ft_colors.c \
 			srcs/exec/ft_execution.c \
 			srcs/exec/ft_recast.c \
-			srcs/exec/ft_redirection.c \
-			srcs/exec/ft_here_doc.c \
+			srcs/exec/ft_recast_files.c \
 			srcs/exec/ft_recast_utils.c \
+			srcs/exec/ft_redirection.c \
+			srcs/exec/ft_output_redirection.c \
+			srcs/exec/ft_here_doc.c \
+			srcs/exec/ft_here_doc_utils.c \
+			srcs/exec/ft_free_exec.c \
 			srcs/exec/ft_utils_exec.c \
 			srcs/exec/ft_utils_exec2.c \
 			srcs/exec/ft_utils_exec3.c \

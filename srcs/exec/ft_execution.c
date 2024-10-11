@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/10 21:48:52 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:38:49 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	ft_trouble_execute(char *str, t_exe *current, t_env *built, t_b *b)
 		chdir("..");
 		ft_put_error(current->cmds[0], 126);
 	}
-	else if (access(str, X_OK) == 0)
-		execve(str, current->cmds, built->env);
 	cmd_path = ft_join_path(b, current->cmds[0]);
 	if (cmd_path != NULL)
 	{
@@ -76,8 +74,8 @@ int	ft_execve(t_b *b, t_exe *exec, t_env *built)
 			exit(0);
 			current = current->next;
 		}
-		else if (access(current->cmds[0], F_OK) == 0)
-			ft_trouble_execute(current->cmds[0], current, built, b);
+		else if (access(current->cmds[0], X_OK) == 0)
+			execve(current->cmds[0], current->cmds, built->env);
 		else
 		{
 			if (current->cmds && current->cmds[0])
@@ -131,11 +129,11 @@ int	ft_execute(t_lex *lex, t_env *built)
 	if (!exec)
 		return (ft_free_lex(lex), 1);
 	ft_init_exec(exec);
-	b->nb_cmds1 = ft_count_cmds2(lex);
+	ft_count_elements(lex, b);
 	ft_cmd_path(b, built->env);
 	if (ft_recast(lex, exec, built, b) == 1)
 		return (1);
-	ft_print_exec(exec, b->nb_cmds1);
+	ft_print_exec(exec);
 	b->nb_cmds = ft_count_cmds(exec);
 	if (exec->builtin && b->nb_cmds == 1)
 		ft_which_builtin(exec, built, b);
@@ -143,7 +141,7 @@ int	ft_execute(t_lex *lex, t_env *built)
 		ft_fork_and_pipe(exec, built, b);
 	ft_unlink_here_doc(b->hd_count);
 	(close(built->save_stdin), close(built->save_stdout));
-	ft_free_exec(exec, b->nb_cmds1);
+	ft_free_exec(exec);
 	ft_free_b(b);
 	return (0);
 }

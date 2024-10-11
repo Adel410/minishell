@@ -6,28 +6,11 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:52:25 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/10 21:22:42 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:39:13 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	ft_count_cmds2(t_lex *lex)
-{
-	t_lex	*current;
-	int		count;
-
-	count = 0;
-	current = lex;
-	while (current)
-	{
-		if (current->type == '8' || current->type == '2' || current->type == '3'
-			|| current->type == '@' || current->type == '%' ||current->type == ':')
-			count++;
-		current = current->next;
-	}
-	return (count);
-}
 
 void	ft_pipe(int *pipefd, int cmds_count)
 {
@@ -87,6 +70,19 @@ void	ft_unlink_here_doc(int here_doc_count)
 		file_name = ft_create_filename(i);
 		unlink(file_name);
 		free(file_name);
+		i++;
+	}
+}
+
+void	ft_print_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		ft_putstr(tab[i]);
+		ft_putstr("\n");
 		i++;
 	}
 }
