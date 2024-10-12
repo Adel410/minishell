@@ -6,14 +6,12 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:20:32 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/09 14:22:35 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 18:24:32 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// CTRL-C qui normalement sort du processus et qui maintenant affiche juste une
-// newline sans sortir du minishell
 void	ft_handle_sigint(int sig)
 {
 	if (sig == SIGINT)
@@ -26,22 +24,16 @@ void	ft_handle_sigint(int sig)
 	}
 }
 
-// CTRL-backslash n'a aucun comportement maintenant, on reprompt juste
-void	ft_handle_sigquit(int sig)
+void	ft_handle_sigsegv(int code)
 {
-	if (sig == SIGQUIT)
-	{
-		g_signal_received = 2;
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	(void)code;
+	write(2, "Segmentation fault\n", 19);
+	exit(11);
 }
 
-// initialise les conditions avec signal() pour CTRL-C (SIGINT) et
-// CTRL-backslash(SIGQUIT)
 void	ft_setup_signals_handler(void)
 {
+	signal(SIGSEGV, ft_handle_sigsegv);
 	signal(SIGINT, ft_handle_sigint);
-	signal(SIGQUIT, ft_handle_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 }

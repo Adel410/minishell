@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 16:53:04 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 15:54:13 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:32:46 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,14 @@ int	ft_check_limiter(t_exe *current)
 		}
 		return (2);
 	}
+	else if (current->limiter)
+	{
+		return (ft_check_limiter2(current));
+	}
 	return (0);
 }
 
-void	ft_check_list(t_exe *exec, t_env *built, t_b *b)
+int	ft_check_list(t_exe *exec, t_env *built, t_b *b)
 {
 	t_exe	*current;
 
@@ -75,20 +79,17 @@ void	ft_check_list(t_exe *exec, t_env *built, t_b *b)
 	current = exec;
 	while (current)
 	{
-		while (current->hd_index > 0)
-		{
-			if (ft_here_doc(current, built, b) == 1)
-				perror("Fail creating here_doc\n");
-			b->hd_count++;
-			current->hd_index--;
-		}
+		if (ft_check_limiter(current) != 0)
+			return (ft_unlink_here_doc(b->hd_count), 1);
+		if (current->here_doc && current->limiter)
+			ft_call_here_doc(current, built, b);
 		ft_check_node(current);
-		ft_check_limiter(current);
 		if (current->next)
 			current = current->next;
 		else
 			break ;
 	}
+	return (0);
 }
 
 int	ft_check_for_options(t_lex *next, t_exe *new)

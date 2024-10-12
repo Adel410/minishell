@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/11 12:33:04 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/12 17:01:32 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ FILES	=	srcs/main.c \
 			srcs/builtin/ft_builtin_utils.c \
 			srcs/lexer/ft_lexer.c \
 			srcs/lexer/ft_lexer_utils.c \
-			srcs/lexer/ft_lexer_utils2.c \
 			srcs/parsing/ft_meta_list.c \
 			srcs/parsing/ft_nice_list.c \
 			srcs/parsing/ft_space_list.c \

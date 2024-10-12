@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:24:58 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 16:30:26 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:33:09 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,12 @@ void	ft_cd_to_path(t_exe *current, t_env *built)
 	if (access(current->cmds[1], F_OK) == 0)
 	{
 		if (chdir(current->cmds[1]) == -1)
-			perror("minishell: cd");
-		else
 		{
-			ft_update_pwd(built);
-			built->exit_code = 0;
+			perror("minishell: cd");
+			built->exit_code = 1;
 		}
+		else
+			ft_update_pwd(built);
 	}
 	else
 	{

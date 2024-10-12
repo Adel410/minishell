@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:52:25 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 14:52:52 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:47:32 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,16 @@ char	*ft_join_path(t_b *b, char *cmd)
 	j = 0;
 	if (cmd[0] == '\0')
 		return (NULL);
-	while (b->cmd_path[j])
+	if (b->cmd_path)
 	{
-		cmd_path = ft_strjoin2(b->cmd_path[j], cmd);
-		if (access(cmd_path, F_OK) == 0)
-			return (cmd_path);
-		free(cmd_path);
-		j++;
+		while (b->cmd_path[j])
+		{
+			cmd_path = ft_strjoin2(b->cmd_path[j], cmd);
+			if (access(cmd_path, F_OK) == 0)
+				return (cmd_path);
+			free(cmd_path);
+			j++;
+		}
 	}
 	return (NULL);
 }
@@ -58,6 +61,23 @@ char	*ft_join_path(t_b *b, char *cmd)
 // 			exit(EXIT_FAILURE);
 // 	}
 // }
+
+int	ft_check_limiter2(t_exe *current)
+{
+	int	i;
+
+	i = 0;
+	while (current->limiter[i])
+	{
+		if (current->limiter[i] == NULL)
+			return (ft_putstr_fd("minishell: empty limiter\n", 2), 1);
+		if (current->limiter[i] && current->limiter[i][0] == ' '
+			&& current->limiter[i][1] == '\0')
+			return (ft_putstr_fd("minishell: empty limiter\n", 2), 1);
+		i++;
+	}
+	return (0);
+}
 
 void	ft_unlink_here_doc(int here_doc_count)
 {

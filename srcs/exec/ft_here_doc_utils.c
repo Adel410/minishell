@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 12:29:36 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 17:25:40 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:29:08 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,19 @@ char	*ft_here_doc_bis(char *str)
 	str = ft_strdup(tmp);
 	free(tmp);
 	return (str);
+}
+
+void	ft_call_here_doc(t_exe *current, t_env *built, t_b *b)
+{
+	b->i = 0;
+	if (current->limiter)
+	{
+		while (current->limiter[b->i])
+		{
+			if (ft_here_doc(current, built, b) == 1)
+				perror("Fail creating here_doc\n");
+			b->hd_count++;
+			b->i++;
+		}
+	}
 }

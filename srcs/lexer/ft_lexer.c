@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 19:04:32 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/09 14:29:08 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:01:26 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	ft_copy_index(t_lex *lex, t_parse *tmp, char index)
 {
-	lex->type = index;
-	if (tmp->arg)
-		lex->str = ft_strdup(tmp->arg);
-	if (index == '4')
-		lex->flag_echo = 0;
-	if ((lex->str && ft_strcmp(lex->str, "echo") == 0) || (lex->str
-			&& ft_strcmp(lex->str, "export") == 0))
-		lex->flag_echo = 1;
+	if (lex && tmp)
+	{
+		lex->type = index;
+		if (tmp->arg)
+			lex->str = ft_strdup(tmp->arg);
+	}
 }
 
 void	ft_get_index(t_parse *tmp, t_lex *lex)
@@ -53,25 +51,25 @@ void	ft_get_index(t_parse *tmp, t_lex *lex)
 void	ft_indexing(t_parse *parse, t_lex *lex)
 {
 	t_parse	*tmp;
-	t_lex	*tmp_lex;
-	int		flag;
 
 	tmp = parse;
-	tmp_lex = lex;
 	while (tmp)
 	{
-		if (tmp->arg && tmp->arg[0] == ' ' && tmp->arg[1] == '\0')
-			tmp = tmp->next;
-		ft_get_index(tmp, tmp_lex);
-		flag = tmp_lex->flag_echo;
-		if (tmp->next && tmp->next->next != NULL)
+		while (tmp->arg && ft_strcmp(tmp->arg, " ") == 0)
 		{
-			tmp_lex->next = ft_calloc(sizeof(t_lex), 1);
-			if (tmp_lex->next == NULL)
+			if (!tmp->next)
+				break ;
+			tmp = tmp->next;
+		}
+		if (tmp)
+			ft_get_index(tmp, lex);
+		if (tmp->next && tmp->next->arg)
+		{
+			lex->next = ft_calloc(sizeof(t_lex), 1);
+			if (lex->next == NULL)
 				return ;
-			tmp_lex->next->prev = tmp_lex;
-			tmp_lex = tmp_lex->next;
-			tmp_lex->flag_echo = flag;
+			lex->next->prev = lex;
+			lex = lex->next;
 			tmp = tmp->next;
 		}
 		else
@@ -102,8 +100,6 @@ int	ft_check_lexer(t_lex *lex)
 		else
 			break ;
 	}
-	if (ft_check_last_node(tmp) == 1)
-		return (1);
 	return (0);
 }
 
@@ -117,7 +113,6 @@ void	ft_lexer(t_parse *parse, t_env *built)
 		ft_free_parser(parse);
 		return ;
 	}
-	lex->flag_echo = 0;
 	ft_indexing(parse, lex);
 	ft_free_parser(parse);
 	if (ft_check_lexer(lex) == 1)

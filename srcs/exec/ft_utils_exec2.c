@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:00:49 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 15:05:51 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:18:30 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,21 @@ char	*ft_get_path(char *path, char **env)
 	int	i;
 
 	i = 0;
-	while (env[i])
+	if (env)
 	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+		while (env[i])
 		{
-			path = ft_strdup(env[i] + 5);
-			break ;
+			if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			{
+				path = ft_strdup(env[i] + 5);
+				break ;
+			}
+			i++;
 		}
-		i++;
+		return (path);
 	}
-	return (path);
+	else
+		return (NULL);
 }
 
 void	ft_cmd_path(t_b *b, char **env)
@@ -87,6 +92,8 @@ void	ft_print_exec(t_exe *exec)
 			printf("output_files :\n");
 			ft_print_tab(exec->output_file);
 		}
+		if (exec->limiter)
+			ft_print_tab(exec->limiter);
 		printf("append_output: %d\n", exec->append_output);
 		printf("here_doc: %d\n", exec->here_doc);
 		printf("NEW NODE ------>\n");

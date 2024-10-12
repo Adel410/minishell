@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:11:33 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 16:27:24 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:59:01 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_env(t_env *built)
 		}
 		i++;
 	}
+	built->exit_code = 0;
 }
 
 void	ft_redirec_builtin(t_exe *current)

@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:54:49 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/11 16:54:00 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:10:42 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ int	main(int ac, char **av, char **env)
 	g_signal_received = 0;
 	built = (t_env *)malloc(sizeof(t_env));
 	if (!built)
-	{
 		exit(EXIT_FAILURE);
-	}
 	built->exit_code = 0;
 	ft_add_env(built, env);
 	if (ac == 1)

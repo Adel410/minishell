@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 19:21:18 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 15:35:02 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:54:44 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	ft_recast_meta(t_lex *lex, t_exe *new, t_b *b)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		return (2);
 	}
-	if (lex->type == '#')
+	else if (lex->type == '*')
+		new->here_doc = 1;
+	else if (lex->type == '#')
 		new->append_output = 1;
 	else if (lex->type == '@' || lex->type == '%')
 		ft_infile_outfile(lex, new, b, lex->type);
@@ -59,11 +61,10 @@ void	ft_recast_limiter(t_lex *lex, t_exe *new, t_b *b)
 			new->limiter = ft_calloc(sizeof(char *), b->limiter_count + 1);
 			if (new->limiter == NULL)
 				return ;
-			new->limiter[0] = ft_strdup(lex->str);
-			new->limiter[b->limiter_count] = NULL;
+			new->limiter[new->hd_index] = ft_strdup(lex->str);
 			new->hd_index++;
 		}
-		if (new->hd_index < b->limiter_count)
+		else if (new->hd_index < b->limiter_count && new->hd_index > 0)
 		{
 			new->limiter[new->hd_index] = ft_strdup(lex->str);
 			if (new->limiter[new->hd_index] != NULL)
@@ -105,6 +106,7 @@ int	ft_recast(t_lex *lex, t_exe *exec, t_env *built, t_b *b)
 		else
 			lex = lex->next;
 	}
-	ft_check_list(exec, built, b);
+	if (ft_check_list(exec, built, b) != 0)
+		return (1);
 	return (0);
 }

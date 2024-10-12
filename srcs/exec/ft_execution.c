@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:33:19 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/11 17:05:58 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:25:01 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,29 @@ void	ft_while_execve(t_b *b, t_exe *current, t_env *built)
 {
 	char	*cmd_path;
 
+	cmd_path = NULL;
 	if (current->cmds[0][0] == '\0')
 		exit(0);
 	if ((current->cmds[0][0] == '.' || current->cmds[0][0] == '/')
 		|| chdir(current->cmds[0]) == 0)
 		ft_put_error(current->cmds[0], 126);
-	cmd_path = ft_join_path(b, current->cmds[0]);
-	if (cmd_path != NULL)
+	if (b->cmd_path)
 	{
-		if (access(cmd_path, X_OK) == 0)
+		cmd_path = ft_join_path(b, current->cmds[0]);
+		if (cmd_path != NULL)
 		{
-			if (execve(cmd_path, current->cmds, built->env) == -1)
-				perror("minishell: execve");
+			if (access(cmd_path, X_OK) == 0)
+			{
+				if (execve(cmd_path, current->cmds, built->env) == -1)
+					perror("minishell: execve");
+			}
 		}
+		if (cmd_path == NULL)
+			ft_put_error(current->cmds[0], 127);
 	}
 	else if (cmd_path == NULL || access(current->cmds[0], X_OK) != 0
 		|| access(current->cmds[0], W_OK) != 0)
-		ft_put_error(current->cmds[0], 127);
+		ft_put_error(current->cmds[0], 1);
 }
 
 int	ft_execve(t_b *b, t_exe *exec, t_env *built)
@@ -48,7 +54,7 @@ int	ft_execve(t_b *b, t_exe *exec, t_env *built)
 			exit(built->exit_code);
 			current = current->next;
 		}
-		else if (access(current->cmds[0], X_OK) == 0
+		else if (current->cmds && access(current->cmds[0], X_OK) == 0
 			&& chdir(current->cmds[0]) == -1)
 			execve(current->cmds[0], current->cmds, built->env);
 		else
@@ -103,7 +109,7 @@ int	ft_execute(t_lex *lex, t_env *built)
 	ft_count_elements(lex, b);
 	ft_cmd_path(b, built->env);
 	if (ft_recast(lex, exec, built, b) == 1)
-		return (ft_free_lex(lex), 1);
+		return (ft_free_lex(lex), ft_free_exec(exec), ft_free_b(b), 1);
 	ft_free_lex(lex);
 	b->nb_cmds = ft_count_cmds(exec);
 	if (exec->builtin && b->nb_cmds == 1)

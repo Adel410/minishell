@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:53:19 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/11 17:23:08 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:51:20 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_b
 	pid_t			*pid;
 	int				input_index;
 	int				output_index;
-	int				limiter_index;
 	int				i;
 	int				w;
 }					t_b;
@@ -77,7 +76,6 @@ typedef struct s_parse
 
 typedef struct s_lex
 {
-	int				flag_echo;
 	char			type;
 	char			*str;
 	struct s_lex	*prev;
@@ -253,35 +251,31 @@ int					ft_char_is_separator1(char c, char *charset);
 void				ft_process_separator(t_split_data3 *data);
 long				ft_strtol(const char *nptr, char **endptr, int base);
 void				ft_print_and_close(t_env *built);
-char				*ft_merge_sign_with_arg(char **cmds,
+char				*ft_merge_sign_with_arg(char **cmds, t_env *built);
+int					ft_handle_too_many_args(char **cmds, char *merged_str,
 						t_env *built);
-int					ft_handle_too_many_args(char **cmds,
-						char *merged_str, t_env *built);
-void				ft_is_check_after_dollar(char *str,
-						t_env *built);
+void				ft_is_check_after_dollar(char *str, t_env *built);
 void				ft_zsh_prompt(t_env *built);
 void				ft_multiple_checks(t_env *built, char *input);
 void				ft_reset_std(t_env *built);
 void				ft_ctrl_d(t_env *built);
-char				*ft_here_doc_bis(char *str);
 void				ft_dup_here_doc(t_exe *exec, char *file_name, t_b *b);
 void				ft_save_std(t_env *built);
 int					ft_here_doc(t_exe *exec, t_env *built, t_b *b);
+void				ft_call_here_doc(t_exe *current, t_env *built, t_b *b);
+char				*ft_here_doc_bis(char *str);
+int					ft_check_limiter2(t_exe *current);
 char				*ft_create_filename(int here_doc_count);
 int					ft_size_of_expand(char *str);
 int					ft_correct_name_export(char *str, t_env *built);
 int					ft_check_export(char *str, t_env *built);
 void				ft_dup2_first_last(int value, t_b *b, t_env *built);
 char				*ft_strjoin3(char *s1, char *s2);
-void				ft_free_string_and_parse(char *str,
-						t_parse *parse);
+void				ft_free_string_and_parse(char *str, t_parse *parse);
 int					ft_is_valid_number(const char *str);
 char				*ft_strcat(char *dest, const char *src);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_join_path(t_b *b, char *cmd);
-int					ft_manage_string(t_lex *lex, t_parse *tmp, char index);
-void				ft_join_echo_args(t_parse *tmp, t_lex *lex, char index);
-int					ft_test_if_execute(char *arg, char **env);
 void				ft_export_alphabetic_order(t_env *built);
 int					ft_isdigit(char c);
 int					ft_is_alpha(char c);
@@ -321,7 +315,7 @@ char				*ft_get_path(char *path, char **env);
 char				**ft_split4(char const *s, char c);
 void				ft_check_node(t_exe *current);
 int					ft_check_limiter(t_exe *current);
-void				ft_check_list(t_exe *exec, t_env *built, t_b *b);
+int					ft_check_list(t_exe *exec, t_env *built, t_b *b);
 int					ft_check_if_already(t_exe *current, char *str);
 int					ft_is_builtin(char *str);
 void				ft_strrtrim(char *str, char c);
