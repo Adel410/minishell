@@ -6,7 +6,7 @@
 #    By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 17:50:59 by nicjousl          #+#    #+#              #
-#    Updated: 2024/10/12 17:01:32 by ahadj-ar         ###   ########.fr        #
+#    Updated: 2024/10/13 16:17:55 by ahadj-ar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,6 @@ OBJ	= $(FILES:.c=.o)
 
 all	: $(NAME)
 		@cat  test.txt
-		# @display 200.webp
 
 $(NAME)	: $(OBJ) $(INCLUDES)
 		$(CC) $(OBJ) $(LDFLAGS) -o  $(NAME) 
