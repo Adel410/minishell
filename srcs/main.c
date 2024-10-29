@@ -73,5 +73,8 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 		ft_prompt(built);
 	else
+	{
+		free(built);
 		ft_error(0);
+	}
 }
