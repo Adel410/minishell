@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:54:49 by nicjousl          #+#    #+#             */
-/*   Updated: 2024/10/12 17:10:42 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:43:59 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ char	*ft_get_shlvl(char *old_shlvl)
 
 void	ft_add_env(t_env *head, char **env)
 {
-	int	i;
-	int	end;
+	int		i;
+	int		end;
+	char	*tmp;
 
 	i = 0;
+	tmp = NULL;
 	if (env)
 	{
 		end = ft_strstrlen(env);
@@ -46,8 +48,10 @@ void	ft_add_env(t_env *head, char **env)
 		{
 			if (ft_strncmp(env[i], "SHLVL", 5) == 0)
 			{
+				tmp = ft_get_shlvl(env[i]);
 				free(head->env[i]);
-				head->env[i] = ft_get_shlvl(env[i]);
+				head->env[i] = ft_strdup(tmp);
+				free(tmp);
 				i++;
 			}
 			head->env[i] = ft_strdup(env[i]);
