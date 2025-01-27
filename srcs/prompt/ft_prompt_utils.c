@@ -6,7 +6,7 @@
 /*   By: ahadj-ar <ahadj-ar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 20:02:10 by ahadj-ar          #+#    #+#             */
-/*   Updated: 2024/10/12 18:38:30 by ahadj-ar         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:56:44 by ahadj-ar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	ft_ctrl_d(t_env *built)
 {
 	built->exit_code = 143;
+	if (built->env)
+		ft_free_tab(built->env);
 	exit(143);
 }
 
